@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "pythonqepest"
+version = "1.0.0"
+description = ""
+authors = ["Lina <knocker767@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.7.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
