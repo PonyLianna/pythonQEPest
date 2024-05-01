@@ -11,7 +11,7 @@ from helpers.get_values_from_line import get_values_from_line
 
 class QEPestWithoutInterface:
     def __init__(self, dirname="data.txt"):
-        self.herb: [] = []
+        self.herb = []
         self.insect = []
         self.fung = []
 
