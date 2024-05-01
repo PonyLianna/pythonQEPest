@@ -11,48 +11,46 @@ from helpers.get_values_from_line import get_values_from_line
 
 class QEPestWithoutInterface:
     def __init__(self, dirname="data.txt"):
-        self.herb = []
+        self.herb: [] = []
         self.insect = []
         self.fung = []
-        self.dir = None
-        self.colNumber = 7
-        self.noError = True
+
+        self.col_number = 7
         self.dir = os.getcwd()
 
         self.initialize_coefficients()
 
-        self.inputFile = os.path.join(self.dir, dirname)
-        self.read_file_and_compute_params(self.inputFile)
+        self.input_file = os.path.join(self.dir, dirname)
+
+        self.noError = True
 
         self.qex: QEPestData = None
+        self.dir = None
 
-    def compute_params(self, input: QEPestInput) -> QEPestOutput:
-        self.get_QEX_values(get_values_from_line(list(input.dict().values())))
-        return QEPestOutput(data=self.qex, name=input.name)
+    def compute_params(self, data_input: QEPestInput) -> QEPestOutput:
+        self.get_QEX_values(get_values_from_line(list(data_input.dict().values())))
+        return QEPestOutput(data=self.qex, name=data_input.name)
 
-    def read_file_and_compute_params(self, input):
+    def read_file_and_compute_params(self):
         try:
-            with open(input, 'r') as file:
+            with open(self.input_file, 'r') as file:
                 lines = file.readlines()
-            with open(input + ".out", 'w') as wr:
-                isHeader = True
-
-                for l, line in enumerate(lines):
-                    if isHeader:
-                        isHeader = False
-                        if get_num_of_cols(line) != 7:
-                            er = f"Error: Line {l} does not have seven elements."
+            with open(f"{self.input_file}.out", 'w') as wr:
+                for index, line in enumerate(lines):
+                    if index == 0:
+                        if get_num_of_cols(line) != self.col_number:
+                            er = f"Error: Line {index} does not have seven elements."
                             print(er)
                             self.noError = False
                             break
                         wr.write("Name QEH QEI QEF\n")
                     else:
-                        if get_num_of_cols(line) == 7:
+                        if get_num_of_cols(line) == self.col_number:
                             dValues = get_values_from_line(line.split("\t"))
                             self.get_QEX_values(dValues)
                             wr.write(f"{line.split('\t')[0]} {self.qex.qeh} {self.qex.qei} {self.qex.qef}\n")
                         else:
-                            er = f"Error: Line {l} does not have seven elements."
+                            er = f"Error: Line {index} does not have seven elements."
                             print(er)
                             self.noError = False
                     if self.noError:
@@ -69,6 +67,7 @@ class QEPestWithoutInterface:
         qeH = 0.0
         qeI = 0.0
         qeF = 0.0
+        
         d_num = len(d)
         for i in range(len(d)):
             qeH += math.log(
@@ -83,7 +82,7 @@ class QEPestWithoutInterface:
              self.round_to_4digs(math.exp(qeF / d_num))]
 
         result = check_nan(q)
-        self.qex = QEPestData(result[0], result[1], result[2])
+        self.qex = QEPestData(qeh=result[0], qei=result[1], qef=result[2])
 
     def round_to_4digs(self, q):
         return float("{:.4f}".format(q))
@@ -171,4 +170,5 @@ class QEPestWithoutInterface:
 
 
 if __name__ == "__main__":
-    QEPestWithoutInterface()
+    qepest = QEPestWithoutInterface()
+    qepest.read_file_and_compute_params()
