@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class QEPestInput (BaseModel):
+class QEPestInput(BaseModel):
     name: str = ""
 
     mol_weight: float = 0.0

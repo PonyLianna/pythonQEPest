@@ -1,5 +1,5 @@
-import os
 import math
+import os
 
 from dto.QEPestData import QEPestData
 from dto.QEPestInput import QEPestInput
@@ -33,9 +33,9 @@ class QEPestWithoutInterface:
 
     def read_file_and_compute_params(self):
         try:
-            with open(self.input_file, 'r') as file:
+            with open(self.input_file, "r") as file:
                 lines = file.readlines()
-            with open(f"{self.input_file}.out", 'w') as wr:
+            with open(f"{self.input_file}.out", "w") as wr:
                 for index, line in enumerate(lines):
                     if index == 0:
                         if get_num_of_cols(line) != self.col_number:
@@ -48,7 +48,9 @@ class QEPestWithoutInterface:
                         if get_num_of_cols(line) == self.col_number:
                             dValues = get_values_from_line(line.split("\t"))
                             self.get_QEX_values(dValues)
-                            wr.write(f"{line.split('\t')[0]} {self.qex.qeh} {self.qex.qei} {self.qex.qef}\n")
+                            wr.write(
+                                f"{line.split('\t')[0]} {self.qex.qeh} {self.qex.qei} {self.qex.qef}\n"
+                            )
                         else:
                             er = f"Error: Line {index} does not have seven elements."
                             print(er)
@@ -67,19 +69,50 @@ class QEPestWithoutInterface:
         qeH = 0.0
         qeI = 0.0
         qeF = 0.0
-        
+
         d_num = len(d)
         for i in range(len(d)):
             qeH += math.log(
-                self.norm_h(self.compute_df(d[i], self.herb[i][0], self.herb[i][1], self.herb[i][2], self.herb[i][3]),
-                            i))
-            qeI += math.log(self.norm_i(
-                self.compute_df(d[i], self.insect[i][0], self.insect[i][1], self.insect[i][2], self.insect[i][3]), i))
+                self.norm_h(
+                    self.compute_df(
+                        d[i],
+                        self.herb[i][0],
+                        self.herb[i][1],
+                        self.herb[i][2],
+                        self.herb[i][3],
+                    ),
+                    i,
+                )
+            )
+            qeI += math.log(
+                self.norm_i(
+                    self.compute_df(
+                        d[i],
+                        self.insect[i][0],
+                        self.insect[i][1],
+                        self.insect[i][2],
+                        self.insect[i][3],
+                    ),
+                    i,
+                )
+            )
             qeF += math.log(
-                self.norm_f(self.compute_df(d[i], self.fung[i][0], self.fung[i][1], self.fung[i][2], self.fung[i][3]),
-                            i))
-        q = [self.round_to_4digs(math.exp(qeH / d_num)), self.round_to_4digs(math.exp(qeI / d_num)),
-             self.round_to_4digs(math.exp(qeF / d_num))]
+                self.norm_f(
+                    self.compute_df(
+                        d[i],
+                        self.fung[i][0],
+                        self.fung[i][1],
+                        self.fung[i][2],
+                        self.fung[i][3],
+                    ),
+                    i,
+                )
+            )
+        q = [
+            self.round_to_4digs(math.exp(qeH / d_num)),
+            self.round_to_4digs(math.exp(qeI / d_num)),
+            self.round_to_4digs(math.exp(qeF / d_num)),
+        ]
 
         result = check_nan(q)
         self.qex = QEPestData(qeh=result[0], qei=result[1], qef=result[2])
@@ -88,7 +121,9 @@ class QEPestWithoutInterface:
         return float("{:.4f}".format(q))
 
     def compute_df(self, x, a, b, c, o):
-        return a * math.exp(-1.0 * math.exp(-1.0 * ((x - b) / c)) - (x - b) / c + 1.0) + o
+        return (
+            a * math.exp(-1.0 * math.exp(-1.0 * ((x - b) / c)) - (x - b) / c + 1.0) + o
+        )
 
     def norm_h(self, d, descr):
         max_val = 0.0
