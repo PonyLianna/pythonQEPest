@@ -204,6 +204,6 @@ class QEPestWithoutInterface:
         self.fung.extend([mwF, logpF, hbaF, hbdF, rbF, arRCF])
 
 
-if __name__ == "__main__":
-    qepest = QEPestWithoutInterface()
-    qepest.read_file_and_compute_params()
+# if __name__ == "__main__":
+#     qepest = QEPestWithoutInterface()
+#     qepest.read_file_and_compute_params()
