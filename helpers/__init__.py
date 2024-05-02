@@ -1,3 +1,1 @@
-from check_nan import check_nan
-from get_values_from_line import get_values_from_line
-from get_num_of_cols import get_num_of_cols
+from helpers import *
