@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pythonQEPest"
+name = "pythonqepest"
 version = "1.0.0"
 description = ""
 authors = ["Lina <knocker767@gmail.com>"]
@@ -11,5 +11,5 @@ pydantic = "2.7.1"
 
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0", "setuptools>=40.8.0"]
 build-backend = "poetry.core.masonry.api"
