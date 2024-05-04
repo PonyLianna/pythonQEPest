@@ -5,7 +5,7 @@ description = ""
 authors = ["Lina <knocker767@gmail.com>"]
 readme = "README.md"
 packages = [
-    { include = "pythonqepest.py"},
+    { include = "pythonqepest.py", to = "pythonQEPest" },
     {include = "QEPestData.py", from = "dto", to = "pythonQEPest/dto"},
     {include = "QEPestInput.py", from = "dto", to = "pythonQEPest/dto"},
     {include = "QEPestOutput.py", from = "dto", to = "pythonQEPest/dto"},
