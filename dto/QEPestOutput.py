@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from dto.QEPestData import QEPestData
+from .QEPestData import QEPestData
 
 
 class QEPestOutput(BaseModel):
