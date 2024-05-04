@@ -4,11 +4,11 @@ version = "1.0.0"
 description = ""
 authors = ["Lina <knocker767@gmail.com>"]
 readme = "README.md"
-packages = [
-    { include = "*.py", to = "pythonQEPest" },
-    {include = "*.py", from = "dto", to = "pythonQEPest/dto"},
-    {include = "*.py" , from = "helpers", to = "pythonQEPest/helpers"}
-]
+#packages = [
+#    { include = "*.py", to = "pythonQEPest" },
+#    {include = "*.py", from = "dto", to = "pythonQEPest/dto"},
+#    {include = "*.py" , from = "helpers", to = "pythonQEPest/helpers"}
+#]
 
 [tool.poetry.dependencies]
 python = ">=3.12,<3.13"
