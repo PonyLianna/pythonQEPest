@@ -1,13 +1,9 @@
+import importlib
 import math
 import os
 
-from dto.QEPestData import QEPestData
-from dto.QEPestInput import QEPestInput
-from dto.QEPestOutput import QEPestOutput
-from helpers.check_nan import check_nan
-from helpers.get_num_of_cols import get_num_of_cols
-from helpers.get_values_from_line import get_values_from_line
-
+dto = importlib.import_module('dto')
+helpers = importlib.import_module('helpers')
 
 class QEPestWithoutInterface:
     def __init__(self, dirname="data.txt"):
@@ -24,12 +20,12 @@ class QEPestWithoutInterface:
 
         self.noError = True
 
-        self.qex: QEPestData = None
+        self.qex: dto.QEPestData = None
         self.dir = None
 
-    def compute_params(self, data_input: QEPestInput) -> QEPestOutput:
-        self.get_QEX_values(get_values_from_line(list(data_input.dict().values())))
-        return QEPestOutput(data=self.qex, name=data_input.name)
+    def compute_params(self, data_input: dto.QEPestInput) -> dto.QEPestOutput:
+        self.get_QEX_values(helpers.get_values_from_line(list(data_input.dict().values())))
+        return dto.QEPestOutput(data=self.qex, name=data_input.name)
 
     def read_file_and_compute_params(self):
         try:
@@ -38,15 +34,15 @@ class QEPestWithoutInterface:
             with open(f"{self.input_file}.out", "w") as wr:
                 for index, line in enumerate(lines):
                     if index == 0:
-                        if get_num_of_cols(line) != self.col_number:
+                        if helpers.get_num_of_cols(line) != self.col_number:
                             er = f"Error: Line {index} does not have seven elements."
                             print(er)
                             self.noError = False
                             break
                         wr.write("Name QEH QEI QEF\n")
                     else:
-                        if get_num_of_cols(line) == self.col_number:
-                            dValues = get_values_from_line(line.split("\t"))
+                        if helpers.get_num_of_cols(line) == self.col_number:
+                            dValues = helpers.get_values_from_line(line.split("\t"))
                             self.get_QEX_values(dValues)
                             wr.write(
                                 f"{line.split('\t')[0]} {self.qex.qeh} {self.qex.qei} {self.qex.qef}\n"
@@ -114,8 +110,8 @@ class QEPestWithoutInterface:
             self.round_to_4digs(math.exp(qeF / d_num)),
         ]
 
-        result = check_nan(q)
-        self.qex = QEPestData(qeh=result[0], qei=result[1], qef=result[2])
+        result = helpers.check_nan(q)
+        self.qex = dto.QEPestData(qeh=result[0], qei=result[1], qef=result[2])
 
     def round_to_4digs(self, q):
         return float("{:.4f}".format(q))
