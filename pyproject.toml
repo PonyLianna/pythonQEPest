@@ -5,8 +5,8 @@ description = ""
 authors = ["Lina <knocker767@gmail.com>"]
 readme = "README.md"
 packages = [
-    { include = "*.py" },
-    {include = "**/*.py"}
+    { include = "*.py" , to = "pythonQEPest"},
+    {include = "**/*.py" , to = "pythonQEPest"}
 ]
 #packages = [
 #    { include = "*.py", to = "pythonQEPest" },
