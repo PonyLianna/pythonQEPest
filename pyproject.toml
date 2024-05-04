@@ -5,13 +5,13 @@ description = ""
 authors = ["Lina <knocker767@gmail.com>"]
 readme = "README.md"
 packages = [
-    { include = "pythonqepest.py", to = "pythonQEPest"},
-    {include = "QEPestData.py", from = "dto", to = "pythonQEPest"},
-    {include = "QEPestInput.py", from = "dto", to = "pythonQEPest"},
-    {include = "QEPestOutput.py", from = "dto", to = "pythonQEPest"},
-    {include = "check_nan.py" , from = "helpers", to = "pythonQEPest"},
-    {include = "get_num_of_cols.py" , from = "helpers", to = "pythonQEPest"},
-    {include = "get_values_from_line.py" , from = "helpers", to = "pythonQEPest"}
+    { include = "pythonqepest.py", to = "pythonQEPest/pythonqepest.py"},
+    {include = "QEPestData.py", from = "dto", to = "pythonQEPest/dto"},
+    {include = "QEPestInput.py", from = "dto", to = "pythonQEPest/dto"},
+    {include = "QEPestOutput.py", from = "dto", to = "pythonQEPest/dto"},
+    {include = "check_nan.py" , from = "helpers", to = "pythonQEPest/helpers"},
+    {include = "get_num_of_cols.py" , from = "helpers", to = "pythonQEPest/helpers"},
+    {include = "get_values_from_line.py" , from = "helpers", to = "pythonQEPest/helpers"}
 ]
 
 [tool.poetry.dependencies]
