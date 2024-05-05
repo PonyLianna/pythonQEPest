@@ -48,8 +48,9 @@ class QEPestWithoutInterface:
                         if get_num_of_cols(line) == self.col_number:
                             dValues = get_values_from_line(line.split("\t"))
                             self.get_QEX_values(dValues)
+                            splitted_line = line.split('\t')[0]
                             wr.write(
-                                f"{line.split('\t')[0]} {self.qex.qeh} {self.qex.qei} {self.qex.qef}\n"
+                                f"{splitted_line} {self.qex.qeh} {self.qex.qei} {self.qex.qef}{chr(10)}" #chr(10) = \n
                             )
                         else:
                             er = f"Error: Line {index} does not have seven elements."
