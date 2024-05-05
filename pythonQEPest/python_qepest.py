@@ -1,4 +1,3 @@
-import importlib
 import math
 import os
 
@@ -123,7 +122,7 @@ class QEPestWithoutInterface:
 
     def compute_df(self, x, a, b, c, o):
         return (
-                a * math.exp(-1.0 * math.exp(-1.0 * ((x - b) / c)) - (x - b) / c + 1.0) + o
+            a * math.exp(-1.0 * math.exp(-1.0 * ((x - b) / c)) - (x - b) / c + 1.0) + o
         )
 
     def norm_h(self, d, descr):
@@ -203,6 +202,7 @@ class QEPestWithoutInterface:
         rbF = [40.91, 1.822, 2.582, 0.6235]
         arRCF = [134.4, 0.8383, 1.347, -31.17]
         self.fung.extend([mwF, logpF, hbaF, hbdF, rbF, arRCF])
+
 
 # if __name__ == "__main__":
 #     qepest = QEPestWithoutInterface()

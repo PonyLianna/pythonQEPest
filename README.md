@@ -4,9 +4,9 @@
 					xx              xx
 					xxxxxxxxxxxxxxxxxx
 
-The rewritten version of Java QEPest. Made by PonyLianna (https://github.com/PonyLianna). 
+The rewritten version of Java QEPest. Made by PonyLianna (https://github.com/PonyLianna).
 Doesn't have any UI kit in rewrote version but still does everything that was implemented in the original.
-I hope you'll enjoy it. 
+I hope you'll enjoy it.
 
 You can use a .exe version or build it by yourself. To be able to do it you'll need `Python 3.12 + pip3`
 Further installation:
@@ -22,16 +22,18 @@ of the desirability functions has been performed using descriptors generated wit
 http://www.chemaxon.com). Hence, in order to assure maximum accuracy, we recommend the usage of ChemAxon’s logP.
 
 Before running QEPest.jar, please make sure:
+
 - Java Runtime Engine 1.6 or later installed is installed on your computer
 - The file "data.txt", containing the molecules to be scored, respects the structure as described below (### Input
-file ###)
-(tab sepatated file with header, each molecule in a different row)
+  file ###)
+  (tab sepatated file with header, each molecule in a different row)
 - QEPest.jar and data.txt are placed in the same directory
 
 ### Input file
 
 The input for QEPest consists of a tab-separated text file containing molecules (in rows) and seven columns (in this
 order):
+
 - molecule name (Name)
 - molecular weight (MW)
 - hydrophobicity (LogP)
