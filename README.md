@@ -4,6 +4,16 @@
 					xx              xx
 					xxxxxxxxxxxxxxxxxx
 
+The rewritten version of Java QEPest. Made by PonyLianna (https://github.com/PonyLianna). 
+Doesn't have any UI kit in rewrote version but still does everything that was implemented in the original.
+I hope you'll enjoy it. 
+
+You can use a .exe version or build it by yourself. To be able to do it you'll need `Python 3.12 + pip3`
+Further installation:
+`pip install poetry`
+`poetry install`
+`python ./pythonQEPest/python_qepest.py`
+
 QEPest is a free Java program addressing the filed of agrochemicals. It allows the scoring of molecules
 as herbicides (QEH), insecticides (QEI) and fungicides (QEF) according to pesticide class-specific scoring functions.
 
