@@ -9,9 +9,13 @@ Doesn't have any UI kit in rewrote version but still does everything that was im
 I hope you'll enjoy it.
 
 You can use a .exe version or build it by yourself. To be able to do it you'll need `Python 3.12 + pip3`
+
 Further installation:
+
 `pip install poetry`
+
 `poetry install`
+
 `python ./pythonQEPest/python_qepest.py`
 
 QEPest is a free Java program addressing the filed of agrochemicals. It allows the scoring of molecules
