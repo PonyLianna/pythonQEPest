@@ -5,6 +5,9 @@ from pythonQEPest.dto.QEPestData import QEPestData
 from pythonQEPest.dto.QEPestInput import QEPestInput
 from pythonQEPest.dto.QEPestOutput import QEPestOutput
 from pythonQEPest.helpers.check_nan import check_nan
+from pythonQEPest.helpers.compute_df import compute_df
+from pythonQEPest.helpers.norm import norm_h, norm_f, norm_i
+from pythonQEPest.helpers.round_to_4digs import round_to_4digs
 from pythonQEPest.helpers.get_num_of_cols import get_num_of_cols
 from pythonQEPest.helpers.get_values_from_line import get_values_from_line
 
@@ -24,9 +27,8 @@ class QEPest:
 
         self.input_file = os.path.join(self.dir, dirname)
 
-        self.noError = True
+        self.noError: bool = True
 
-        self.qex: QEPestData
         self.dir = None
 
     def compute_params(self, data_input: QEPestInput) -> QEPestOutput:
@@ -71,7 +73,7 @@ class QEPest:
 
     def get_qex_values(self, d):
         def log_compute_df(func, index, lst, data_lst) -> float:
-            df_result = self.compute_df(lst[index], *data_lst[index])
+            df_result = compute_df(lst[index], *data_lst[index])
             return math.log(func(df_result, index))
 
         qeH = 0.0
@@ -80,36 +82,18 @@ class QEPest:
 
         d_num = len(d)
         for i in range(d_num):
-            qeH += log_compute_df(func=self.norm_h, index=i, lst=d, data_lst=self.herb)
-            qeI += log_compute_df(func=self.norm_i, index=i, lst=d, data_lst=self.insect)
-            qeF += log_compute_df(func=self.norm_f, index=i, lst=d, data_lst=self.fung)
+            qeH += log_compute_df(func=norm_h, index=i, lst=d, data_lst=self.herb)
+            qeI += log_compute_df(func=norm_i, index=i, lst=d, data_lst=self.insect)
+            qeF += log_compute_df(func=norm_f, index=i, lst=d, data_lst=self.fung)
 
         q = [
-            self.round_to_4digs(math.exp(qeH / d_num)),
-            self.round_to_4digs(math.exp(qeI / d_num)),
-            self.round_to_4digs(math.exp(qeF / d_num)),
+            round_to_4digs(math.exp(qeH / d_num)),
+            round_to_4digs(math.exp(qeI / d_num)),
+            round_to_4digs(math.exp(qeF / d_num)),
         ]
 
         result = check_nan(q)
         self.qex = QEPestData(qeh=result[0], qei=result[1], qef=result[2])
-
-    def round_to_4digs(self, q):
-        return float("{:.4f}".format(q))
-
-    def compute_df(self, x, a, b, c, o):
-        return a * math.exp(-1.0 * math.exp(-1.0 * ((x - b) / c)) - (x - b) / c + 1.0) + o
-
-    def norm_h(self, d, descr):
-        max_val = (69.5849922, 94.4228257, 120.4572352, 228.1589796, 89.7012502, 276.9634213)[int(descr)]
-        return d / max_val if max_val != 0 else 0.0
-
-    def norm_i(self, d, descr):
-        max_val = (78.2919965, 71.2829691, 133.9224801, 331.170104, 70.5540709, 193.0023343)[int(descr)]
-        return d / max_val if max_val != 0 else 0.0
-
-    def norm_f(self, d, descr):
-        max_val = (53.3719946, 52.773116, 73.7976536, 144.9887053, 41.4385926, 102.3024319)[int(descr)]
-        return d / max_val if max_val != 0 else 0.0
 
     def initialize_coefficients(self):
         coefficients = {
