@@ -2,6 +2,6 @@ from pydantic import BaseModel
 
 
 class QEPestData(BaseModel):
-    qeh: float
-    qei: float
-    qef: float
+    qe_h: float
+    qe_i: float
+    qe_f: float
