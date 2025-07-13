@@ -35,6 +35,7 @@ class QEPestWithoutInterface:
         try:
             with open(self.input_file, "r") as file:
                 lines = file.readlines()
+
             with open(f"{self.input_file}.out", "w") as wr:
                 for index, line in enumerate(lines):
                     if index == 0:
@@ -56,10 +57,10 @@ class QEPestWithoutInterface:
                             er = f"Error: Line {index} does not have seven elements."
                             print(er)
                             self.noError = False
-                    if self.noError:
-                        print("Computation completed")
-                    else:
-                        print("Finished with errors")
+                if self.noError:
+                    print("Computation completed")
+                else:
+                    print("Finished with errors")
 
         except FileNotFoundError as e:
             self.noError = False
@@ -205,6 +206,6 @@ class QEPestWithoutInterface:
         self.fung.extend([mwF, logpF, hbaF, hbdF, rbF, arRCF])
 
 
-# if __name__ == "__main__":
-#     qepest = QEPestWithoutInterface()
-#     qepest.read_file_and_compute_params()
+if __name__ == "__main__":
+    qepest = QEPest()
+    qepest.read_file_and_compute_params()
