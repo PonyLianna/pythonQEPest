@@ -9,7 +9,7 @@ from pythonQEPest.helpers.get_num_of_cols import get_num_of_cols
 from pythonQEPest.helpers.get_values_from_line import get_values_from_line
 
 
-class QEPestWithoutInterface:
+class QEPest:
     def __init__(self, dirname="data.txt"):
         self.qex = None
         self.herb = []
