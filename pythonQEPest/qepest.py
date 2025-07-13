@@ -11,13 +11,14 @@ from pythonQEPest.helpers.get_values_from_line import get_values_from_line
 
 class QEPest:
     def __init__(self, dirname="data.txt"):
-        self.qex = None
-        self.herb = []
-        self.insect = []
-        self.fung = []
+        self.qex: QEPestData | None = None
 
-        self.col_number = 7
-        self.dir = os.getcwd()
+        self.herb: list[float] = []
+        self.insect: list[float] = []
+        self.fung: list[float] = []
+
+        self.col_number: int = 7
+        self.dir: str = os.getcwd()
 
         self.initialize_coefficients()
 
