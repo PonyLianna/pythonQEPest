@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pyQEPest"
+name = "pythonQEPest"
 version = "1.0.0"
 description = ""
 authors = ["Lina <knocker767@gmail.com>"]
