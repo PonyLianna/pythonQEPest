@@ -11,6 +11,7 @@ from pythonQEPest.helpers.get_values_from_line import get_values_from_line
 
 class QEPestWithoutInterface:
     def __init__(self, dirname="data.txt"):
+        self.qex = None
         self.herb = []
         self.insect = []
         self.fung = []
@@ -24,7 +25,7 @@ class QEPestWithoutInterface:
 
         self.noError = True
 
-        self.qex: QEPestData = None
+        self.qex: QEPestData
         self.dir = None
 
     def compute_params(self, data_input: QEPestInput) -> QEPestOutput:
