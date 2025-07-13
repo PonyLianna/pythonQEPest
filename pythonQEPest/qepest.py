@@ -49,7 +49,7 @@ class QEPest:
                     else:
                         if get_num_of_cols(line) == self.col_number:
                             dValues = get_values_from_line(line.split("\t"))
-                            self.get_QEX_values(dValues)
+                            self.get_qex_values(dValues)
                             splitted_line = line.split('\t')[0]
                             wr.write(
                                 f"{splitted_line} {self.qex.qeh} {self.qex.qei} {self.qex.qef}{chr(10)}"  #chr(10) = \n
