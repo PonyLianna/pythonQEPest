@@ -1,16 +1,24 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
-
-import pyperclip
-
-from pythonQEPest.dto.QEPestInput import QEPestInput
-from pythonQEPest.gui.actions import GUIActionsCRUD, GUIActionsOther
+from tkinter import ttk
+from pythonQEPest.gui.actions import GUIActionsOther
 from pythonQEPest.gui.actions import GUIActionsClicks
 from pythonQEPest.gui.actions import GUIActionsCRUD
 from pythonQEPest.gui.gui_meta import QEPestMeta
 
 
 class GUI(QEPestMeta):
+    def treeview_sort_column(self, treeview, col, reverse):
+        l = [(treeview.set(k, col), k) for k in treeview.get_children('')]
+        try:
+            l.sort(key=lambda t: float(t[0]), reverse=reverse)
+        except ValueError:
+            l.sort(key=lambda t: t[0], reverse=reverse)
+
+        for index, (val, k) in enumerate(l):
+            treeview.move(k, '', index)
+
+        treeview.heading(col, command=lambda: self.treeview_sort_column(treeview, col, not reverse))
+
     def build_gui(self):
         frame_buttons = tk.Frame(self.root)
         frame_buttons.pack(pady=5)
@@ -18,6 +26,8 @@ class GUI(QEPestMeta):
         frame_buttons.pack(anchor='w', fill='x', pady=5)
 
         self.file_data = []
+        self.index = 0
+
         self.select_file_button = tk.Button(frame_buttons, text="Select File")
         self.add_entry_button = tk.Button(frame_buttons, text="Add entry")
         self.delete_selected_button = tk.Button(frame_buttons, text="Delete entry")
@@ -46,6 +56,16 @@ class GUI(QEPestMeta):
             self.result_tree.heading(col, text=col)
         self.result_tree.pack(padx=10, pady=10, fill='both', expand=True)
 
+        for col in self.data_tree['columns']:
+            self.data_tree.heading(col,
+                                   text=col,
+                                   command=lambda _col=col: self.treeview_sort_column(self.data_tree, _col, False))
+
+        for col in self.result_tree['columns']:
+            self.result_tree.heading(col,
+                                     text=col,
+                                     command=lambda _col=col: self.treeview_sort_column(self.result_tree, _col, False))
+
         self.save_button = tk.Button(self.root, text="Save Results", state='disabled')
         self.save_button.pack(padx=10, pady=10, side='right')
 
@@ -58,8 +78,9 @@ class GUI(QEPestMeta):
         self.menu = tk.Menu(root, tearoff=0)
 
         self.actions_clicks = GUIActionsClicks(menu=self.menu)
-        self.actions_crud = GUIActionsCRUD(data_tree=self.data_tree,
-                                           result_tree=self.result_tree, save_button=self.save_button, file_data=self.file_data)
+        self.actions_crud = GUIActionsCRUD(data_tree=self.data_tree, result_tree=self.result_tree,
+                                           save_button=self.save_button, file_data=self.file_data,
+                                           index=self.index)
 
         self.actions_other = GUIActionsOther(data_tree=self.data_tree, result_tree=self.result_tree, qepest=self.qepest,
                                              root=self.root, save_button=self.save_button, file_data=self.file_data)

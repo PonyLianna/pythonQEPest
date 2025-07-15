@@ -1,10 +1,11 @@
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 
 import pyperclip
 
 
 class GUIActionsCRUD:
-    def __init__(self, data_tree, result_tree, save_button, file_data):
+    def __init__(self, data_tree, result_tree, save_button, file_data, index):
+        self.index = index
         self.file_data = file_data
         self.data_tree: ttk.Treeview = data_tree
         self.result_tree: ttk.Treeview = result_tree
@@ -37,10 +38,11 @@ class GUIActionsCRUD:
         for line in lines:
             parts = line.strip().split('\t')
             if len(parts) == 7:
-                idx = len(self.file_data)
+                idx = self.index
                 self.file_data.append((idx, *parts))
                 self.data_tree.insert('', 'end', values=(idx, *parts))
                 count_added += 1
+                self.index += 1
 
         if count_added:
             messagebox.showinfo("Inserted", f"Inserted {count_added} entries. Don't forget to process the data.")
