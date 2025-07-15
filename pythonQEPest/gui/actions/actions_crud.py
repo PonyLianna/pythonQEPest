@@ -1,0 +1,63 @@
+from tkinter import messagebox
+
+import pyperclip
+
+
+class GUIActionsCRUD:
+    def __init__(self, data_tree, result_tree, save_button, file_data):
+        self.file_data = file_data
+        self.data_tree = data_tree
+        self.result_tree = result_tree
+        self.save_button = save_button
+
+    def copy_selected(self):
+        selected = self.data_tree.selection()
+        if not selected:
+            messagebox.showwarning("Select Entry", "Select Entry for coping")
+            return
+
+        rows_text = []
+        for item in selected:
+            values = self.data_tree.item(item, 'values')[1:]  # без ID
+            rows_text.append('\t'.join(map(str, values)))
+
+        data_str = '\n'.join(rows_text)
+        pyperclip.copy(data_str)
+        messagebox.showinfo("Copied", "Data copied to clipboard.")
+
+    def paste_entries(self):
+        clipboard_text = pyperclip.paste()
+        if not clipboard_text.strip():
+            messagebox.showwarning("Clipboard is empty", "Copy the text first.")
+            return
+
+        lines = clipboard_text.strip().splitlines()
+        count_added = 0
+
+        for line in lines:
+            parts = line.strip().split('\t')
+            if len(parts) == 7:
+                idx = len(self.file_data)
+                self.file_data.append((idx, *parts))
+                self.data_tree.insert('', 'end', values=(idx, *parts))
+                count_added += 1
+
+        if count_added:
+            messagebox.showinfo("Inserted", f"Inserted {count_added} entries. Don't forget to process the data.")
+
+    def delete_selected(self):
+        selected = self.data_tree.selection()
+        if not selected:
+            messagebox.showwarning("Select Entry", "Select the entry to delete.")
+            return
+
+        for item in selected:
+            values = self.data_tree.item(item, 'values')
+            idx_to_remove = int(values[0])
+            self.file_data = [row for row in self.file_data if row[0] != idx_to_remove]
+            self.data_tree.delete(item)
+            self.result_tree.delete(item)
+
+        messagebox.showinfo("Deleted", "The selected records have been deleted. Please reprocess the data.")
+        # self.result_tree.delete(*self.result_tree.get_children())
+        self.save_button.config(state='disabled')
