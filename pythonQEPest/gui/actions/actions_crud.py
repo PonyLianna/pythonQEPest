@@ -6,8 +6,8 @@ import pyperclip
 class GUIActionsCRUD:
     def __init__(self, data_tree, result_tree, save_button, file_data):
         self.file_data = file_data
-        self.data_tree = data_tree
-        self.result_tree = result_tree
+        self.data_tree: ttk.Treeview = data_tree
+        self.result_tree: ttk.Treeview = result_tree
         self.save_button = save_button
 
     def copy_selected(self):
@@ -54,7 +54,8 @@ class GUIActionsCRUD:
         for item in selected:
             values = self.data_tree.item(item, 'values')
             idx_to_remove = int(values[0])
-            self.file_data = [row for row in self.file_data if row[0] != idx_to_remove]
+
+            self.file_data[:] = [row for row in self.file_data if row[0] != idx_to_remove]
             self.data_tree.delete(item)
             self.result_tree.delete(item)
 
