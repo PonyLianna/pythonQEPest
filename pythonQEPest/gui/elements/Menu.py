@@ -7,5 +7,6 @@ class Menu(tkMenu):
 
     def set_actions(self, actions_crud):
         self.add_command(label="Copy", command=actions_crud.copy_selected)
+        self.add_command(label="Edit", command=actions_crud.edit_selected)
         self.add_command(label="Paste", command=actions_crud.paste_entries)
         self.add_command(label="Delete", command=actions_crud.delete_selected)

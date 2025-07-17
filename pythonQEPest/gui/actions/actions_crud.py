@@ -1,5 +1,5 @@
 from tkinter import messagebox, ttk
-
+from pythonQEPest.gui.elements.EditWindow import EditWindow
 import pyperclip
 
 
@@ -11,7 +11,15 @@ class GUIActionsCRUD:
         self.result_tree: ttk.Treeview = result_tree
         self.save_button = save_button
 
-    # TODO: Add there Edit action
+    def edit_selected(self):
+        selected = self.data_tree.selection()
+        if not selected:
+            messagebox.showwarning("Select Entry", "Select Entry for editing")
+            return
+
+        item_id = selected[0]
+        EditWindow(item_id=item_id, tree=self.data_tree)
+
     def copy_selected(self):
         selected = self.data_tree.selection()
         if not selected:
