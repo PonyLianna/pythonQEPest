@@ -11,6 +11,7 @@ class GUIActionsCRUD:
         self.result_tree: ttk.Treeview = result_tree
         self.save_button = save_button
 
+    # TODO: Add there Edit action
     def copy_selected(self):
         selected = self.data_tree.selection()
         if not selected:
