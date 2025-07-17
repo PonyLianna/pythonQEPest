@@ -17,8 +17,5 @@ class DataTree(Treeview):
                          text=col,
                          command=lambda _col=col: sort_column(self, _col, False))
 
-        self.unbind_class("Treeview", "<Button-1>")
-        self.unbind_class("Treeview", "<Button-2>")
-
         self.bind("<Button-1>", actions_clicks.on_treeview_click_left)
         self.bind("<Button-3>", actions_clicks.on_treeview_click_right)
