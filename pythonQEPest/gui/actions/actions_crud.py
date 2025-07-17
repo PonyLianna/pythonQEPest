@@ -59,6 +59,7 @@ class GUIActionsCRUD:
 
             self.file_data[:] = [row for row in self.file_data if row[0] != idx_to_remove]
             self.data_tree.delete(item)
+            # WIP: BUG
             self.result_tree.delete(item)
 
         messagebox.showinfo("Deleted", "The selected records have been deleted. Please reprocess the data.")
