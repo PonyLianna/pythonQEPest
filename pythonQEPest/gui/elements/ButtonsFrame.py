@@ -1,7 +1,5 @@
 from tkinter import Frame, Button
 
-from pythonQEPest.gui.actions import GUIActionsCRUD, GUIActionsOther
-
 
 class ButtonsFrame(Frame):
     def __init__(self, root, *args, **kwargs):
