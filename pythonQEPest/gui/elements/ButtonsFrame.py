@@ -7,7 +7,7 @@ class ButtonsFrame(Frame):
 
         self.pack(anchor='w', fill='x', pady=5)
 
-        # TODO: select_file must have an option of CSV
+        # TODO: select_file must have an option for CSV
         self.select_file_button = Button(self, text="Select File")
         self.add_entry_button = Button(self, text="Add entry")
         self.delete_selected_button = Button(self, text="Delete entry")
