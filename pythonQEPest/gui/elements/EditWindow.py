@@ -1,11 +1,15 @@
 import tkinter as tk
+from tkinter.ttk import Treeview
 
 
 class EditWindow(tk.Toplevel):
-    def __init__(self, tree, item_id, file_data, *args, **kwargs):
+    def __init__(self, tree: Treeview, child_tree: Treeview, item_id, file_data, *args, **kwargs):
         super().__init__(master=tree, *args, **kwargs)
+
         self.file_data = file_data
+
         values = tree.item(item_id, 'values')
+        old_id = values[0]
 
         self.title("Edit Entry")
 
@@ -19,16 +23,25 @@ class EditWindow(tk.Toplevel):
             entry.grid(row=idx, column=1, padx=5, pady=5)
             entries.append(entry)
 
-        def save_changes():
+        def save_changes() -> None:
             new_values = [entry.get() for entry in entries]
+
+            if child_tree.exists(item_id):
+                new_child_values = list(child_tree.item(item_id, 'values'))
+                if new_child_values[0] != new_values[0]:
+                    new_child_values[0] = new_values[0]
+                    child_tree.item(item_id, values=new_child_values)
+
             tree.item(item_id, values=new_values)
 
             # Fix it someday plz
             new_values[0] = int(new_values[0])
+            update_file_data(new_values)
 
-            element = list(filter(lambda x: str(x[0]) == str(new_values[0]), self.file_data))[0]
+        def update_file_data(values: list) -> None:
+            element = list(filter(lambda x: str(x[0]) == str(old_id), self.file_data))[0]
             if element:
-                self.file_data[element[0]] = new_values
+                self.file_data[element[0]] = values
             self.destroy()
 
         tk.Button(self, text="Save", command=save_changes).grid(row=len(columns), column=0, columnspan=2, pady=10)
