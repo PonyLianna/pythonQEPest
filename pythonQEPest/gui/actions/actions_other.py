@@ -101,7 +101,6 @@ class GUIActionsOther:
                     file.write('\t'.join(map(str, row)) + '\n')
 
             messagebox.showinfo("Saved", f"The result is saved in: {save_path}")
-            self.save_button.config(state='disabled')
 
         except Exception as e:
             messagebox.showerror("Saving error", str(e))
