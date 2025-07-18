@@ -73,4 +73,6 @@ class GUIActionsCRUD:
 
         messagebox.showinfo("Deleted", "The selected records have been deleted. Please reprocess the data.")
         # self.result_tree.delete(*self.result_tree.get_children())
-        self.save_button.config(state='disabled')
+
+        if not len(self.file_data):
+            self.save_button.config(state='disabled')
