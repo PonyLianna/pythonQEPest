@@ -18,7 +18,7 @@ class GUIActionsCRUD:
             return
 
         item_id = selected[0]
-        EditWindow(item_id=item_id, tree=self.data_tree)
+        EditWindow(item_id=item_id, tree=self.data_tree, file_data=self.file_data)
 
     def copy_selected(self):
         selected = self.data_tree.selection()
