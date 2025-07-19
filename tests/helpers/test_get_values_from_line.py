@@ -9,6 +9,7 @@ class TestGetValuesFromLine:
 
     basic_tuple = ("id", "5", "6.6")
     basic_tuple_result = [5.0, 6.6]
+
     def test_basic_list(self):
         assert get_values_from_line(self.basic_list) == self.basic_list_result
 
