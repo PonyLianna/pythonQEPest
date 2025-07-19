@@ -47,6 +47,9 @@ class GUI(QEPestMeta):
         self.save_button.set_actions(self.actions_other)
         self.menu.set_actions(self.actions_crud)
 
+        root.bind('<Control-v>', self.actions_crud.paste_entries)
+        root.bind('<Control-c>', self.actions_crud.copy_selected)
+
 
 if __name__ == '__main__':
     root = tk.Tk()

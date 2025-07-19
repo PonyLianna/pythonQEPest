@@ -14,7 +14,7 @@ class GUIActionsCRUD:
         self.result_tree: ttk.Treeview = result_tree
         self.save_button = save_button
 
-    def edit_selected(self):
+    def edit_selected(self, *args, **kwargs):
         selected = self.data_tree.selection()
         if not selected:
             messagebox.showwarning("Select Entry", "Select Entry for editing")
@@ -23,7 +23,7 @@ class GUIActionsCRUD:
         item_id = selected[0]
         EditWindow(item_id=item_id, tree=self.data_tree, child_tree=self.result_tree)
 
-    def copy_selected(self):
+    def copy_selected(self, *args, **kwargs):
         selected = self.data_tree.selection()
         if not selected:
             messagebox.showwarning("Select Entry", "Select Entry for coping")
@@ -38,7 +38,7 @@ class GUIActionsCRUD:
         pyperclip.copy(data_str)
         messagebox.showinfo("Copied", "Data copied to clipboard.")
 
-    def paste_entries(self):
+    def paste_entries(self, *args, **kwargs):
         clipboard_text = pyperclip.paste()
         if not clipboard_text.strip():
             messagebox.showwarning("Clipboard is empty", "Copy the text first.")
@@ -59,7 +59,7 @@ class GUIActionsCRUD:
         if count_added:
             messagebox.showinfo("Inserted", f"Inserted {count_added} entries. Don't forget to process the data.")
 
-    def delete_selected(self):
+    def delete_selected(self, *args, **kwargs):
         selected = self.data_tree.selection()
         if not selected:
             messagebox.showwarning("Select Entry", "Select the entry to delete.")
