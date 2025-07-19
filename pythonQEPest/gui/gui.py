@@ -1,7 +1,8 @@
 import tkinter as tk
-from pythonQEPest.gui.actions import GUIActionsOther
-from pythonQEPest.gui.actions import GUIActionsClicks
+
 from pythonQEPest.gui.actions import GUIActionsCRUD
+from pythonQEPest.gui.actions import GUIActionsClicks
+from pythonQEPest.gui.actions import GUIActionsOther
 from pythonQEPest.gui.elements.ButtonsFrame import ButtonsFrame
 from pythonQEPest.gui.elements.DataTree import DataTree
 from pythonQEPest.gui.elements.Menu import Menu
@@ -35,7 +36,7 @@ class GUI(QEPestMeta):
 
         self.actions_clicks = GUIActionsClicks(menu=self.menu)
         self.actions_crud = GUIActionsCRUD(data_tree=self.data_tree, result_tree=self.result_tree,
-                                           save_button=self.save_button,index=self.index)
+                                           save_button=self.save_button, index=self.index)
 
         self.actions_other = GUIActionsOther(data_tree=self.data_tree, result_tree=self.result_tree, qepest=self.qepest,
                                              root=self.root, save_button=self.save_button)

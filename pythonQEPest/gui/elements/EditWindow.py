@@ -43,7 +43,7 @@ class EditWindow(tk.Toplevel):
         def update_file_data(values: list) -> None:
             element = list(filter(lambda x: str(x[0]) == str(old_id), self.data_manager.file_data))[0]
             if element:
-                self.data_manager.update_file(index=element[0],new_entry=values )
+                self.data_manager.update_file(index=element[0], new_entry=values)
             self.destroy()
 
         tk.Button(self, text="Save", command=save_changes).grid(row=len(columns), column=0, columnspan=2, pady=10)

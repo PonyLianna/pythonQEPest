@@ -1,7 +1,8 @@
 from tkinter import messagebox, ttk
-from pythonQEPest.gui.elements.EditWindow import EditWindow
+
 import pyperclip
 
+from pythonQEPest.gui.elements.EditWindow import EditWindow
 from pythonQEPest.gui.utility.DataManager import DataManager
 
 

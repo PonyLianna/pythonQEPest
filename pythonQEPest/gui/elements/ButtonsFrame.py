@@ -29,4 +29,3 @@ class ButtonsFrame(Frame):
         self.copy_button.config(command=actions_crud.copy_selected)
         self.paste_button.config(command=actions_crud.paste_entries)
         self.process_data_button.config(command=actions_other.process_data)
-        

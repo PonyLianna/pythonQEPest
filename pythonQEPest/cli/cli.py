@@ -30,7 +30,7 @@ class CLI:
                             splitted_line = line.split('\t')[0]
                             wr.write(
                                 f"{splitted_line} {self.qepest.qex.qe_h} {self.qepest.qex.qe_i} {self.qepest.qex.qe_f}{chr(10)}"
-                                #chr(10) = \n
+                                # chr(10) = \n
                             )
                         else:
                             er = f"Error: Line {index} does not have seven elements."
