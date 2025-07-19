@@ -8,21 +8,26 @@ class EditWindow(tk.Toplevel):
     def __init__(self, tree: Treeview, child_tree: Treeview, item_id, *args, **kwargs):
         super().__init__(master=tree, *args, **kwargs)
 
+        self.title("Edit Entry")
+        # self.geometry("200x300")
+
         self.data_manager = DataManager()
 
         values = tree.item(item_id, 'values')
         old_id = values[0]
 
-        self.title("Edit Entry")
-
         entries = []
         columns = tree['columns']
 
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=3)
+        self.resizable(True, False)
+
         for idx, col in enumerate(columns):
-            tk.Label(self, text=col).grid(row=idx, column=0, padx=5, pady=5, sticky='e')
+            tk.Label(self, text=col).grid(row=idx, column=0, padx=5, pady=5, sticky='ew')
             entry = tk.Entry(self)
             entry.insert(0, values[idx])
-            entry.grid(row=idx, column=1, padx=5, pady=5)
+            entry.grid(row=idx, column=1, padx=(5, 5), pady=5, sticky="ew")
             entries.append(entry)
 
         def save_changes() -> None:

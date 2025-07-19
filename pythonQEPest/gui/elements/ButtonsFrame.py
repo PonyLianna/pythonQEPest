@@ -1,7 +1,6 @@
 from tkinter import Frame, Button
 
 
-
 class ButtonsFrame(Frame):
     def __init__(self, root, *args, **kwargs):
         super().__init__(root, *args, **kwargs)
@@ -20,7 +19,7 @@ class ButtonsFrame(Frame):
         self.clear_button = Button(self, text="Clear Data")
 
     def set_actions(self, actions_crud, actions_other):
-        self.select_file_button.pack(side='left', padx=[10, 4])
+        self.select_file_button.pack(side='left', padx=(10, 4))
         self.add_entry_button.pack(side='left', padx=4)
         self.edit_entry_button.pack(side='left', padx=4)
         self.delete_selected_button.pack(side='left', padx=4)
