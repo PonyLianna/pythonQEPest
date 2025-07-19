@@ -15,7 +15,9 @@ class ButtonsFrame(Frame):
         self.delete_selected_button = Button(self, text="Delete entry")
         self.copy_button = Button(self, text="Copy Data")
         self.paste_button = Button(self, text="Paste Data")
+
         self.process_data_button = Button(self, text="Process Data")
+        self.clear_button = Button(self, text="Clear Data")
 
     def set_actions(self, actions_crud, actions_other):
         self.select_file_button.pack(side='left', padx=[10, 4])
@@ -24,7 +26,9 @@ class ButtonsFrame(Frame):
         self.delete_selected_button.pack(side='left', padx=4)
         self.copy_button.pack(side='left', padx=4)
         self.paste_button.pack(side='left', padx=4)
-        self.process_data_button.pack(side='right', padx=10)
+
+        self.process_data_button.pack(side='right', padx=(4, 10))
+        self.clear_button.pack(side='right', padx=4)
 
         self.select_file_button.config(command=actions_other.load_file)
         self.add_entry_button.config(command=actions_other.add_entry)
@@ -32,4 +36,6 @@ class ButtonsFrame(Frame):
         self.delete_selected_button.config(command=actions_crud.delete_selected)
         self.copy_button.config(command=actions_crud.copy_selected)
         self.paste_button.config(command=actions_crud.paste_entries)
+
         self.process_data_button.config(command=actions_other.process_data)
+        self.clear_button.config(command=actions_crud.clear_everything)

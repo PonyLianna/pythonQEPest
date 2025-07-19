@@ -83,3 +83,10 @@ class GUIActionsCRUD:
 
         if not self.data_manager:
             self.save_button.config(state='disabled')
+
+    def clear_everything(self, *args, **kwargs):
+        self.data_manager.clear_file()
+        self.data_manager.clear_result()
+
+        self.data_tree.delete(*self.data_tree.get_children())
+        self.result_tree.delete(*self.result_tree.get_children())
