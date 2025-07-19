@@ -1,12 +1,14 @@
 import tkinter as tk
 from tkinter.ttk import Treeview
 
+from pythonQEPest.gui.utility.DataManager import DataManager
+
 
 class EditWindow(tk.Toplevel):
-    def __init__(self, tree: Treeview, child_tree: Treeview, item_id, file_data, *args, **kwargs):
+    def __init__(self, tree: Treeview, child_tree: Treeview, item_id, *args, **kwargs):
         super().__init__(master=tree, *args, **kwargs)
 
-        self.file_data = file_data
+        self.data_manager = DataManager()
 
         values = tree.item(item_id, 'values')
         old_id = values[0]
@@ -39,9 +41,9 @@ class EditWindow(tk.Toplevel):
             update_file_data(new_values)
 
         def update_file_data(values: list) -> None:
-            element = list(filter(lambda x: str(x[0]) == str(old_id), self.file_data))[0]
+            element = list(filter(lambda x: str(x[0]) == str(old_id), self.data_manager.file_data))[0]
             if element:
-                self.file_data[element[0]] = values
+                self.data_manager.update_file(index=element[0],new_entry=values )
             self.destroy()
 
         tk.Button(self, text="Save", command=save_changes).grid(row=len(columns), column=0, columnspan=2, pady=10)

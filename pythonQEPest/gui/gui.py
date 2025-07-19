@@ -35,11 +35,10 @@ class GUI(QEPestMeta):
 
         self.actions_clicks = GUIActionsClicks(menu=self.menu)
         self.actions_crud = GUIActionsCRUD(data_tree=self.data_tree, result_tree=self.result_tree,
-                                           save_button=self.save_button, file_data=self.file_data,
-                                           index=self.index)
+                                           save_button=self.save_button,index=self.index)
 
         self.actions_other = GUIActionsOther(data_tree=self.data_tree, result_tree=self.result_tree, qepest=self.qepest,
-                                             root=self.root, save_button=self.save_button, file_data=self.file_data)
+                                             root=self.root, save_button=self.save_button)
 
         self.buttons_frame.set_actions(self.actions_crud, self.actions_other)
         self.data_tree.set_actions(self.treeview_sort_column, self.actions_clicks)

@@ -1,17 +1,15 @@
-from tkinter.ttk import Treeview
-
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
 from pythonQEPest.dto.QEPestInput import QEPestInput
+from pythonQEPest.gui.utility.DataManager import DataManager
 
 
 class GUIActionsOther:
-    def __init__(self, root, data_tree, result_tree, save_button, qepest, file_data):
-        self.file_data = file_data
-        self.result_data: Treeview = []
+    def __init__(self, root, data_tree, result_tree, save_button, qepest):
+        self.data_manager = DataManager()
         self.root = root
-        self.data_tree: Treeview = data_tree
+        self.data_tree = data_tree
         self.result_tree = result_tree
         self.save_button = save_button
         self.qepest = qepest
@@ -23,16 +21,16 @@ class GUIActionsOther:
 
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
-                self.file_data = []
+                self.data_manager.clear_file()
                 self.data_tree.delete(*self.data_tree.get_children())
 
                 for idx, line in enumerate(file):
                     parts = line.strip().split('\t')
                     if len(parts) == 7:
-                        self.file_data.append((idx, *parts))
+                        self.data_manager.add_file((idx, *parts))
                         self.data_tree.insert('', 'end', values=(idx, *parts))
 
-            messagebox.showinfo("File uploaded", f"Loaded {len(self.file_data)} rows.")
+            messagebox.showinfo("File uploaded", f"Loaded {len(self.data_manager.file_data)} rows.")
         except Exception as e:
             messagebox.showerror("Loading error", str(e))
 
@@ -60,8 +58,8 @@ class GUIActionsOther:
                     return
                 values.append(val)
 
-            idx = len(self.file_data)
-            self.file_data.append((idx, *values))
+            idx = len(self.data_manager.file_data)
+            self.data_manager.add_file((idx, *values))
             self.data_tree.insert('', 'end', values=(idx, *values))
             form.destroy()
             messagebox.showinfo("Added", "The entry has been added. Process the data to update the result.")
@@ -71,22 +69,22 @@ class GUIActionsOther:
         form.wait_window()
 
     def process_data(self):
-        if not self.file_data:
+        if not self.data_manager.file_data:
             messagebox.showwarning("No data", "Please add or upload data first.")
             return
 
-        self.result_data = []
-        self.result_tree.delete(*self.result_tree.get_children())
+        # self.result_data = []
+        # self.result_tree.delete(*self.result_tree.get_children())
 
-        for row in self.file_data:
+        for row in self.data_manager.file_data:
             result_row = [row[0], *self.qepest.compute_params(QEPestInput.from_array(row[1:])).to_array()]
-            self.result_data.append(result_row)
+            self.data_manager.add_result(result_row)
             self.result_tree.insert('', 'end', values=result_row)
 
         self.save_button.config(state='normal')
 
     def save_result(self):
-        if not self.result_data:
+        if not self.data_manager.result_data:
             messagebox.showwarning("No result", "Process the data first.")
             return
 
@@ -97,7 +95,7 @@ class GUIActionsOther:
         try:
             with open(save_path, 'w', encoding='utf-8') as file:
                 file.write("Name\tQEH\tQEI\tQEF\n")
-                for row in self.result_data:
+                for row in self.data_manager.result_data:
                     file.write('\t'.join(map(str, row)) + '\n')
 
             messagebox.showinfo("Saved", f"The result is saved in: {save_path}")

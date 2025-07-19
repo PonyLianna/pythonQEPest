@@ -2,11 +2,13 @@ from tkinter import messagebox, ttk
 from pythonQEPest.gui.elements.EditWindow import EditWindow
 import pyperclip
 
+from pythonQEPest.gui.utility.DataManager import DataManager
+
 
 class GUIActionsCRUD:
-    def __init__(self, data_tree, result_tree, save_button, file_data, index):
+    def __init__(self, data_tree, result_tree, save_button, index):
         self.index = index
-        self.file_data = file_data
+        self.data_manager = DataManager()
         self.data_tree: ttk.Treeview = data_tree
         self.result_tree: ttk.Treeview = result_tree
         self.save_button = save_button
@@ -18,7 +20,7 @@ class GUIActionsCRUD:
             return
 
         item_id = selected[0]
-        EditWindow(item_id=item_id, tree=self.data_tree, child_tree=self.result_tree, file_data=self.file_data)
+        EditWindow(item_id=item_id, tree=self.data_tree, child_tree=self.result_tree)
 
     def copy_selected(self):
         selected = self.data_tree.selection()
@@ -48,7 +50,7 @@ class GUIActionsCRUD:
             parts = line.strip().split('\t')
             if len(parts) == 7:
                 idx = self.index
-                self.file_data.append((idx, *parts))
+                self.data_manager.add_file((idx, *parts))
                 self.data_tree.insert('', 'end', values=(idx, *parts))
                 count_added += 1
                 self.index += 1
@@ -62,18 +64,21 @@ class GUIActionsCRUD:
             messagebox.showwarning("Select Entry", "Select the entry to delete.")
             return
 
+        idxs_to_remove = []
         for item in selected:
             values = self.data_tree.item(item, 'values')
             idx_to_remove = int(values[0])
+            idxs_to_remove.append(idx_to_remove)
 
-            self.file_data[:] = [row for row in self.file_data if row[0] != idx_to_remove]
             self.data_tree.delete(item)
 
-            if self.result_tree.exists(item[0]):
+            if self.result_tree.exists(item):
                 self.result_tree.delete(item)
 
-        messagebox.showinfo("Deleted", "The selected records have been deleted. Please reprocess the data.")
-        # self.result_tree.delete(*self.result_tree.get_children())
+        self.data_manager.remove_result_by_ids(idxs_to_remove)
+        self.data_manager.remove_file_by_ids(idxs_to_remove)
 
-        if not len(self.file_data):
+        messagebox.showinfo("Deleted", "The selected records have been deleted.")
+
+        if not self.data_manager:
             self.save_button.config(state='disabled')

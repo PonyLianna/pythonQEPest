@@ -23,7 +23,7 @@ class ButtonsFrame(Frame):
         self.paste_button.pack(side='left', padx=4)
         self.process_data_button.pack(side='right', padx=10)
 
-        self.select_file_button.config(command=actions_other.save_result)
+        self.select_file_button.config(command=actions_other.load_file)
         self.add_entry_button.config(command=actions_other.add_entry)
         self.delete_selected_button.config(command=actions_crud.delete_selected)
         self.copy_button.config(command=actions_crud.copy_selected)
