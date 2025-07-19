@@ -1,3 +1,4 @@
+from typing import Union
 from pydantic import BaseModel
 
 
@@ -14,7 +15,7 @@ class QEPestInput(BaseModel):
     aromatic_rings: int = 0
 
     @classmethod
-    def from_array(cls, data: list):
+    def from_array(cls, data: Union[list, tuple, set]):
         if len(data) != 7:
             raise ValueError(f"Expected 7 elements, got {len(data)}")
         return cls(
