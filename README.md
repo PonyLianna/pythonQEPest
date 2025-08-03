@@ -4,6 +4,35 @@
 					xx              xx
 					xxxxxxxxxxxxxxxxxx
 
+# Introduction
+
+The rewritten version of Java QEPest. Made by PonyLianna (https://github.com/PonyLianna).
+
+## Installation
+
+You can use a .exe version (which you can find at https://github.com/PonyLianna/pythonQEPest/releases)
+or run it by yourself.
+
+To be able to do it you'll need `Python >3.12 + pip3` (https://www.python.org/downloads/)
+
+Further installation (I skip venv here):
+
+`pip install poetry`
+
+`poetry install`
+
+`python ./pythonQEPest/main.py`
+
+And you're ready to work with it! Just fill your data.txt with anything you want to process and execute this script.
+
+If you want a GUI: `python pythonQEPest/gui/gui.py`
+
+## Where to find original of this program?
+
+https://jcheminf.biomedcentral.com/articles/10.1186/s13321-014-0042-6#MOESM2
+
+# Original README.md
+
 QEPest is a free Java program addressing the filed of agrochemicals. It allows the scoring of molecules
 as herbicides (QEH), insecticides (QEI) and fungicides (QEF) according to pesticide class-specific scoring functions.
 
@@ -12,16 +41,18 @@ of the desirability functions has been performed using descriptors generated wit
 http://www.chemaxon.com). Hence, in order to assure maximum accuracy, we recommend the usage of ChemAxon’s logP.
 
 Before running QEPest.jar, please make sure:
+
 - Java Runtime Engine 1.6 or later installed is installed on your computer
 - The file "data.txt", containing the molecules to be scored, respects the structure as described below (### Input
-file ###)
-(tab sepatated file with header, each molecule in a different row)
+  file ###)
+  (tab sepatated file with header, each molecule in a different row)
 - QEPest.jar and data.txt are placed in the same directory
 
 ### Input file
 
 The input for QEPest consists of a tab-separated text file containing molecules (in rows) and seven columns (in this
 order):
+
 - molecule name (Name)
 - molecular weight (MW)
 - hydrophobicity (LogP)

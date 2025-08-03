@@ -1,3 +1,5 @@
+from typing import Union
+
 from pydantic import BaseModel
 
 
@@ -12,3 +14,17 @@ class QEPestInput(BaseModel):
 
     rotatable_bonds: int = 0
     aromatic_rings: int = 0
+
+    @classmethod
+    def from_array(cls, data: Union[list, tuple, set]):
+        if len(data) != 7:
+            raise ValueError(f"Expected 7 elements, got {len(data)}")
+        return cls(
+            name=data[0],
+            mol_weight=float(data[1]),
+            log_p=float(data[2]),
+            hbond_acceptors=int(data[3]),
+            hbond_donors=int(data[4]),
+            rotatable_bonds=int(data[5]),
+            aromatic_rings=int(data[6])
+        )
