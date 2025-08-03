@@ -24,15 +24,25 @@ class GUIActionsCRUD:
         EditWindow(item_id=item_id, tree=self.data_tree, child_tree=self.result_tree)
 
     def copy_selected(self, *args, **kwargs):
-        selected = self.data_tree.selection()
-        if not selected:
+        selected_data_tree = self.data_tree.selection()
+        selected_result_tree = self.result_tree.selection()
+
+        if not (selected_data_tree or selected_result_tree):
             messagebox.showwarning("Select Entry", "Select Entry for coping")
             return
 
         rows_text = []
-        for item in selected:
-            values = self.data_tree.item(item, 'values')[1:]  # без ID
-            rows_text.append('\t'.join(map(str, values)))
+        if selected_data_tree:
+            rows_text.append('\t'.join(map(str, ("ID", "Name", "MW", "LogP", "HBA", "HBD", "RB", "arR"))))
+            for item in selected_data_tree:
+                values = self.data_tree.item(item, 'values')[1:]
+                rows_text.append('\t'.join(map(str, values)))
+
+        if selected_result_tree:
+            rows_text.append('\t'.join(map(str, ("ID", "Name", "QEH", "QEI", "QEF"))))
+            for item in selected_result_tree:
+                values = self.result_tree.item(item, 'values')[1:]
+                rows_text.append('\t'.join(map(str, values)))
 
         data_str = '\n'.join(rows_text)
         pyperclip.copy(data_str)
