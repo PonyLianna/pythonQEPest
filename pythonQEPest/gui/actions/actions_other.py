@@ -77,7 +77,11 @@ class GUIActionsOther:
         # self.result_tree.delete(*self.result_tree.get_children())
 
         for row in self.data_manager.file_data:
-            result_row = [row[0], *self.qepest.compute_params(QEPestInput.from_array(row[1:])).to_array()]
+            try:
+                result_row = [row[0], *self.qepest.compute_params(QEPestInput.from_array(row[1:])).to_array()]
+            except ValueError as e:
+                messagebox.showwarning("Warning!", f"Line number: {row[0]}\n{str(e)}")
+                continue
             self.data_manager.add_result(result_row)
             self.result_tree.insert('', 'end', values=result_row)
 
