@@ -8,9 +8,6 @@
 
 The rewritten version of Java QEPest. Made by PonyLianna (https://github.com/PonyLianna).
 
-Doesn't have any UI kit in rewrote version but still does everything that was implemented in the original.
-I hope you'll enjoy it.
-
 ## Installation
 
 You can use a .exe version (which you can find at https://github.com/PonyLianna/pythonQEPest/releases)
@@ -18,15 +15,17 @@ or run it by yourself.
 
 To be able to do it you'll need `Python >3.12 + pip3` (https://www.python.org/downloads/)
 
-Further installation:
+Further installation (I skip venv here):
 
 `pip install poetry`
 
 `poetry install`
 
-`python ./pythonQEPest/python_qepest.py`
+`python ./pythonQEPest/main.py`
 
-And you're ready to work with it!
+And you're ready to work with it! Just fill your data.txt with anything you want to process and execute this script.
+
+If you want a GUI: `python pythonQEPest/gui/gui.py`
 
 ## Where to find original of this program?
 
