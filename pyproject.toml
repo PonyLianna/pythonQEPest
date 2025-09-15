@@ -14,7 +14,7 @@ pydantic = "2.11.7"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.1"
 pre-commit = "^4.3.0"
-pyinstaller = "^6.15.0"
+pyinstaller = "^6.16.0"
 poethepoet = "^0.36.0"
 
 [tool.poetry.group.ui.dependencies]
