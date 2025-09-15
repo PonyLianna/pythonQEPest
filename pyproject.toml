@@ -9,13 +9,14 @@ packages = [
 ]
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
-pydantic = "2.11.7"
+pydantic = "2.11.9"
+chardet = "^5.2.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.4.1"
+pytest = "^8.4.2"
 pre-commit = "^4.3.0"
-pyinstaller = "^6.15.0"
-poethepoet = "^0.36.0"
+pyinstaller = "^6.16.0"
+poethepoet = "^0.37.0"
 
 [tool.poetry.group.ui.dependencies]
 pyperclip = "^1.9.0"
