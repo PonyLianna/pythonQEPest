@@ -13,7 +13,7 @@ from pythonQEPest.helpers.round_to_4digs import round_to_4digs
 
 class QEPest(QEPestMeta):
     def compute_params(self, data_input: QEPestInput) -> QEPestOutput:
-        self.get_qex_values(get_values_from_line(list(data_input.dict().values())))
+        self.get_qex_values(get_values_from_line(list(data_input.model_dump().values())))
         return QEPestOutput(data=self.qex, name=data_input.name)
 
     def get_qex_values(self, d) -> None:
