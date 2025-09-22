@@ -10,13 +10,13 @@ packages = [
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
 pydantic = "2.11.9"
-chardet = "^5.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.2"
 pre-commit = "^4.3.0"
 pyinstaller = "^6.16.0"
-poethepoet = "^0.37.0"
+poethepoet = { version = "~0.37.0", extras = ["poetry_plugin"]}
+
 
 [tool.poetry.group.ui.dependencies]
 pyperclip = "^1.9.0"
@@ -26,5 +26,6 @@ requires = ["poetry-core>=1.0.0", "setuptools>=40.8.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
+test = "pytest"
 build-simple = "pyinstaller --onefile pythonQEPest/main.py"
 build-gui = "pyinstaller --onefile --noconsole pythonQEPest/gui/gui.py"
