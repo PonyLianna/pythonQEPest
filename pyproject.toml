@@ -1,31 +1,31 @@
 [project]
 name = "pythonQEPest"
-version = "1.1.2"
+version = "1.1.3"
 description = "The rewritten version of Java QEPest"
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
-authors = [
-    { name = "Lina", email = "knocker767@gmail.com" }
-]
-dependencies = [
-    "pydantic==2.12.5",
-    "python-dotenv>=1.2.1,<2.0.0"
-]
+authors = [{ name = "Lina", email = "knocker767@gmail.com" }]
+dependencies = ["pydantic==2.12.5", "python-dotenv>=1.2.1,<2.0.0"]
 
 [project.optional-dependencies]
 gui = ["pyperclip>=1.11.0,<2.0.0"]
 
+[project.scripts]
+pythonqepest = "pythonQEPest.cli.cli:main"
+
+[project.gui-scripts]
+pythonqepest-gui = "pythonQEPest.gui.gui:main"
+
 [tool.poetry]
-packages = [
-    { include = "pythonQEPest" }
-]
+packages = [{ include = "pythonQEPest" }]
 
 [dependency-groups]
 dev = [
     "pytest (>=9.0.0)",
     "pre-commit (>=4.3.0,<5.0.0)",
     "pyinstaller (>=6.18.0,<7.0.0)",
-    "poethepoet[poetry_plugin] (>=0.39.0)"
+    "poethepoet[poetry_plugin] (>=0.39.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)",
 ]
 
 [build-system]
