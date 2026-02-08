@@ -7,9 +7,9 @@ readme = "README.md"
 packages = [
     { include = "pythonQEPest" }
 ]
+
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
-
 pydantic = "2.12.5"
 python-dotenv = "^1.2.1"
 
