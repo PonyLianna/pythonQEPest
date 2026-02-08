@@ -1,5 +1,10 @@
 import tkinter as tk
 
+try:
+    import pyperclip
+except ImportError:
+    pyperclip = None
+
 from pythonQEPest.gui.actions import GUIActionsCRUD
 from pythonQEPest.gui.actions import GUIActionsClicks
 from pythonQEPest.gui.actions import GUIActionsOther
@@ -47,8 +52,9 @@ class GUI(QEPestMeta):
         self.save_button.set_actions(self.actions_other)
         self.menu.set_actions(self.actions_crud)
 
-        root.bind('<Control-v>', self.actions_crud.paste_entries)
-        root.bind('<Control-c>', self.actions_crud.copy_selected)
+        if pyperclip:
+            root.bind('<Control-v>', self.actions_crud.paste_entries)
+            root.bind('<Control-c>', self.actions_crud.copy_selected)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,8 @@
 from tkinter import Frame, Button
-
+try:
+    import pyperclip
+except ImportError:
+    pyperclip = None
 
 class ButtonsFrame(Frame):
     def __init__(self, root, *args, **kwargs):
@@ -23,6 +26,11 @@ class ButtonsFrame(Frame):
         self.add_entry_button.pack(side='left', padx=4)
         self.edit_entry_button.pack(side='left', padx=4)
         self.delete_selected_button.pack(side='left', padx=4)
+
+        if not pyperclip:
+            self.copy_button.config(state='disabled')
+            self.paste_button.config(state='disabled')
+
         self.copy_button.pack(side='left', padx=4)
         self.paste_button.pack(side='left', padx=4)
 
