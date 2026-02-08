@@ -1,7 +1,12 @@
+from __future__ import annotations
+
+import argparse
+import logging
+from typing import Sequence
+
 from pythonQEPest.core.qepest_meta import QEPestMeta
 from pythonQEPest.helpers.get_num_of_cols import get_num_of_cols
 from pythonQEPest.helpers.get_values_from_line import get_values_from_line
-import logging
 
 
 logger = logging.getLogger(__name__)
@@ -46,5 +51,35 @@ class CLI:
 
         except FileNotFoundError as e:
             self.qepest.noError = False
-            logger.error("Error: can't find : %s", input)
+            logger.error("Error: can't find : %s", self.qepest.input_file)
             logger.exception(e)
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="pythonqepest",
+        description="Compute QEPest scores from a tab-separated input file.",
+    )
+    parser.add_argument(
+        "-i",
+        "--input",
+        default="data.txt",
+        help="Path to input tab-separated file with QEPest descriptors (default: data.txt).",
+    )
+    return parser
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    from dotenv import load_dotenv
+
+    from pythonQEPest.core.qepest import QEPest
+    from pythonQEPest.logger import init_logger
+
+    args = build_parser().parse_args(argv)
+
+    load_dotenv()
+    init_logger()
+
+    cli = CLI(qepest=QEPest(dirname=args.input))
+    cli.read_file_and_compute_params()
+    return 0 if cli.qepest and cli.qepest.noError else 1

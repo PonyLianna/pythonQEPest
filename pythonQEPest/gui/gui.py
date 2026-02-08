@@ -1,5 +1,9 @@
 import tkinter as tk
 
+from dotenv import load_dotenv
+
+from pythonQEPest.logger import init_logger
+
 try:
     import pyperclip
 except ImportError:
@@ -33,18 +37,23 @@ class GUI(QEPestMeta):
         self.file_data = []
         self.index = 0
 
-        self.buttons_frame = ButtonsFrame(root=root)
-        self.data_tree = DataTree(root=root)
-        self.result_tree = ResultTree(root=root)
-        self.save_button = SaveButton(root=root)
-        self.menu = Menu(root=root)
+        self.buttons_frame = ButtonsFrame(root=self.root)
+        self.data_tree = DataTree(root=self.root)
+        self.result_tree = ResultTree(root=self.root)
+        self.save_button = SaveButton(root=self.root)
+        self.menu = Menu(root=self.root)
 
         self.actions_clicks = GUIActionsClicks(menu=self.menu)
         self.actions_crud = GUIActionsCRUD(data_tree=self.data_tree, result_tree=self.result_tree,
                                            save_button=self.save_button, index=self.index)
 
-        self.actions_other = GUIActionsOther(data_tree=self.data_tree, result_tree=self.result_tree, qepest=self.qepest,
-                                             root=self.root, save_button=self.save_button)
+        self.actions_other = GUIActionsOther(
+            data_tree=self.data_tree,
+            result_tree=self.result_tree,
+            qepest=self.qepest,
+            root=self.root,
+            save_button=self.save_button,
+        )
 
         self.buttons_frame.set_actions(self.actions_crud, self.actions_other)
         self.data_tree.set_actions(self.treeview_sort_column, self.actions_clicks)
@@ -53,11 +62,19 @@ class GUI(QEPestMeta):
         self.menu.set_actions(self.actions_crud)
 
         if pyperclip:
-            root.bind('<Control-v>', self.actions_crud.paste_entries)
-            root.bind('<Control-c>', self.actions_crud.copy_selected)
+            self.root.bind('<Control-v>', self.actions_crud.paste_entries)
+            self.root.bind('<Control-c>', self.actions_crud.copy_selected)
+
+
+def main() -> int:
+    load_dotenv()
+    init_logger()
+
+    root = tk.Tk()
+    GUI(root)
+    root.mainloop()
+    return 0
 
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    app = GUI(root)
-    root.mainloop()
+    raise SystemExit(main())
