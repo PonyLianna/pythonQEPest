@@ -1,6 +1,9 @@
 from tkinter import messagebox, ttk
 
-import pyperclip
+try:
+    import pyperclip
+except ImportError:
+    pyperclip = None
 
 from pythonQEPest.gui.elements.EditWindow import EditWindow
 from pythonQEPest.gui.utility.DataManager import DataManager
@@ -45,10 +48,19 @@ class GUIActionsCRUD:
                 rows_text.append('\t'.join(map(str, values)))
 
         data_str = '\n'.join(rows_text)
+
+        if not pyperclip:
+            messagebox.showerror("Error", "pyperclip module is not installed. Install it with command 'pip install .[gui]' or 'poetry install --with ui' to enable copy functionality.")
+            return
+
         pyperclip.copy(data_str)
         messagebox.showinfo("Copied", "Data copied to clipboard.")
 
     def paste_entries(self, *args, **kwargs):
+        if not pyperclip:
+            messagebox.showerror("Error", "pyperclip module is not installed. Install it with command 'pip install .[gui]' or 'poetry install --with ui' to enable copy functionality.")
+            return
+
         clipboard_text = pyperclip.paste()
         if not clipboard_text.strip():
             messagebox.showwarning("Clipboard is empty", "Copy the text first.")
