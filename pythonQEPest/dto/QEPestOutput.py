@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 from .QEPestData import QEPestData
@@ -5,7 +6,7 @@ from .QEPestData import QEPestData
 
 class QEPestOutput(BaseModel):
     data: QEPestData
-    name: str = ""
+    name: Optional[str] = ""
 
     def to_array(self) -> list:
         return [

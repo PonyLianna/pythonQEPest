@@ -1,6 +1,10 @@
 from pythonQEPest.core.qepest_meta import QEPestMeta
 from pythonQEPest.helpers.get_num_of_cols import get_num_of_cols
 from pythonQEPest.helpers.get_values_from_line import get_values_from_line
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class CLI:
@@ -19,7 +23,7 @@ class CLI:
                     if index == 0:
                         if get_num_of_cols(line) != self.qepest.col_number:
                             er = f"Error: Line {index} does not have seven elements."
-                            print(er)
+                            logger.error(er)
                             self.qepest.noError = False
                             break
                         wr.write("Name QEH QEI QEF\n")
@@ -30,18 +34,17 @@ class CLI:
                             splitted_line = line.split('\t')[0]
                             wr.write(
                                 f"{splitted_line} {self.qepest.qex.qe_h} {self.qepest.qex.qe_i} {self.qepest.qex.qe_f}{chr(10)}"
-                                # chr(10) = \n
                             )
                         else:
                             er = f"Error: Line {index} does not have seven elements."
-                            print(er)
+                            logger.error(er)
                             self.qepest.noError = False
                 if self.qepest.noError:
-                    print("Computation completed")
+                    logger.info("Computation completed")
                 else:
-                    print("Finished with errors")
+                    logger.warning("Finished with errors")
 
         except FileNotFoundError as e:
             self.qepest.noError = False
-            print(f"Error: can't find : {input}")
-            print(e)
+            logger.error("Error: can't find : %s", input)
+            logger.exception(e)

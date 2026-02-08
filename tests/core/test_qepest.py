@@ -4,7 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from pythonQEPest.core.qepest import QEPest
-from pythonQEPest.dto.QEPestInput import QEPestInput
+from pythonQEPest.dto import QEPestInput
 
 
 class TestQEPest:
