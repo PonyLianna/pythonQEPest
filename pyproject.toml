@@ -1,27 +1,32 @@
-[tool.poetry]
+[project]
 name = "pythonQEPest"
-version = "1.1.1"
-description = ""
-authors = ["Lina <knocker767@gmail.com>"]
+version = "1.1.2"
+description = "The rewritten version of Java QEPest"
 readme = "README.md"
+requires-python = ">=3.10,<3.13"
+authors = [
+    { name = "Lina", email = "knocker767@gmail.com" }
+]
+dependencies = [
+    "pydantic==2.12.5",
+    "python-dotenv>=1.2.1,<2.0.0"
+]
+
+[project.optional-dependencies]
+gui = ["pyperclip>=1.11.0,<2.0.0"]
+
+[tool.poetry]
 packages = [
     { include = "pythonQEPest" }
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<3.13"
-pydantic = "2.12.5"
-python-dotenv = "^1.2.1"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.4.2"
-pre-commit = "^4.3.0"
-pyinstaller = "^6.18.0"
-poethepoet = { version = "~0.37.0", extras = ["poetry_plugin"]}
-
-
-[tool.poetry.group.ui.dependencies]
-pyperclip = "^1.11.0"
+[dependency-groups]
+dev = [
+    "pytest (>=9.0.0)",
+    "pre-commit (>=4.3.0,<5.0.0)",
+    "pyinstaller (>=6.18.0,<7.0.0)",
+    "poethepoet[poetry_plugin] (>=0.39.0)"
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "setuptools>=40.8.0"]
