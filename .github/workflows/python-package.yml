@@ -53,4 +53,4 @@ jobs:
     - name: Install built wheel and smoke import
       run: |
         python -m pip install dist/*.whl
-        python -c "from pythonQEPest import QEPest, QEPestInput; QEPest().compute_params(QEPestInput())"
+        python -c "from pythonQEPest import QEPest, QEPestInput; QEPest().compute_params(QEPestInput(name='smoke', mol_weight=240.2127, log_p=3.2392, hbond_acceptors=5, hbond_donors=1, rotatable_bonds=4, aromatic_rings=1))"
