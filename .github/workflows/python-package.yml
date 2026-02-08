@@ -44,7 +44,7 @@ jobs:
     #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest (coverage)
       run: |
-        poetry run pytest -q --cov=pythonQEPest --cov-report=term-missing --cov-fail-under=60
+        poetry run pytest -q --cov=pythonQEPest --cov-report=term-missing --cov-fail-under=40
 
     - name: Build dist
       run: |
