@@ -40,6 +40,7 @@ def test_default_configuration(monkeypatch):
 def _logger_levels(monkeypatch, level: str, assert_level):
     _reset_logger()
 
+    monkeypatch.setenv("APP_DEBUG_ENABLE", "true")
     monkeypatch.setenv("LOG_LEVEL", level)
     init_logger()
 
@@ -61,6 +62,7 @@ def test_file_location(monkeypatch):
 
     # Test with custom LOG_FILE_LOCATION
     _reset_logger()
+    monkeypatch.setenv("APP_DEBUG_ENABLE", "true")
     monkeypatch.setenv("LOG_FILE_LOCATION", "test_logs/app.log")
 
     init_logger()
@@ -75,6 +77,7 @@ def test_file_location(monkeypatch):
 
     # Test with default LOG_FILE_LOCATION
     _reset_logger()
+    monkeypatch.setenv("APP_DEBUG_ENABLE", "true")
     monkeypatch.delenv("LOG_FILE_LOCATION", raising=False)
 
     init_logger()
