@@ -5,6 +5,10 @@ from pathlib import Path
 
 
 def init_logger() -> None:
+    # If debug mode is enabled, we want to log everything, otherwise we can skip logging
+    if os.getenv("APP_DEBUG_ENABLE", "true").lower() == "false":
+        return
+
     root_logger = logging.getLogger("pythonQEPest")
 
     log_file: str = os.getenv("LOG_FILE_LOCATION", "logs/app.log")
