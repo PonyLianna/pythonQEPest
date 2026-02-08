@@ -1,4 +1,6 @@
 import logging
+from pathlib import Path
+
 from pythonQEPest.logger import init_logger
 
 
@@ -31,8 +33,8 @@ def test_default_configuration(monkeypatch):
     assert logger.level == logging.INFO
     file_handlers = [h for h in logger.handlers if isinstance(h, logging.FileHandler)]
     assert file_handlers, "File handler should be configured"
-    assert file_handlers[0].baseFilename.endswith(
-        "\\logs\\app.log"
+    assert Path(file_handlers[0].baseFilename).as_posix().endswith(
+        "/logs/app.log"
     ), "Default LOG_FILE_LOCATION should be logs/app.log"
 
 def _logger_levels(monkeypatch, level: str, assert_level):
@@ -67,8 +69,8 @@ def test_file_location(monkeypatch):
     file_handlers = [h for h in logger.handlers if isinstance(h, logging.FileHandler)]
 
     assert file_handlers, "File handler should be configured"
-    assert file_handlers[0].baseFilename.endswith(
-        "\\test_logs\\app.log"
+    assert Path(file_handlers[0].baseFilename).as_posix().endswith(
+        "/test_logs/app.log"
     ), "File handler should use LOG_FILE_LOCATION"
 
     # Test with default LOG_FILE_LOCATION
@@ -81,8 +83,8 @@ def test_file_location(monkeypatch):
     file_handlers = [h for h in logger.handlers if isinstance(h, logging.FileHandler)]
 
     assert file_handlers, "File handler should be configured"
-    assert file_handlers[0].baseFilename.endswith(
-        "\\logs\\app.log"
+    assert Path(file_handlers[0].baseFilename).as_posix().endswith(
+        "/logs/app.log"
     ), "File handler should use LOG_FILE_LOCATION"
 
 
