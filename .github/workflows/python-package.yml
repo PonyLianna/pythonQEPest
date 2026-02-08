@@ -7,7 +7,8 @@ on:
   push:
     branches: [ "development" ]
   pull_request:
-    branches: [ "development" , "release" ]
+    branches: [ "development", "release" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,7 +23,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -33,13 +34,22 @@ jobs:
 
     - name: Install dependencies
       run: |
-        poetry install
+        poetry install --with dev
     # - name: Lint with flake8
     #   run: |
     #     # stop the build if there are Python syntax errors or undefined names
     #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
     #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
     #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+    - name: Test with pytest (coverage)
       run: |
-        poetry run poe test
+        poetry run pytest -q --cov=pythonQEPest --cov-report=term-missing --cov-fail-under=60
+
+    - name: Build dist
+      run: |
+        poetry build
+
+    - name: Install built wheel and smoke import
+      run: |
+        python -m pip install dist/*.whl
+        python -c "from pythonQEPest import QEPest, QEPestInput; QEPest().compute_params(QEPestInput())"
