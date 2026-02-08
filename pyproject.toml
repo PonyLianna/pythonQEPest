@@ -9,18 +9,19 @@ packages = [
 ]
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
-pydantic = "2.11.9"
+
+pydantic = "2.12.5"
 python-dotenv = "^1.2.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.2"
 pre-commit = "^4.3.0"
-pyinstaller = "^6.16.0"
+pyinstaller = "^6.18.0"
 poethepoet = { version = "~0.37.0", extras = ["poetry_plugin"]}
 
 
 [tool.poetry.group.ui.dependencies]
-pyperclip = "^1.10.0"
+pyperclip = "^1.11.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "setuptools>=40.8.0"]
