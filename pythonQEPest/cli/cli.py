@@ -4,8 +4,9 @@ import argparse
 import logging
 from typing import Sequence
 
-from pythonQEPest.core.qepest_meta import QEPestMeta
-from pythonQEPest.helpers.get_num_of_cols import get_num_of_cols
+from pythonQEPest.core import QEPestMeta
+from pythonQEPest.dto import QEPestFile
+from pythonQEPest.helpers import get_num_of_cols
 from pythonQEPest.helpers.get_values_from_line import get_values_from_line
 
 
@@ -15,15 +16,16 @@ logger = logging.getLogger(__name__)
 class CLI:
     qepest: QEPestMeta | None = None
 
-    def __init__(self, qepest: QEPestMeta):
+    def __init__(self, qepest: QEPestMeta, qepest_file: QEPestFile):
         self.qepest = qepest
+        self.qepest_file = qepest_file
 
     def read_file_and_compute_params(self):
         try:
-            with open(self.qepest.input_file, "r") as file:
+            with open(self.qepest_file.input_file, "r") as file:
                 lines = file.readlines()
 
-            with open(f"{self.qepest.input_file}.out", "w") as wr:
+            with open(self.qepest_file.output_file, "w") as wr:
                 for index, line in enumerate(lines):
                     if index == 0:
                         if get_num_of_cols(line) != self.qepest.col_number:
@@ -51,7 +53,7 @@ class CLI:
 
         except FileNotFoundError as e:
             self.qepest.noError = False
-            logger.error("Error: can't find : %s", self.qepest.input_file)
+            logger.error("Error: can't find : %s", self.qepest_file.input_file)
             logger.exception(e)
 
 
@@ -65,6 +67,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--input",
         default="data.txt",
         help="Path to input tab-separated file with QEPest descriptors (default: data.txt).",
+    )
+
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="data.txt.out",
+        help="Path to output tab-separated file with QEPest descriptors (default: data.txt).",
     )
     return parser
 
@@ -80,6 +89,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     load_dotenv()
     init_logger()
 
-    cli = CLI(qepest=QEPest(dirname=args.input))
+    cli = CLI(qepest=QEPest(), qepest_file=QEPestFile(input_file=args.input, output_file=args.output))
     cli.read_file_and_compute_params()
+
     return 0 if cli.qepest and cli.qepest.noError else 1
