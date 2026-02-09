@@ -12,15 +12,18 @@ def test_public_api_compute_smoke():
     model = QEPest()
     payload = QEPestInput(
         name="mol1",
-        mol_weight=240.2127,
-        log_p=3.2392,
-        hbond_acceptors=5,
+        mol_weight=308.354,
+        log_p=2.1086,
+        hbond_acceptors=2,
         hbond_donors=1,
         rotatable_bonds=4,
         aromatic_rings=1,
     )
+
     result = model.compute_params(payload)
 
     assert isinstance(result, QEPestOutput)
     assert isinstance(result.data, QEPestData)
+
     assert result.name == "mol1"
+    assert result.data == QEPestData(qe_h=0.9357, qe_i=0.7146, qe_f=0.8022)
