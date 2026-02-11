@@ -32,6 +32,11 @@ dev = [
 requires = ["poetry-core>=1.0.0", "setuptools>=40.8.0"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [".venv", ".git", "__pycache__", "build", "dist"]
+
 [tool.poe.tasks]
 test = "pytest"
 build-simple = "pyinstaller --onefile pythonQEPest/main.py"

@@ -33,8 +33,17 @@ class TestPublicAPI:
     @pytest.mark.skip(reason="Need to find optional approach")
     def test_helpers_imports(self):
         try:
-            from pythonQEPest.helpers import check_nan, get_values_from_line, get_num_of_cols, round_to_4digs, norm_h, \
-                norm_f, norm_i, compute_df
+            from pythonQEPest.helpers import (
+                check_nan,
+                get_values_from_line,
+                get_num_of_cols,
+                round_to_4digs,
+                norm_h,
+                norm_f,
+                norm_i,
+                compute_df,
+            )
+
             assert check_nan is not None
             assert get_values_from_line is not None
             assert get_num_of_cols is not None

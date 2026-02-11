@@ -10,7 +10,7 @@ class ButtonsFrame(Frame):
     def __init__(self, root, *args, **kwargs):
         super().__init__(root, *args, **kwargs)
 
-        self.pack(anchor='w', fill='x', pady=5)
+        self.pack(anchor="w", fill="x", pady=5)
 
         # TODO: select_file must have an option for CSV
         self.select_file_button = Button(self, text="Select File")
@@ -24,20 +24,20 @@ class ButtonsFrame(Frame):
         self.clear_button = Button(self, text="Clear Data")
 
     def set_actions(self, actions_crud, actions_other):
-        self.select_file_button.pack(side='left', padx=(10, 4))
-        self.add_entry_button.pack(side='left', padx=4)
-        self.edit_entry_button.pack(side='left', padx=4)
-        self.delete_selected_button.pack(side='left', padx=4)
+        self.select_file_button.pack(side="left", padx=(10, 4))
+        self.add_entry_button.pack(side="left", padx=4)
+        self.edit_entry_button.pack(side="left", padx=4)
+        self.delete_selected_button.pack(side="left", padx=4)
 
         if not pyperclip:
-            self.copy_button.config(state='disabled')
-            self.paste_button.config(state='disabled')
+            self.copy_button.config(state="disabled")
+            self.paste_button.config(state="disabled")
 
-        self.copy_button.pack(side='left', padx=4)
-        self.paste_button.pack(side='left', padx=4)
+        self.copy_button.pack(side="left", padx=4)
+        self.paste_button.pack(side="left", padx=4)
 
-        self.process_data_button.pack(side='right', padx=(4, 10))
-        self.clear_button.pack(side='right', padx=4)
+        self.process_data_button.pack(side="right", padx=(4, 10))
+        self.clear_button.pack(side="right", padx=4)
 
         self.select_file_button.config(command=actions_other.load_file)
         self.add_entry_button.config(command=actions_other.add_entry)

@@ -22,16 +22,18 @@ from pythonQEPest.gui.gui_meta import QEPestMeta
 
 class GUI(QEPestMeta):
     def treeview_sort_column(self, treeview, col, reverse):
-        l = [(treeview.set(k, col), k) for k in treeview.get_children('')]
+        treeview_lst = [(treeview.set(k, col), k) for k in treeview.get_children("")]
         try:
-            l.sort(key=lambda t: float(t[0]), reverse=reverse)
+            treeview_lst.sort(key=lambda t: float(t[0]), reverse=reverse)
         except ValueError:
-            l.sort(key=lambda t: t[0], reverse=reverse)
+            treeview_lst.sort(key=lambda t: t[0], reverse=reverse)
 
-        for index, (val, k) in enumerate(l):
-            treeview.move(k, '', index)
+        for index, (_, k) in enumerate(treeview_lst):
+            treeview.move(k, "", index)
 
-        treeview.heading(col, command=lambda: self.treeview_sort_column(treeview, col, not reverse))
+        treeview.heading(
+            col, command=lambda: self.treeview_sort_column(treeview, col, not reverse)
+        )
 
     def build_gui(self):
         self.file_data = []
@@ -44,8 +46,12 @@ class GUI(QEPestMeta):
         self.menu = Menu(root=self.root)
 
         self.actions_clicks = GUIActionsClicks(menu=self.menu)
-        self.actions_crud = GUIActionsCRUD(data_tree=self.data_tree, result_tree=self.result_tree,
-                                           save_button=self.save_button, index=self.index)
+        self.actions_crud = GUIActionsCRUD(
+            data_tree=self.data_tree,
+            result_tree=self.result_tree,
+            save_button=self.save_button,
+            index=self.index,
+        )
 
         self.actions_other = GUIActionsOther(
             data_tree=self.data_tree,
@@ -62,8 +68,8 @@ class GUI(QEPestMeta):
         self.menu.set_actions(self.actions_crud)
 
         if pyperclip:
-            self.root.bind('<Control-v>', self.actions_crud.paste_entries)
-            self.root.bind('<Control-c>', self.actions_crud.copy_selected)
+            self.root.bind("<Control-v>", self.actions_crud.paste_entries)
+            self.root.bind("<Control-c>", self.actions_crud.copy_selected)
 
 
 def main() -> int:
@@ -76,5 +82,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())

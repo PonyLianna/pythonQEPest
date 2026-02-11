@@ -30,11 +30,12 @@ class GUIActionsClicks:
         if not col:
             return
 
-        col_index = int(col.replace('#', '')) - 1
-        col_id = widget['columns'][col_index]
+        col_index = int(col.replace("#", "")) - 1
+        col_id = widget["columns"][col_index]
 
         max_width = max(
-            [len(str(widget.set(k, col_id))) for k in widget.get_children('')] + [len(col_id)]
+            [len(str(widget.set(k, col_id))) for k in widget.get_children("")]
+            + [len(col_id)]
         )
 
         pixel_width = max_width * 8

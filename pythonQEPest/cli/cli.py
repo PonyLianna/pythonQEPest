@@ -41,7 +41,9 @@ class CLI:
                             self.qepest.get_qex_values(d_values)
                             splitted_line = line.split("\t")[0]
                             wr.write(
-                                f"{splitted_line} {self.qepest.qex.qe_h} {self.qepest.qex.qe_i} {self.qepest.qex.qe_f}{chr(10)}"
+                                f"{splitted_line} {self.qepest.qex.qe_h} "
+                                + f"{self.qepest.qex.qe_i} {self.qepest.qex.qe_f}"
+                                + f"{chr(10)}"
                             )
                         else:
                             er = f"Error: Line {index} does not have seven elements."
@@ -57,6 +59,7 @@ class CLI:
             logger.error("Error: can't find : %s", self.qepest_file.input_file)
             logger.exception(e)
 
+
 def _resolve_package_version() -> str:
     try:
         return version("pythonQEPest")
@@ -65,6 +68,7 @@ def _resolve_package_version() -> str:
 
     try:
         import tomllib  # py3.11+
+
         pyproject = Path(__file__).resolve().parents[2] / "pyproject.toml"
         data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
         return data["project"]["version"]
@@ -88,14 +92,16 @@ def build_parser() -> argparse.ArgumentParser:
         "-i",
         "--input",
         default="data.txt",
-        help="Path to input tab-separated file with QEPest descriptors (default: data.txt).",
+        help="Path to input tab-separated file with "
+        + "QEPest descriptors (default: data.txt).",
     )
 
     parser.add_argument(
         "-o",
         "--output",
         default="data.txt.out",
-        help="Path to output tab-separated file with QEPest descriptors (default: data.txt).",
+        help="Path to output tab-separated file with "
+        + "QEPest descriptors (default: data.txt.out).",
     )
     return parser
 
