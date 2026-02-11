@@ -1,5 +1,7 @@
 import pytest
+
 from pythonQEPest import QEPest, QEPestData, QEPestInput, QEPestOutput
+
 
 class TestPublicAPI:
     def test_public_api_symbols_are_importable(self):
@@ -7,7 +9,6 @@ class TestPublicAPI:
         assert QEPestInput is not None
         assert QEPestOutput is not None
         assert QEPestData is not None
-
 
     def test_public_api_compute_smoke(self):
         model = QEPest()
@@ -32,7 +33,8 @@ class TestPublicAPI:
     @pytest.mark.optional
     def test_helpers_imports(self):
         try:
-            from pythonQEPest.helpers import check_nan, get_values_from_line, get_num_of_cols, round_to_4digs, norm_h, norm_f, norm_i, compute_df
+            from pythonQEPest.helpers import check_nan, get_values_from_line, get_num_of_cols, round_to_4digs, norm_h, \
+                norm_f, norm_i, compute_df
             assert check_nan is not None
             assert get_values_from_line is not None
             assert get_num_of_cols is not None

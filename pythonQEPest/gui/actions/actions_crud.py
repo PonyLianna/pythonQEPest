@@ -50,7 +50,8 @@ class GUIActionsCRUD:
         data_str = '\n'.join(rows_text)
 
         if not pyperclip:
-            messagebox.showerror("Error", "pyperclip module is not installed. Install it with command 'pip install .[gui]' or 'poetry install --with ui' to enable copy functionality.")
+            messagebox.showerror("Error",
+                                 "pyperclip module is not installed. Install it with command 'pip install .[gui]' or 'poetry install --with ui' to enable copy functionality.")
             return
 
         pyperclip.copy(data_str)
@@ -58,7 +59,8 @@ class GUIActionsCRUD:
 
     def paste_entries(self, *args, **kwargs):
         if not pyperclip:
-            messagebox.showerror("Error", "pyperclip module is not installed. Install it with command 'pip install .[gui]' or 'poetry install --with ui' to enable copy functionality.")
+            messagebox.showerror("Error",
+                                 "pyperclip module is not installed. Install it with command 'pip install .[gui]' or 'poetry install --with ui' to enable copy functionality.")
             return
 
         clipboard_text = pyperclip.paste()

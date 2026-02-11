@@ -2,15 +2,13 @@ from __future__ import annotations
 
 import argparse
 import logging
-from typing import Sequence
-
 from importlib.metadata import version
+from typing import Sequence
 
 from pythonQEPest.core import QEPestMeta
 from pythonQEPest.dto import QEPestFile
 from pythonQEPest.helpers import get_num_of_cols
 from pythonQEPest.helpers.get_values_from_line import get_values_from_line
-
 
 logger = logging.getLogger(__name__)
 

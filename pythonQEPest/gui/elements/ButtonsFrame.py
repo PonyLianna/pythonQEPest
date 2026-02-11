@@ -1,8 +1,10 @@
 from tkinter import Frame, Button
+
 try:
     import pyperclip
 except ImportError:
     pyperclip = None
+
 
 class ButtonsFrame(Frame):
     def __init__(self, root, *args, **kwargs):

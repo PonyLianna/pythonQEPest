@@ -4,6 +4,7 @@ from pathlib import Path
 from pythonQEPest.logger import init_logger
 
 
+# TODO: Locations must be temporary
 class TestLogger:
     def _reset_logger(self):
         logger = logging.getLogger("pythonQEPest")

@@ -11,7 +11,7 @@ class TestQEPestFile:
         QEPestFile = self._import_qepest_file()
 
         assert (
-            QEPestFile is not None
+                QEPestFile is not None
         ), "QEPestFile should be importable from pythonQEPest.dto"
 
     def test_qepest_file_standard(self):

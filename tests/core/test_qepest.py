@@ -58,7 +58,6 @@ class TestQEPest:
             self.make_input(mw=float('nan'), logp=float('nan'), hba=float('nan'),
                             hbd=float('nan'), rb=float('nan'), ar=float('nan'))
 
-
     def test_qepest_compare_with_original(self):
         qep = QEPest()
 
