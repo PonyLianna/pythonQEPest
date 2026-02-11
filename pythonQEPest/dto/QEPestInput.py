@@ -26,5 +26,5 @@ class QEPestInput(BaseModel):
             hbond_acceptors=int(data[3]),
             hbond_donors=int(data[4]),
             rotatable_bonds=int(data[5]),
-            aromatic_rings=int(data[6])
+            aromatic_rings=int(data[6]),
         )

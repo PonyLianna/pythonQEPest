@@ -5,7 +5,7 @@ from pythonQEPest.dto import QEPestInput, QEPestOutput, QEPestData
 
 
 class QEPestMeta(ABC):
-    def __init__(self, dirname="data.txt"):
+    def __init__(self):
         self.qex: QEPestData | None = None
 
         self.herb: list[float] = []
@@ -16,8 +16,6 @@ class QEPestMeta(ABC):
         self.dir: str = os.getcwd()
 
         self.initialize_coefficients()
-
-        self.input_file = os.path.join(self.dir, dirname)
 
         self.noError: bool = True
 

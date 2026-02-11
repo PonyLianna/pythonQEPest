@@ -17,7 +17,7 @@ class TestQEPest:
             hbond_acceptors=hba,
             hbond_donors=hbd,
             rotatable_bonds=rb,
-            aromatic_rings=ar
+            aromatic_rings=ar,
         )
 
     def test_qepest_compute_params_basic(self):
@@ -55,15 +55,21 @@ class TestQEPest:
         qep = QEPest()
         qep.initialize_coefficients()
         with pytest.raises(ValidationError):
-            self.make_input(mw=float('nan'), logp=float('nan'), hba=float('nan'),
-                            hbd=float('nan'), rb=float('nan'), ar=float('nan'))
-
+            self.make_input(
+                mw=float("nan"),
+                logp=float("nan"),
+                hba=float("nan"),
+                hbd=float("nan"),
+                rb=float("nan"),
+                ar=float("nan"),
+            )
 
     def test_qepest_compare_with_original(self):
         qep = QEPest()
 
         result = qep.compute_params(
-            self.make_input("mol1", 240.2127, 3.2392, 5, 1, 4, 1))
+            self.make_input("mol1", 240.2127, 3.2392, 5, 1, 4, 1)
+        )
         assert result.name == "mol1"
 
         assert result.data.qe_h == 0.8511
@@ -72,7 +78,8 @@ class TestQEPest:
         assert result.to_array() == ["mol1", 0.8511, 0.5339, 0.6224]
 
         result = qep.compute_params(
-            self.make_input("mol2", 249.091, 3.0273, 3, 1, 5, 1))
+            self.make_input("mol2", 249.091, 3.0273, 3, 1, 5, 1)
+        )
         assert result.name == "mol2"
         assert result.data.qe_h == 0.975
         assert result.data.qe_i == 0.6913
@@ -80,7 +87,8 @@ class TestQEPest:
         assert result.to_array() == ["mol2", 0.975, 0.6913, 0.731]
 
         result = qep.compute_params(
-            self.make_input("mol3", 308.354, 2.1086, 1, 0, 7, 1))
+            self.make_input("mol3", 308.354, 2.1086, 1, 0, 7, 1)
+        )
         assert result.name == "mol3"
         assert result.data.qe_h == 0.798
         assert result.data.qe_i == 0.9018
@@ -88,7 +96,8 @@ class TestQEPest:
         assert result.to_array() == ["mol3", 0.798, 0.9018, 0.732]
 
         result = qep.compute_params(
-            self.make_input("mol4", 360.444, 4.0137, 3, 0, 8, 0))
+            self.make_input("mol4", 360.444, 4.0137, 3, 0, 8, 0)
+        )
         assert result.name == "mol4"
         assert result.data.qe_h == 0.5839
         assert result.data.qe_i == 0.8382
@@ -96,7 +105,8 @@ class TestQEPest:
         assert result.to_array() == ["mol4", 0.5839, 0.8382, 0.6594]
 
         result = qep.compute_params(
-            self.make_input("mol5", 295.335, 4.9335, 2, 0, 1, 1))
+            self.make_input("mol5", 295.335, 4.9335, 2, 0, 1, 1)
+        )
         assert result.name == "mol5"
         assert result.data.qe_h == 0.8099
         assert result.data.qe_i == 0.8118

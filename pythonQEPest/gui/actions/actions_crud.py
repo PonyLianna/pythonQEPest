@@ -36,21 +36,30 @@ class GUIActionsCRUD:
 
         rows_text = []
         if selected_data_tree:
-            rows_text.append('\t'.join(map(str, ("ID", "Name", "MW", "LogP", "HBA", "HBD", "RB", "arR"))))
+            rows_text.append(
+                "\t".join(
+                    map(str, ("ID", "Name", "MW", "LogP", "HBA", "HBD", "RB", "arR"))
+                )
+            )
             for item in selected_data_tree:
-                values = self.data_tree.item(item, 'values')[1:]
-                rows_text.append('\t'.join(map(str, values)))
+                values = self.data_tree.item(item, "values")[1:]
+                rows_text.append("\t".join(map(str, values)))
 
         if selected_result_tree:
-            rows_text.append('\t'.join(map(str, ("ID", "Name", "QEH", "QEI", "QEF"))))
+            rows_text.append("\t".join(map(str, ("ID", "Name", "QEH", "QEI", "QEF"))))
             for item in selected_result_tree:
-                values = self.result_tree.item(item, 'values')[1:]
-                rows_text.append('\t'.join(map(str, values)))
+                values = self.result_tree.item(item, "values")[1:]
+                rows_text.append("\t".join(map(str, values)))
 
-        data_str = '\n'.join(rows_text)
+        data_str = "\n".join(rows_text)
 
         if not pyperclip:
-            messagebox.showerror("Error", "pyperclip module is not installed. Install it with command 'pip install .[gui]' or 'poetry install --with ui' to enable copy functionality.")
+            messagebox.showerror(
+                "Error",
+                "pyperclip module is not installed. Install it with command"
+                + "'pip install .[gui]' or 'poetry install --with ui'"
+                + "to enable copy functionality.",
+            )
             return
 
         pyperclip.copy(data_str)
@@ -58,7 +67,12 @@ class GUIActionsCRUD:
 
     def paste_entries(self, *args, **kwargs):
         if not pyperclip:
-            messagebox.showerror("Error", "pyperclip module is not installed. Install it with command 'pip install .[gui]' or 'poetry install --with ui' to enable copy functionality.")
+            messagebox.showerror(
+                "Error",
+                "pyperclip module is not installed. Install it with command"
+                + "'pip install .[gui]' or 'poetry install --with ui'"
+                + "to enable copy functionality.",
+            )
             return
 
         clipboard_text = pyperclip.paste()
@@ -70,16 +84,19 @@ class GUIActionsCRUD:
         count_added = 0
 
         for line in lines:
-            parts = line.strip().split('\t')
+            parts = line.strip().split("\t")
             if len(parts) == 7:
                 idx = self.index
                 self.data_manager.add_file((idx, *parts))
-                self.data_tree.insert('', 'end', values=(idx, *parts))
+                self.data_tree.insert("", "end", values=(idx, *parts))
                 count_added += 1
                 self.index += 1
 
         if count_added:
-            messagebox.showinfo("Inserted", f"Inserted {count_added} entries. Don't forget to process the data.")
+            messagebox.showinfo(
+                "Inserted",
+                f"Inserted {count_added} entries. Don't forget to process the data.",
+            )
 
     def delete_selected(self, *args, **kwargs):
         selected = self.data_tree.selection()
@@ -89,7 +106,7 @@ class GUIActionsCRUD:
 
         idxs_to_remove = []
         for item in selected:
-            values = self.data_tree.item(item, 'values')
+            values = self.data_tree.item(item, "values")
             idx_to_remove = int(values[0])
             idxs_to_remove.append(idx_to_remove)
 
@@ -104,7 +121,7 @@ class GUIActionsCRUD:
         messagebox.showinfo("Deleted", "The selected records have been deleted.")
 
         if not self.data_manager:
-            self.save_button.config(state='disabled')
+            self.save_button.config(state="disabled")
 
     def clear_everything(self, *args, **kwargs):
         self.data_manager.clear_file()
