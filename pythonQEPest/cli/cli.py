@@ -4,6 +4,8 @@ import argparse
 import logging
 from typing import Sequence
 
+from importlib.metadata import version
+
 from pythonQEPest.core import QEPestMeta
 from pythonQEPest.dto import QEPestFile
 from pythonQEPest.helpers import get_num_of_cols
@@ -38,7 +40,7 @@ class CLI:
                         if get_num_of_cols(line) == self.qepest.col_number:
                             d_values = get_values_from_line(line.split("\t"))
                             self.qepest.get_qex_values(d_values)
-                            splitted_line = line.split('\t')[0]
+                            splitted_line = line.split("\t")[0]
                             wr.write(
                                 f"{splitted_line} {self.qepest.qex.qe_h} {self.qepest.qex.qe_i} {self.qepest.qex.qe_f}{chr(10)}"
                             )
@@ -61,6 +63,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="pythonqepest",
         description="Compute QEPest scores from a tab-separated input file.",
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=f"%(prog)s {version('pythonQEPest')}",
+        help="Show program's version number.",
     )
     parser.add_argument(
         "-i",
@@ -89,7 +98,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     load_dotenv()
     init_logger()
 
-    cli = CLI(qepest=QEPest(), qepest_file=QEPestFile(input_file=args.input, output_file=args.output))
+    cli = CLI(
+        qepest=QEPest(),
+        qepest_file=QEPestFile(input_file=args.input, output_file=args.output),
+    )
     cli.read_file_and_compute_params()
 
     return 0 if cli.qepest and cli.qepest.noError else 1
