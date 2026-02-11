@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import argparse
 import logging
-from importlib.metadata import version
+from importlib.metadata import PackageNotFoundError, version
+from pathlib import Path
 from typing import Sequence
 
 from pythonQEPest.core import QEPestMeta
@@ -56,6 +57,20 @@ class CLI:
             logger.error("Error: can't find : %s", self.qepest_file.input_file)
             logger.exception(e)
 
+def _resolve_package_version() -> str:
+    try:
+        return version("pythonQEPest")
+    except PackageNotFoundError:
+        pass
+
+    try:
+        import tomllib  # py3.11+
+        pyproject = Path(__file__).resolve().parents[2] / "pyproject.toml"
+        data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+        return data["project"]["version"]
+    except Exception:
+        return "0+unknown"
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -66,7 +81,7 @@ def build_parser() -> argparse.ArgumentParser:
         "-v",
         "--version",
         action="version",
-        version=f"%(prog)s {version('pythonQEPest')}",
+        version=f"%(prog)s {_resolve_package_version()}",
         help="Show program's version number.",
     )
     parser.add_argument(
