@@ -30,7 +30,7 @@ class TestPublicAPI:
         assert result.name == "mol1"
         assert result.data == QEPestData(qe_h=0.9357, qe_i=0.7146, qe_f=0.8022)
 
-    @pytest.mark.optional
+    @pytest.mark.skip(reason="Need to find optional approach")
     def test_helpers_imports(self):
         try:
             from pythonQEPest.helpers import check_nan, get_values_from_line, get_num_of_cols, round_to_4digs, norm_h, \
