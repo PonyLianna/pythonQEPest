@@ -1,6 +1,5 @@
 import os
 from abc import abstractmethod, ABC
-
 from pythonQEPest.dto import QEPestInput, QEPestOutput, QEPestData
 
 
@@ -16,8 +15,6 @@ class QEPestMeta(ABC):
         self.dir: str = os.getcwd()
 
         self.initialize_coefficients()
-
-        self.noError: bool = True
 
     @abstractmethod
     def compute_params(self, data_input: QEPestInput) -> QEPestOutput:

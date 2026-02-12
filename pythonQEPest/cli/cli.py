@@ -21,6 +21,8 @@ class CLI:
         self.qepest = qepest
         self.qepest_file = qepest_file
 
+        self.error: bool = False
+
     def read_file_and_compute_params(self):
         try:
             with open(self.qepest_file.input_file, "r") as file:
@@ -32,8 +34,10 @@ class CLI:
                         if get_num_of_cols(line) != self.qepest.col_number:
                             er = f"Error: Line {index} does not have seven elements."
                             logger.error(er)
-                            self.qepest.noError = False
+
+                            self.error = True
                             break
+
                         wr.write("Name QEH QEI QEF\n")
                     else:
                         if get_num_of_cols(line) == self.qepest.col_number:
@@ -48,14 +52,16 @@ class CLI:
                         else:
                             er = f"Error: Line {index} does not have seven elements."
                             logger.error(er)
-                            self.qepest.noError = False
-                if self.qepest.noError:
+
+                            self.error = True
+                if not self.error:
                     logger.info("Computation completed")
                 else:
                     logger.warning("Finished with errors")
 
         except FileNotFoundError as e:
-            self.qepest.noError = False
+            self.error = True
+
             logger.error("Error: can't find : %s", self.qepest_file.input_file)
             logger.exception(e)
 
@@ -123,4 +129,4 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     cli.read_file_and_compute_params()
 
-    return 0 if cli.qepest and cli.qepest.noError else 1
+    return 0 if not cli.error else 1
