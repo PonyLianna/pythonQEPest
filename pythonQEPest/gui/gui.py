@@ -20,6 +20,7 @@ from pythonQEPest.gui.elements.SaveButton import SaveButton
 from pythonQEPest.gui.gui_meta import QEPestMeta
 
 
+# TODO: Outdated. Must be dynamic
 class GUI(QEPestMeta):
     def treeview_sort_column(self, treeview, col, reverse):
         treeview_lst = [(treeview.set(k, col), k) for k in treeview.get_children("")]
