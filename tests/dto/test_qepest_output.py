@@ -21,7 +21,9 @@ class TestQEPestOutput:
         qepest_data = QEPestData(qe_h=self.qe_h, qe_i=self.qe_i, qe_f=self.qe_f)
         qepest_output = QEPestOutput(name=self.name, data=qepest_data)
 
-        new_qepest_data = QEPestData(qe_h=self.new_qe_h, qe_i=self.new_qe_i, qe_f=self.new_qe_f)
+        new_qepest_data = QEPestData(
+            qe_h=self.new_qe_h, qe_i=self.new_qe_i, qe_f=self.new_qe_f
+        )
 
         qepest_output.name = self.new_name
         qepest_output.data = new_qepest_data

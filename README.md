@@ -13,7 +13,7 @@ The rewritten version of Java QEPest. Made by PonyLianna (https://github.com/Pon
 You can use a .exe version (which you can find at https://github.com/PonyLianna/pythonQEPest/releases)
 or run it by yourself.
 
-To be able to do it you'll need `Python >3.12 + pip3` (https://www.python.org/downloads/)
+To be able to do it you'll need `Python >3.10 + pip3` (https://www.python.org/downloads/)
 
 Further installation (I skip venv here):
 

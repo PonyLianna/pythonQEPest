@@ -26,9 +26,15 @@ class TestQEPestInput:
         assert qepest_input.aromatic_rings == 0
 
     def test_qepest_input_with_changing(self):
-        qepest_input = QEPestInput(name=self.name, mol_weight=self.mol_weight, log_p=self.log_p,
-                                   hbond_acceptors=self.hbond_acceptors, hbond_donors=self.hbond_donors,
-                                   rotatable_bonds=self.rotatable_bonds, aromatic_rings=self.aromatic_rings)
+        qepest_input = QEPestInput(
+            name=self.name,
+            mol_weight=self.mol_weight,
+            log_p=self.log_p,
+            hbond_acceptors=self.hbond_acceptors,
+            hbond_donors=self.hbond_donors,
+            rotatable_bonds=self.rotatable_bonds,
+            aromatic_rings=self.aromatic_rings,
+        )
 
         assert qepest_input.name == self.name
 
@@ -42,8 +48,15 @@ class TestQEPestInput:
         assert qepest_input.aromatic_rings == self.aromatic_rings
 
     def test_qepest_output_functions(self):
-        arr = (self.name, self.mol_weight, self.log_p, self.hbond_acceptors,
-               self.hbond_donors, self.rotatable_bonds, self.aromatic_rings)
+        arr = (
+            self.name,
+            self.mol_weight,
+            self.log_p,
+            self.hbond_acceptors,
+            self.hbond_donors,
+            self.rotatable_bonds,
+            self.aromatic_rings,
+        )
 
         qepest_input = QEPestInput.from_array(arr)
 

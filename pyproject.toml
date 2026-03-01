@@ -1,29 +1,43 @@
-[tool.poetry]
+[project]
 name = "pythonQEPest"
-version = "1.1.0"
-description = ""
-authors = ["Lina <knocker767@gmail.com>"]
+version = "1.4.0"
+description = "Java QEPest in Python"
 readme = "README.md"
-packages = [
-    { include = "pythonQEPest" }
+requires-python = ">=3.12,<3.15"
+authors = [{ name = "Lina", email = "knocker767@gmail.com" }]
+dependencies = ["pydantic==2.12.5", "python-dotenv>=1.2.1,<2.0.0"]
+
+[project.optional-dependencies]
+gui = ["pyperclip>=1.11.0,<2.0.0"]
+
+[project.scripts]
+pythonqepest = "pythonQEPest.cli.cli:main"
+
+[project.gui-scripts]
+pythonqepest-gui = "pythonQEPest.gui.gui:main"
+
+[tool.poetry]
+packages = [{ include = "pythonQEPest" }]
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.0.0)",
+    "pre-commit (>=4.3.0,<5.0.0)",
+    "pyinstaller (>=6.18.0,<7.0.0)",
+    "poethepoet[poetry_plugin] (>=0.39.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)",
 ]
-[tool.poetry.dependencies]
-python = ">=3.9,<3.13"
-pydantic = "2.11.7"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.4.1"
-pre-commit = "^4.2.0"
-pyinstaller = "^6.15.0"
-poethepoet = "^0.36.0"
-
-[tool.poetry.group.ui.dependencies]
-pyperclip = "^1.9.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "setuptools>=40.8.0"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [".venv", ".git", "__pycache__", "build", "dist"]
+
 [tool.poe.tasks]
+test = "pytest"
 build-simple = "pyinstaller --onefile pythonQEPest/main.py"
 build-gui = "pyinstaller --onefile --noconsole pythonQEPest/gui/gui.py"

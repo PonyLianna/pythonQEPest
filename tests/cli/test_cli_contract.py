@@ -1,0 +1,101 @@
+import pytest
+
+from pythonQEPest.cli.cli import main
+
+
+class TestCLIContract:
+    def test_cli_help_exits_with_zero(self, monkeypatch):
+        monkeypatch.setenv("APP_DEBUG_ENABLE", "false")
+
+        with pytest.raises(SystemExit) as exc:
+            main(["--help"])
+        assert exc.value.code == 0
+
+    def test_cli_version_exits_with_zero(self, monkeypatch):
+        monkeypatch.setenv("APP_DEBUG_ENABLE", "false")
+
+        with pytest.raises(SystemExit) as exc:
+            main(["--version"])
+        assert exc.value.code == 0
+
+    def test_cli_runs_with_explicit_input_file(self, monkeypatch, tmp_path):
+        monkeypatch.setenv("APP_DEBUG_ENABLE", "false")
+
+        data_file = tmp_path / "input.txt"
+        output_file = tmp_path / "input.out.txt"
+
+        data_file.write_text(
+            "Name\tMW\tLogP\tHBA\tHBD\tRB\tarR\n"
+            "mol1\t240.2127\t3.2392\t5\t1\t4\t1\n",
+            encoding="utf-8",
+        )
+
+        exit_code = main(["--input", str(data_file), "--output", str(output_file)])
+
+        assert exit_code == 0
+        assert output_file.exists()
+
+        output_text = output_file.read_text(encoding="utf-8")
+        assert output_file.name == "input.out.txt"
+        assert (
+            output_text == "Name QE_FUNG QE_HERB QE_INSECT\nmol1 0.6224 0.8511 0.5339\n"
+        )
+
+    def test_cli_runs_with_explicit_input_file_format(self, monkeypatch, tmp_path):
+        monkeypatch.setenv("APP_DEBUG_ENABLE", "false")
+
+        data_file = tmp_path / "input.txt"
+        output_file = tmp_path / "input.out.txt"
+
+        data_file.write_text(
+            "Name\tMW\tLogP\tHBA\tHBD\tRB\tarR\n"
+            "mol1\t240.2127\t3.2392\t5\t1\t4\t1\n",
+            encoding="utf-8",
+        )
+
+        exit_code = main(
+            ["--input", str(data_file), "--output", str(output_file), "--format=txt"]
+        )
+
+        assert exit_code == 0
+        assert output_file.exists()
+
+        output_text = output_file.read_text(encoding="utf-8")
+
+        assert output_file.name == "input.out.txt"
+        assert isinstance(output_text, str)
+
+        assert (
+            output_text == "Name QE_FUNG QE_HERB QE_INSECT\nmol1 0.6224 0.8511 0.5339\n"
+        )
+
+    def test_cli_runs_with_input_file_format(self, monkeypatch, tmp_path):
+        monkeypatch.setenv("APP_DEBUG_ENABLE", "false")
+
+        data_file = tmp_path / "input.txt"
+        output_file = tmp_path / "input.out.json"
+
+        data_file.write_text(
+            "Name\tMW\tLogP\tHBA\tHBD\tRB\tarR\n"
+            "mol1\t240.2127\t3.2392\t5\t1\t4\t1\n",
+            encoding="utf-8",
+        )
+
+        exit_code = main(["--input", str(data_file), "--format=json"])
+
+        assert exit_code == 0
+        assert output_file.exists()
+
+        output_text = output_file.read_text(encoding="utf-8")
+
+        assert output_file.name == "input.out.json"
+        assert isinstance(output_text, str)
+
+        import json
+
+        assert json.loads(output_text) == {
+            "name": "mol1",
+            "qe_fung": 0.6224,
+            "qe_herb": 0.8511,
+            "qe_insect": 0.5339,
+        }

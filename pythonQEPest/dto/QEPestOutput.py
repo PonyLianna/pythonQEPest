@@ -1,16 +1,11 @@
-from pydantic import BaseModel
+from typing import Optional
 
-from .QEPestData import QEPestData
+from pydantic import BaseModel
 
 
 class QEPestOutput(BaseModel):
-    data: QEPestData
-    name: str = ""
+    data: BaseModel
+    name: Optional[str] = ""
 
     def to_array(self) -> list:
-        return [
-            self.name,
-            self.data.qe_h,
-            self.data.qe_i,
-            self.data.qe_f
-        ]
+        return [self.name] + list(self.data.model_dump().values())

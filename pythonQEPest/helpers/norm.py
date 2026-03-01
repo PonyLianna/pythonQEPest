@@ -10,12 +10,24 @@ def norm(arr: Union[list, tuple], d: Union[int, float], descr: int) -> float:
 
 
 def norm_h(d: Union[int, float], descr: int) -> float:
-    return norm((69.5849922, 94.4228257, 120.4572352, 228.1589796, 89.7012502, 276.9634213), d, descr)
+    return norm(
+        (69.5849922, 94.4228257, 120.4572352, 228.1589796, 89.7012502, 276.9634213),
+        d,
+        descr,
+    )
 
 
 def norm_i(d: Union[int, float], descr: int) -> float:
-    return norm((78.2919965, 71.2829691, 133.9224801, 331.170104, 70.5540709, 193.0023343), d, descr)
+    return norm(
+        (78.2919965, 71.2829691, 133.9224801, 331.170104, 70.5540709, 193.0023343),
+        d,
+        descr,
+    )
 
 
 def norm_f(d: Union[int, float], descr: int) -> float:
-    return norm((53.3719946, 52.773116, 73.7976536, 144.9887053, 41.4385926, 102.3024319), d, descr)
+    return norm(
+        (53.3719946, 52.773116, 73.7976536, 144.9887053, 41.4385926, 102.3024319),
+        d,
+        descr,
+    )
