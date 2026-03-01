@@ -1,16 +1,14 @@
 import os
 from abc import abstractmethod, ABC
 
-from pythonQEPest.dto import QEPestInput, QEPestOutput, QEPestData
+from pydantic import BaseModel
+
+from pythonQEPest.dto import QEPestInput, QEPestOutput
 
 
 class QEPestMeta(ABC):
     def __init__(self, *args, **kwargs):
-        self.qex: QEPestData | None = None
-
-        self.herb: list[float] = []
-        self.insect: list[float] = []
-        self.fung: list[float] = []
+        self.qex: BaseModel | None = None
 
         self.col_number: int = 7
         self.dir: str = os.getcwd()
@@ -29,7 +27,7 @@ class QEPestMeta(ABC):
     @abstractmethod
     def initialize_coefficients(self, coefficients=None) -> None:
         if coefficients is None:
-            from pythonQEPest.config.qepest import qepest_default
+            from pythonQEPest.config.qepest_default import qepest_default
 
             coefficients = qepest_default
         return coefficients

@@ -1,6 +1,6 @@
 import logging
 import math
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import create_model, BaseModel
 
@@ -19,11 +19,31 @@ logger = logging.getLogger(__name__)
 class QEPest(QEPestMeta):
 
     def __init__(self, *args, **kwargs):
+        self.coefficients_names = None
+        self.names = None
+
+        logger.debug("QEPest initialisation")
+
+        logger.info(f"QEPest args: {args}")
+        logger.info(f"QEPest kwargs: {kwargs}")
+
         super().__init__(*args, **kwargs)
+
+        logger.debug("QEPest initialisation successful")
 
     def _log_compute_df(self, func, index, lst, data_lst) -> float:
         df_result = compute_df(lst[index], *data_lst[index])
         return math.log(func(df_result, index))
+
+    def get_names(self) -> List[str]:
+        self.names = [
+            n.split("_")[1] for n in dir(self) if n.startswith("coefficient_")
+        ]
+        return self.names
+
+    def get_coefficients_names(self) -> List[str]:
+        self.coefficients_names = [f"coefficient_{name}" for name in self.names]
+        return self.coefficients_names
 
     def compute_params(self, data_input: QEPestInput) -> QEPestOutput:
         self.get_qex_values(
@@ -32,10 +52,11 @@ class QEPest(QEPestMeta):
         return QEPestOutput(data=self.qex, name=data_input.name)
 
     def get_qex_values(self, d) -> BaseModel:
-        names = [n.split("_")[1] for n in dir(self) if n.startswith("coefficient_")]
+        names = self.get_names()
 
         # Coefficients names = ("coefficients_fung, coefficient_herb...)
-        coefficients_names = [n for n in dir(self) if n.startswith("coefficient_")]
+        coefficients_names = self.get_coefficients_names()
+
         if len(coefficients_names) == 0:
             raise ValueError(
                 "No coefficient_ keys, needs to call "
@@ -75,24 +96,31 @@ class QEPest(QEPestMeta):
 
         return self.qex
 
-    # TODO: Coefficients must be in other class
+    # TODO: Coefficients must be in other class.
+    # TODO: Ability to provide whatever we want is a good thingy
     def initialize_coefficients(self, coefficients: Optional = None) -> None:
+        logger.debug("QEPest coefficients initialisation")
         coefficients = super().initialize_coefficients()
 
+        logger.debug("QEPest coefficients initialisation successful")
         for category, data in coefficients.items():
             setattr(self, f"coefficient_{category}", data)
 
+        logger.info(f"QEPest coefficients initialisation with {coefficients.items()}")
+
     # TODO: Same with Normalisers
     def initialize_normalisers(self, normalisers: Optional = None) -> None:
+        logger.debug("QEPest normalisers initialisation")
         normalisers = super().initialize_normalisers()
+
+        logger.debug("QEPest normalisers initialisation successful")
 
         for category, data in normalisers.items():
             setattr(self, f"normaliser_{category}", Normaliser(data))
 
+        logger.info(f"QEPest normalisers initialisation with {normalisers.items()}")
+
 
 if __name__ == "__main__":
     qepest = QEPest()
-    qepest.initialize_coefficients()
-    qepest.initialize_normalisers()
     qepest.get_qex_values(1)
-    print(1)

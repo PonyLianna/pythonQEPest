@@ -53,3 +53,6 @@ def init_logger() -> None:
     root_logger.setLevel(level)
     root_logger.addHandler(file_handler)
     root_logger.addHandler(console_handler)
+
+    root_logger.info("Logger started Successfully")
+    root_logger.info(f"Level: {level}")

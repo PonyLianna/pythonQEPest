@@ -206,7 +206,7 @@ class TestQEPestCoefficients:
         )
 
     def test_qepest_coefficients_lst_w_import(self):
-        from pythonQEPest.config.qepest import qepest_default
+        from pythonQEPest.config.qepest_default import qepest_default
 
         qep_coeff_lst = QEPestCoefficientList(qepest_default)
 
@@ -333,7 +333,7 @@ class TestQEPestCoefficients:
         )
 
     def test_qepest_default_coefficients(self):
-        from pythonQEPest.config.qepest import qepest_default
+        from pythonQEPest.config.qepest_default import qepest_default
 
         assert "fung" in qepest_default
         assert "herb" in qepest_default

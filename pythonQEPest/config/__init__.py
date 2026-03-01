@@ -1,4 +1,4 @@
-from .qepest import qepest_default
+from .qepest_default import qepest_default
 from .normalise import normalise_default
 
 __all__ = [
