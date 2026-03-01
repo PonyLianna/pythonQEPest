@@ -44,9 +44,12 @@ class CLI:
                             d_values = get_values_from_line(line.split("\t"))
                             self.qepest.get_qex_values(d_values)
                             splitted_line = line.split("\t")[0]
+
+                            # TODO: BUG, AFTER REWORK NEEDS TO BE FIXED !!!!!!!!!!!
                             wr.write(
-                                f"{splitted_line} {self.qepest.qex.qe_h} "
-                                + f"{self.qepest.qex.qe_i} {self.qepest.qex.qe_f}"
+                                f"{splitted_line} {self.qepest.qex.qe_herb} "
+                                + f"{self.qepest.qex.qe_insect} "
+                                + f"{self.qepest.qex.qe_fung}"
                                 + f"{chr(10)}"
                             )
                         else:
