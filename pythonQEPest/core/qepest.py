@@ -2,7 +2,8 @@ import logging
 import math
 from typing import List
 
-from pydantic import create_model, BaseModel
+from pydantic import BaseModel
+from pythonQEPest.dto import QEPestData
 
 from pythonQEPest.core.qepest_meta import QEPestMeta
 from pythonQEPest.dto.QEPestInput import QEPestInput
@@ -63,10 +64,6 @@ class QEPest(QEPestMeta):
                 + "initialize_coefficient and workable config to work"
             )
 
-        # coefficients = [{i: getattr(self, i)} for i in coefficients_names]
-
-        # Splitting by _ to get (fung, herb, etc...) to form qe_fung, qe_herb...
-        # qe_lst = []
         for z in names:
             name = f"qe_{z}"
             setattr(self, name, 0.0)
@@ -88,9 +85,7 @@ class QEPest(QEPestMeta):
 
         result = check_nan(q)
 
-        fields = {f"qe_{name}": (float, 0.0) for name in names}
-        dynamic_model = create_model("QEPestData", **fields)
-        self.qex = dynamic_model(
+        self.qex = QEPestData(
             **{f"qe_{names[idx]}": name for idx, name in enumerate(result)}
         )
 
