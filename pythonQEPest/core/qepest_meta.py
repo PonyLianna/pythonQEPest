@@ -28,7 +28,7 @@ class QEPestMeta(ABC):
         pass
 
     @abstractmethod
-    def get_qex_values(self, d) -> None:
+    def get_qex_values(self, d: list[float]) -> None:
         pass
 
     @abstractmethod
