@@ -25,7 +25,7 @@ class QEPestMeta(ABC):
         pass
 
     @abstractmethod
-    def initialize_coefficients(self, coefficients=None) -> None:
+    def initialize_coefficients(self, coefficients=None) -> "dict":
         if coefficients is None:
             from pythonQEPest.config.qepest_default import qepest_default
 
@@ -33,7 +33,7 @@ class QEPestMeta(ABC):
         return coefficients
 
     @abstractmethod
-    def initialize_normalisers(self, normalisers=None) -> None:
+    def initialize_normalisers(self, normalisers=None) -> "dict":
         if normalisers is None:
             from pythonQEPest.config.normalise import normalise_default
 

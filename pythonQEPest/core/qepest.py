@@ -1,6 +1,6 @@
 import logging
 import math
-from typing import Optional, List
+from typing import List
 
 from pydantic import create_model, BaseModel
 
@@ -51,7 +51,7 @@ class QEPest(QEPestMeta):
         )
         return QEPestOutput(data=self.qex, name=data_input.name)
 
-    def get_qex_values(self, d) -> BaseModel:
+    def get_qex_values(self, d: list[float]) -> BaseModel:
         names = self.get_names()
 
         # Coefficients names = ("coefficients_fung, coefficient_herb...)
@@ -98,7 +98,7 @@ class QEPest(QEPestMeta):
 
     # TODO: Coefficients must be in other class.
     # TODO: Ability to provide whatever we want is a good thingy
-    def initialize_coefficients(self, coefficients: Optional = None) -> None:
+    def initialize_coefficients(self, coefficients: "dict | None" = None) -> "dict":
         logger.debug("QEPest coefficients initialisation")
         coefficients = super().initialize_coefficients()
 
@@ -108,8 +108,10 @@ class QEPest(QEPestMeta):
 
         logger.info(f"QEPest coefficients initialisation with {coefficients.items()}")
 
+        return coefficients
+
     # TODO: Same with Normalisers
-    def initialize_normalisers(self, normalisers: Optional = None) -> None:
+    def initialize_normalisers(self, normalisers: "dict | None" = None) -> "dict":
         logger.debug("QEPest normalisers initialisation")
         normalisers = super().initialize_normalisers()
 
@@ -119,6 +121,8 @@ class QEPest(QEPestMeta):
             setattr(self, f"normaliser_{category}", Normaliser(data))
 
         logger.info(f"QEPest normalisers initialisation with {normalisers.items()}")
+
+        return normalisers
 
 
 if __name__ == "__main__":
