@@ -123,7 +123,7 @@ mol3	308.354	2.1086	1	0	7	1
 
 ## Output Format
 
-### TXT (default)
+### TXT (default output for CLI)
 
 ```
 Name	QEF	QEH	QEI
