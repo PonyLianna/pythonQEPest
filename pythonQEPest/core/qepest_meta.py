@@ -13,8 +13,15 @@ class QEPestMeta(ABC):
         self.col_number: int = 7
         self.dir: str = os.getcwd()
 
-        self.initialize_coefficients()
-        self.initialize_normalisers()
+        if len(args) == 0 and len(kwargs) == 0:
+            self.initialize_coefficients()
+            self.initialize_normalisers()
+
+        if len(kwargs):
+            if "coefficients" in kwargs:
+                self.initialize_coefficients(kwargs["coefficients"])
+            if "normalisers" in kwargs:
+                self.initialize_normalisers(kwargs["normalisers"])
 
     @abstractmethod
     def compute_params(self, data_input: QEPestInput) -> QEPestOutput:
