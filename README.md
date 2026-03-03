@@ -1,10 +1,7 @@
 # pythonQEPest
 
-<p align="center">
-  <img src="https://img.shields.io/pypi/v/pythonQEPest" alt="PyPI version">
-  <img src="https://img.shields.io/pypi/pyversions/pythonQEPest" alt="Python version">
-  <a href="https://github.com/PonyLianna/pythonQEPest/actions"><img src="https://github.com/PonyLianna/pythonQEPest/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
-</p>
+[![pythonQEPest](https://github.com/PonyLianna/pythonQEPest/actions/workflows/python-package.yml/badge.svg)](https://github.com/PonyLianna/pythonQEPest/actions/workflows/python-package.yml)
+
 
 Python implementation of QEPest (Quantitative Estimation of Pesticide), a program for scoring molecules as herbicides (QEH), insecticides (QEI), and fungicides (QEF).
 
