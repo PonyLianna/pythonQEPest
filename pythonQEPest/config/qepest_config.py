@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from pythonQEPest.core.config.dto import PestTypeConfig
+from pythonQEPest.dto.pest_type.PestTypeConfig import PestTypeConfig
 
 
 class QEPestConfig(BaseModel):

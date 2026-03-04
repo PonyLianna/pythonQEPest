@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from pythonQEPest.core.config.dto import PestTypeCoefficient
+
+from pythonQEPest.dto.pest_type.PestTypeCoefficient import PestTypeCoefficient
 
 
 class PestTypeConfig(BaseModel):

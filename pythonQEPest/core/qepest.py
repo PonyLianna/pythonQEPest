@@ -2,9 +2,9 @@ import logging
 import math
 from typing import Optional
 
+from pythonQEPest.config import ConfigProvider
 from pythonQEPest.core.qepest_meta import QEPestMeta
-from pythonQEPest.core.config import ConfigProvider, DefaultConfigProvider
-from pythonQEPest.core.config.qepest_config import QEPestConfig
+from pythonQEPest.config.qepest_config import QEPestConfig
 from pythonQEPest.dto import QEPestData
 
 from pythonQEPest.dto.QEPestInput import QEPestInput
@@ -14,6 +14,7 @@ from pythonQEPest.helpers.check_nan import check_nan
 from pythonQEPest.helpers.compute_df import compute_df
 from pythonQEPest.helpers.get_values_from_line import get_values_from_line
 from pythonQEPest.helpers.round_to_4digs import round_to_4digs
+from pythonQEPest.providers import DefaultConfigProvider
 
 logger = logging.getLogger(__name__)
 

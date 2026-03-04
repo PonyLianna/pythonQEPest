@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 
-from pythonQEPest.core.config.config_provider import ConfigProvider
-from pythonQEPest.core.config.qepest_config import QEPestConfig, PestTypeConfig
+from pythonQEPest.config.config_provider import ConfigProvider
+from pythonQEPest.config.qepest_config import QEPestConfig, PestTypeConfig
 
 
 class JSONConfigProvider(ConfigProvider):

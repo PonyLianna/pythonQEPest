@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from pythonQEPest.core.config.qepest_config import QEPestConfig
+from pythonQEPest.config.qepest_config import QEPestConfig
 
 
 class ConfigProvider(ABC):
