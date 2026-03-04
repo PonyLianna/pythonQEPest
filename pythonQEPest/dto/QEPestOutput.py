@@ -9,4 +9,5 @@ class QEPestOutput(BaseModel):
     name: Optional[str] = ""
 
     def to_array(self) -> list:
-        return [self.name] + list(self.data.model_dump().values())
+        values = list(self.data.root.values())
+        return [self.name] + values

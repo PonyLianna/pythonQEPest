@@ -22,9 +22,6 @@ class TestQEPest:
     def test_qepest_compute_params_basic(self):
         qepest = QEPest()
 
-        qepest.initialize_coefficients()
-        qepest.initialize_normalisers()
-
         inp = self.make_input()
         result = qepest.compute_params(inp)
 
@@ -82,7 +79,7 @@ class TestQEPest:
         assert result.data.qe_insect == 0.5339
         assert result.data.qe_fung == 0.6224
 
-        assert result.to_array() == ["mol1", 0.6224, 0.8511, 0.5339]
+        assert result.to_array() == ["mol1", 0.8511, 0.5339, 0.6224]
 
         result = qepest.compute_params(
             self.make_input("mol2", 249.091, 3.0273, 3, 1, 5, 1)
@@ -93,7 +90,7 @@ class TestQEPest:
         assert result.data.qe_insect == 0.6913
         assert result.data.qe_fung == 0.731
 
-        assert result.to_array() == ["mol2", 0.731, 0.975, 0.6913]
+        assert result.to_array() == ["mol2", 0.975, 0.6913, 0.731]
 
         result = qepest.compute_params(
             self.make_input("mol3", 308.354, 2.1086, 1, 0, 7, 1)
@@ -104,7 +101,7 @@ class TestQEPest:
         assert result.data.qe_insect == 0.9018
         assert result.data.qe_fung == 0.732
 
-        assert result.to_array() == ["mol3", 0.732, 0.798, 0.9018]
+        assert result.to_array() == ["mol3", 0.798, 0.9018, 0.732]
 
         result = qepest.compute_params(
             self.make_input("mol4", 360.444, 4.0137, 3, 0, 8, 0)
@@ -114,7 +111,7 @@ class TestQEPest:
         assert result.data.qe_insect == 0.8382
         assert result.data.qe_fung == 0.6594
 
-        assert result.to_array() == ["mol4", 0.6594, 0.5839, 0.8382]
+        assert result.to_array() == ["mol4", 0.5839, 0.8382, 0.6594]
 
         result = qepest.compute_params(
             self.make_input("mol5", 295.335, 4.9335, 2, 0, 1, 1)
@@ -124,4 +121,4 @@ class TestQEPest:
         assert result.data.qe_insect == 0.8118
         assert result.data.qe_fung == 0.8742
 
-        assert result.to_array() == ["mol5", 0.8742, 0.8099, 0.8118]
+        assert result.to_array() == ["mol5", 0.8099, 0.8118, 0.8742]

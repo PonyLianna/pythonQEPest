@@ -38,7 +38,7 @@ class TestCLIContract:
         output_text = output_file.read_text(encoding="utf-8")
         assert output_file.name == "input.out.txt"
         assert (
-            output_text == "Name QE_FUNG QE_HERB QE_INSECT\nmol1 0.6224 0.8511 0.5339\n"
+            output_text == "Name QE_HERB QE_INSECT QE_FUNG\nmol1 0.8511 0.5339 0.6224\n"
         )
 
     def test_cli_runs_with_explicit_input_file_format(self, monkeypatch, tmp_path):
@@ -66,7 +66,7 @@ class TestCLIContract:
         assert isinstance(output_text, str)
 
         assert (
-            output_text == "Name QE_FUNG QE_HERB QE_INSECT\nmol1 0.6224 0.8511 0.5339\n"
+            output_text == "Name QE_HERB QE_INSECT QE_FUNG\nmol1 0.8511 0.5339 0.6224\n"
         )
 
     def test_cli_runs_with_input_file_format(self, monkeypatch, tmp_path):
