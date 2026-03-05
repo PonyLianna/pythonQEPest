@@ -38,7 +38,7 @@ class QEPestInput(BaseModel):
             from rdkit import Chem
             from rdkit.Chem import Descriptors
         except ImportError:
-            logger.warn(
+            logger.warning(
                 "RDKit is not installed. Install it with: poetry install --with rdkit. "
                 "Returning QEPestInput with default values."
             )
