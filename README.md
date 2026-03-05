@@ -1,81 +1,197 @@
-					xxxxxxxxxxxxxxxxxx
-					xx              xx
-					xxx   QEPest   xxx
-					xx              xx
-					xxxxxxxxxxxxxxxxxx
+# pythonQEPest
 
-# Introduction
+[![pythonQEPest](https://github.com/PonyLianna/pythonQEPest/actions/workflows/python-package.yml/badge.svg)](https://github.com/PonyLianna/pythonQEPest/actions/workflows/python-package.yml)
 
-The rewritten version of Java QEPest. Made by PonyLianna (https://github.com/PonyLianna).
+
+Python implementation of QEPest (Quantitative Estimation of Pesticide), a program for scoring molecules as herbicides (QEH), insecticides (QEI), and fungicides (QEF).
+
+Originally published in: [J Cheminform - QEPest](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-014-0042-6)
+Original Program Link is [here](https://static-content.springer.com/esm/art%3A10.1186%2Fs13321-014-0042-6/MediaObjects/13321_2014_42_MOESM2_ESM.zip)  
+
+## Features
+
+- Calculate pesticide scores for herbicidal, insecticidal, and fungicidal activity
+- Command-line interface (CLI)
+- Graphical User Interface (GUI)
+- Support for JSON and TXT output formats
+
+### Pre-built binaries
+
+Download ready-to-use executables from [Releases](https://github.com/PonyLianna/pythonQEPest/releases):
+
+| Platform | Download |
+|----------|----------|
+| Windows CLI | [main.exe](https://github.com/PonyLianna/pythonQEPest/releases/download/v2.0.0-alpha/main.exe) |
+| Windows GUI | [gui.exe](https://github.com/PonyLianna/pythonQEPest/releases/download/v2.0.0-alpha/gui.exe) |
+
 
 ## Installation
 
-You can use a .exe version (which you can find at https://github.com/PonyLianna/pythonQEPest/releases)
-or run it by yourself.
+```bash
+pip install pythonQEPest
+```
 
-To be able to do it you'll need `Python >3.10 + pip3` (https://www.python.org/downloads/)
+Or from source:
 
-Further installation (I skip venv here):
+```bash
+git clone https://github.com/PonyLianna/pythonQEPest.git
+cd pythonQEPest
+poetry install
+```
 
-`pip install poetry`
+### With GUI support
 
-`poetry install`
+```bash
+pip install pythonQEPest[gui]
+# or
+poetry install --extras ui
+```
 
-`python ./pythonQEPest/main.py`
 
-And you're ready to work with it! Just fill your data.txt with anything you want to process and execute this script.
+## Quick Start
 
-If you want a GUI: `python pythonQEPest/gui/gui.py`
+### CLI
 
-## Where to find original of this program?
+```bash
+pythonqepest -i data.txt -o result.txt
+pythonqepest --input data.txt --format json
+pythonqepest -v  # show version
+```
 
-https://jcheminf.biomedcentral.com/articles/10.1186/s13321-014-0042-6#MOESM2
+### GUI
 
-# Original README.md
+```bash
+pythonqepest-gui
+# or
+python -m pythonQEPest.gui.gui
+```
 
-QEPest is a free Java program addressing the filed of agrochemicals. It allows the scoring of molecules
-as herbicides (QEH), insecticides (QEI) and fungicides (QEF) according to pesticide class-specific scoring functions.
+### Python API
 
-Although these are basic molecular descriptors, multiple approximations of logP are available. The parameterization
-of the desirability functions has been performed using descriptors generated with JChem (6.0.0, 2013, ChemAxon,
-http://www.chemaxon.com). Hence, in order to assure maximum accuracy, we recommend the usage of ChemAxon’s logP.
+```python
+from pythonQEPest import QEPest, QEPestInput
 
-Before running QEPest.jar, please make sure:
+# Create input data
+qepest = QEPest()
+qepest.initialize_coefficients()
+qepest.initialize_normalisers()
 
-- Java Runtime Engine 1.6 or later installed is installed on your computer
-- The file "data.txt", containing the molecules to be scored, respects the structure as described below (### Input
-  file ###)
-  (tab sepatated file with header, each molecule in a different row)
-- QEPest.jar and data.txt are placed in the same directory
+# From individual values
+inp = QEPestInput(
+    name="mol1",
+    mol_weight=240.2127,
+    log_p=3.2392,
+    hbond_acceptors=5,
+    hbond_donors=1,
+    rotatable_bonds=4,
+    aromatic_rings=1
+)
 
-### Input file
+result = qepest.compute_params(inp)
 
-The input for QEPest consists of a tab-separated text file containing molecules (in rows) and seven columns (in this
-order):
+print(result.name)       # mol1
+print(result.data.qe_herb)   # 0.8511
+print(result.data.qe_insect) # 0.5339
+print(result.data.qe_fung)   # 0.6224
 
-- molecule name (Name)
-- molecular weight (MW)
-- hydrophobicity (LogP)
-- number of hydrogen bond acceptors (HBA)
-- number of hydrogen bond donors (HBD)
-- number of rotatable bounds (RB)
-- number of aromatic rings (arR)
+# Convert to array
+print(result.to_array())  # ["mol1", 0.6224, 0.8511, 0.5339]
+```
 
-Example of data.txt
-Name MW LogP HBA HBD RB arR
-mol1 240.2127 3.2392 5 1 4 1
-mol2 249.091 3.0273 3 1 5 1
-mol3 308.354 2.1086 1 0 7 1
-mol4 360.444 4.0137 3 0 8 0
-mol5 295.335 4.9335 2 0 1 1
+## Input Format
 
-#### Running QEPest.jar
+The input file should be a tab-separated text file with the following columns:
 
-QEPest.jar will read the data.txt file and compute QEH, QEI and QEF. If an error occurs in a row (e.g., missing value,
-bad number of fields etc), the an error message will indicate the molecule and the computation will proceed to the next
-row. An message will indicate the end of the and an output file (i.e., data.txt.out) will be written in the same
-directory.
+| Column | Description |
+|--------|-------------|
+| Name   | Molecule name |
+| MW     | Molecular weight (g/mol) |
+| LogP   | Hydrophobicity (octanol-water partition coefficient) |
+| HBA    | Number of hydrogen bond acceptors |
+| HBD    | Number of hydrogen bond donors |
+| RB     | Number of rotatable bonds |
+| arR    | Number of aromatic rings |
 
-For any question please write to 5orin.4vram@gmail.com
+Example `data.txt`:
 
-Have fun!!!
+```
+Name	MW	LogP	HBA	HBD	RB	arR
+mol1	240.2127	3.2392	5	1	4	1
+mol2	249.091	3.0273	3	1	5	1
+mol3	308.354	2.1086	1	0	7	1
+```
+
+## Output Format
+
+### TXT (default output for CLI)
+
+```
+Name	QEF	QEH	QEI
+mol1	0.6224	0.8511	0.5339
+mol2	0.7310	0.9750	0.6913
+```
+
+### JSON
+
+```json
+[
+  {"name": "mol1", "qe_fung": 0.6224, "qe_herb": 0.8511, "qe_insect": 0.5339},
+  {"name": "mol2", "qe_fung": 0.731, "qe_herb": 0.975, "qe_insect": 0.6913}
+]
+```
+
+## Configuration
+
+### Custom Coefficients
+
+```python
+from pythonQEPest import QEPest
+
+custom_coefficients = {
+    "herb": [
+        (70.77, 283.0, 84.97, -1.185),
+        (93.81, 3.077, 1.434, 0.6164),
+        # ... 6 tuples total
+    ],
+    "insect": [...],
+    "fung": [...]
+}
+
+qepest = QEPest(coefficients=custom_coefficients)
+```
+
+### Custom Normalisers
+
+```python
+from pythonQEPest import QEPest
+from pythonQEPest.dto.normalisation.Normaliser import Normaliser
+
+qepest = QEPest(normalisers={"herb": Normaliser(...), ...})
+```
+
+## CLI Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-i`, `--input` | Input file path | data.txt |
+| `-o`, `--output` | Output file path | data.out.txt |
+| `-f`, `--format` | Output format (json, txt) | txt |
+| `-v`, `--version` | Show version | - |
+
+## Development
+
+### Run tests
+
+```bash
+poetry run pytest
+```
+
+### Build
+
+```bash
+# CLI executable
+poetry run poe build-simple
+
+# GUI executable
+poetry run poe build-gui
+```
