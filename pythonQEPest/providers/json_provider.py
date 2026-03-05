@@ -6,13 +6,15 @@ from pythonQEPest.config.qepest_config import QEPestConfig, PestTypeConfig
 
 
 class JSONConfigProvider(ConfigProvider):
-    def __init__(self, path: str | Path):
-        self.path = Path(path)
+    def load(self, path: str | Path) -> QEPestConfig:
+        path = Path(path)
 
-    def load(self) -> QEPestConfig:
-        with open(self.path, encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             data = json.load(f)
 
+        return self.load_raw_json(data)
+
+    def load_raw_json(self, data):
         pest_types = []
         for pest_name, pest_data in data.items():
             coefficients = [tuple(coef) for coef in pest_data["coefficients"]]

@@ -29,15 +29,21 @@ class QEPest(QEPestMeta):
 
         logger.debug("QEPest initialization")
 
+        self.initialise_config(provider)
+
+        logger.debug("QEPest initialization successful")
+
+    def initialise_config(self, provider: Optional[ConfigProvider] = None):
+        logger.debug("Config initialisation")
         if provider is None:
+            logger.debug("Config is empty. Loading default one.")
             provider = DefaultConfigProvider()
 
         self.config = provider.load()
+        logger.debug(f"Config {self.config} loaded")
 
         for pest in self.config.pest_types:
             self.normalisers[pest.name] = Normaliser(pest.normaliser)
-
-        logger.debug("QEPest initialization successful")
 
     def _log_compute_df(
         self, func, index: int, lst: list[float], data_lst: list
