@@ -9,6 +9,7 @@ dependencies = ["pydantic==2.12.5", "python-dotenv>=1.2.1,<2.0.0"]
 
 [project.optional-dependencies]
 gui = ["pyperclip>=1.11.0,<2.0.0"]
+rdkit = ["rdkit (>=2024.3.1,<2026.0.0)"]
 
 [project.scripts]
 pythonqepest = "pythonQEPest.cli.cli:main"
