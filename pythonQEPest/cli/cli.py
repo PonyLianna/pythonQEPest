@@ -60,7 +60,14 @@ def build_parser() -> argparse.ArgumentParser:
         "-f",
         "--format",
         default="txt",
-        help="Format to output file with " + "QEPest (json, txt).",
+        help="Format to output file with QEPest (json, txt).",
+    )
+
+    parser.add_argument(
+        "--smiles",
+        action="store_true",
+        help="Input file contains SMILES strings "
+        "(one per line) instead of descriptors.",
     )
     return parser
 
@@ -82,7 +89,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     service = QEPestFileService(
         qepest=QEPest(),
         qepest_file=QEPestFile(
-            input_file=args.input, output_file=args.output, format=args.format
+            input_file=args.input,
+            output_file=args.output,
+            format=args.format,
+            smiles=args.smiles,
         ),
     )
 

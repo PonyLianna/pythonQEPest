@@ -13,6 +13,7 @@ class QEPestFile(BaseModel):
     input_file: Optional[str] = None
     output_file: Optional[str] = None
     format: Optional[QEPestFormat] = QEPestFormat.TXT
+    smiles: Optional[bool] = False
 
     model_config = {"arbitrary_types_allowed": True}
 

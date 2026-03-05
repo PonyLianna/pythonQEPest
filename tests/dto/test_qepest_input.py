@@ -72,3 +72,19 @@ class TestQEPestInput:
 
         assert qepest_input.rotatable_bonds == self.rotatable_bonds
         assert qepest_input.aromatic_rings == self.aromatic_rings
+
+    def test_qepest_input_smiles(self):
+        qepest_input = QEPestInput.from_smiles(
+            "C1=CC(=NC(=C1Cl)C(=O)O)Cl", name="Clopyralid"
+        )
+        assert isinstance(qepest_input, QEPestInput)
+
+        assert qepest_input.name == "Clopyralid"
+
+        assert qepest_input.aromatic_rings == 1
+
+        assert qepest_input.hbond_donors == 1
+        assert qepest_input.hbond_acceptors == 2
+
+        assert qepest_input.log_p == 2.0866
+        assert qepest_input.mol_weight == 190.954083696
