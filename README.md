@@ -44,7 +44,7 @@ poetry install
 ```bash
 pip install pythonQEPest[gui]
 # or
-poetry install --with ui
+poetry install --extras ui
 ```
 
 
