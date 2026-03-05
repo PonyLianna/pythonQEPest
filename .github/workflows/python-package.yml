@@ -40,10 +40,6 @@ jobs:
         run: |
           poetry run pytest -q --cov=pythonQEPest --cov-report=term-missing --cov-fail-under=40
 
-      - name: Build dist
-        run: |
-          poetry build
-
       - name: Install built wheel and smoke import
         run: |
           python -m pip install dist/*.whl
