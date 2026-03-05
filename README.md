@@ -1,6 +1,7 @@
 # pythonQEPest
 
 [![pythonQEPest](https://github.com/PonyLianna/pythonQEPest/actions/workflows/python-package.yml/badge.svg)](https://github.com/PonyLianna/pythonQEPest/actions/workflows/python-package.yml)
+[![PyPI Version](https://img.shields.io/pypi/v/pythonQEPest)](https://pypi.org/project/pythonQEPest/)
 
 
 Python implementation of QEPest (Quantitative Estimation of Pesticide), a program for scoring molecules as herbicides (QEH), insecticides (QEI), and fungicides (QEF).
