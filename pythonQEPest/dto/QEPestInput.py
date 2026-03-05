@@ -1,6 +1,9 @@
+import logging
 from typing import Union
 
 from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
 
 
 class QEPestInput(BaseModel):
@@ -27,4 +30,31 @@ class QEPestInput(BaseModel):
             hbond_donors=int(data[4]),
             rotatable_bonds=int(data[5]),
             aromatic_rings=int(data[6]),
+        )
+
+    @classmethod
+    def from_smiles(cls, smiles: str, name: str = ""):
+        try:
+            from rdkit import Chem
+            from rdkit.Chem import Descriptors
+        except ImportError:
+            logger.warning(
+                "RDKit is not installed. Install it with: poetry install --with rdkit. "
+                "Returning QEPestInput with default values."
+            )
+            return cls(name=name)
+
+        mol = Chem.MolFromSmiles(smiles)
+
+        if mol is None:
+            raise ValueError(f"Invalid SMILES: {smiles}")
+
+        return cls(
+            name=name,
+            mol_weight=Descriptors.ExactMolWt(mol),
+            log_p=Descriptors.MolLogP(mol),
+            hbond_acceptors=Descriptors.NumHAcceptors(mol),
+            hbond_donors=Descriptors.NumHDonors(mol),
+            rotatable_bonds=Descriptors.NumRotatableBonds(mol),
+            aromatic_rings=Descriptors.NumAromaticRings(mol),
         )

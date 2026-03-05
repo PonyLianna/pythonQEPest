@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry install --with dev --no-interaction
+          poetry install --with dev --extras "rdkit gui" --no-interaction
 
       - name: Test with pytest (coverage)
         run: |

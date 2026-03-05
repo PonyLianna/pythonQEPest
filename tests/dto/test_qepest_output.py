@@ -36,3 +36,11 @@ class TestQEPestOutput:
         qepest_output = QEPestOutput(name=self.name, data=qepest_data)
 
         assert qepest_output.to_array() == [self.name, self.qe_h, self.qe_i, self.qe_f]
+
+    def test_qepest_output_new_format(self):
+        qepest_data = QEPestData(
+            qe_herb=self.qe_h, qe_insect=self.qe_i, qe_fung=self.qe_f
+        )
+        qepest_output = QEPestOutput(name=self.name, data=qepest_data)
+
+        assert qepest_output.to_array() == [self.name, self.qe_h, self.qe_i, self.qe_f]

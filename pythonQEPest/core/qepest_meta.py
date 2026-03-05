@@ -13,29 +13,16 @@ class QEPestMeta(ABC):
         self.col_number: int = 7
         self.dir: str = os.getcwd()
 
-        self.initialize_coefficients()
-        self.initialize_normalisers()
-
     @abstractmethod
     def compute_params(self, data_input: QEPestInput) -> QEPestOutput:
         pass
 
     @abstractmethod
-    def get_qex_values(self, d) -> None:
+    def get_qex_values(self, d: list[float]) -> None:
         pass
 
     @abstractmethod
-    def initialize_coefficients(self, coefficients=None) -> None:
-        if coefficients is None:
-            from pythonQEPest.config.qepest_default import qepest_default
-
-            coefficients = qepest_default
-        return coefficients
-
-    @abstractmethod
-    def initialize_normalisers(self, normalisers=None) -> None:
-        if normalisers is None:
-            from pythonQEPest.config.normalise import normalise_default
-
-            normalisers = normalise_default
-        return normalisers
+    def _log_compute_df(
+        self, func, index: int, lst: list[float], data_lst: list
+    ) -> float:
+        pass

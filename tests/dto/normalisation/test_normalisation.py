@@ -1,11 +1,10 @@
 import pytest
 
-from pythonQEPest.dto.normalisation.Normaliser import Normaliser
-
-# from pythonQEPest.helpers.norm import norm_i, norm_h, norm, norm_f
+from pythonQEPest.dto import Normaliser
 
 
-class TestNorm:
+class TestNormalisation:
+
     def test_norm_basic(self):
         arr = [10, 20, 30]
         d = 20
