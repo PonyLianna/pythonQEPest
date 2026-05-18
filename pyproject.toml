@@ -25,7 +25,7 @@ dev = [
     "pytest (>=9.0.3)",
     "pre-commit (>=4.6.0,<5.0.0)",
     "pyinstaller (>=6.18.0,<7.0.0)",
-    "poethepoet[poetry_plugin] (>=0.45.0)",
+    "poethepoet[poetry_plugin] (>=0.46.0)",
     "pytest-cov (>=7.0.0,<8.0.0)",
     "twine (>=6.2.0,<7.0.0)",
 ]
