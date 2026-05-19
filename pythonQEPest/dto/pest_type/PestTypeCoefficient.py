@@ -22,7 +22,7 @@ class PestTypeCoefficient(BaseModel):
                 raise ValueError("Expected 6 items: mwH, logpH, hbaH, hbdH, rbH, arRCH")
 
             keys = ("mwH", "logpH", "hbaH", "hbdH", "rbH", "arRCH")
-            return dict(zip(keys, data))
+            return dict(zip(keys, data, strict=True))
 
         raise TypeError("Expected a dict or a 6-item tuple/list")
 

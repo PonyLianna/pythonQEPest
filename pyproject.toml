@@ -5,7 +5,7 @@ description = "Java QEPest but written in Python"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
 authors = [{ name = "Lina", email = "knocker767@gmail.com" }]
-dependencies = ["pydantic==2.12.5", "python-dotenv>=1.2.1,<2.0.0"]
+dependencies = ["pydantic==2.12.5", "python-dotenv>=1.2.1,<2.0.0", "ruff (>=0.15.13,<0.16.0)"]
 
 [project.optional-dependencies]
 gui = ["pyperclip>=1.11.0,<2.0.0"]
@@ -34,10 +34,16 @@ dev = [
 requires = ["poetry-core>=1.0.0", "setuptools>=40.8.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.flake8]
-max-line-length = 88
-extend-ignore = ["E203", "W503"]
+[tool.ruff]
+line-length = 88
 exclude = [".venv", ".git", "__pycache__", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "C4", "UP"]
+ignore = ["E203"]
+
+[tool.ruff.format]
+quote-style = "double"
 
 [tool.poe.tasks]
 test = "pytest"

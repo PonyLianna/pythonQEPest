@@ -125,4 +125,4 @@ class TestPublicAPI:
             assert norm_i is not None
             assert compute_df is not None
         except ImportError as er:
-            raise AssertionError(f"Failed to import helper functions: {er}")
+            raise AssertionError(f"Failed to import helper functions: {er}") from er

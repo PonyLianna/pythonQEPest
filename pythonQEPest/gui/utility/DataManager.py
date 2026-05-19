@@ -26,7 +26,7 @@ class DataManager(metaclass=DataManagerMeta):
         return self
 
     def add(self, lst, entry):
-        if not entry in lst:
+        if entry not in lst:
             lst.append(entry)
         return self
 

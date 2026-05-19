@@ -4,7 +4,7 @@ import argparse
 import logging
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
-from typing import Sequence
+from collections.abc import Sequence
 
 from pythonQEPest.dto import QEPestFile
 from pythonQEPest.services.QEPestFileService import QEPestFileService
