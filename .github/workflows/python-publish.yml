@@ -1,6 +1,3 @@
-# This workflow will upload a Python Package to PyPI and attach executables to GitHub Release when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
-
 name: Build & Release
 
 on:
@@ -80,6 +77,10 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
           add-to-path: true
+      - name: Add Poetry to PATH (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: echo "$env:APPDATA\Python\Scripts" >> $env:GITHUB_PATH
       - name: Cache Poetry virtual environment
         uses: actions/cache@v4
         with:
