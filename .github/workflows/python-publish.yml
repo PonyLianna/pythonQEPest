@@ -18,34 +18,23 @@ permissions:
 jobs:
   release-build:
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v6
-
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
-      
+          python-version: "3.13"
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
           version: latest
           virtualenvs-create: true
           virtualenvs-in-project: true
-
       - name: Install dependencies
-        run: |
-          poetry install --with dev --extras "rdkit gui" --no-interaction
-
+        run: poetry install --with dev --extras "rdkit gui" --no-interaction
       - name: Test with pytest (coverage)
-        run: |
-          poetry run pytest -q --cov=pythonQEPest --cov-report=term-missing --cov-fail-under=40
-
+        run: poetry run pytest -q --cov=pythonQEPest --cov-report=term-missing --cov-fail-under=40
       - name: Build release distributions
-        run: |
-          # NOTE: put your own distribution build steps here.
-          poetry build
-
+        run: poetry build
       - name: Upload distributions
         uses: actions/upload-artifact@v4
         with:
@@ -54,31 +43,82 @@ jobs:
 
   pypi-publish:
     runs-on: ubuntu-24.04
-    needs:
-      - release-build
+    needs: release-build
     permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
-
-    # Dedicated environments with protections for publishing are strongly recommended.
-    # For more information, see: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules
     environment:
       name: pypi
-      # OPTIONAL: uncomment and update to include your PyPI project URL in the deployment status:
-      # url: https://pypi.org/p/YOURPROJECT
-      #
-      # ALTERNATIVE: if your GitHub Release name is the PyPI project version string
-      # ALTERNATIVE: exactly, uncomment the following line instead:
-      # url: https://pypi.org/project/YOURPROJECT/${{ github.event.release.name }}
-
     steps:
       - name: Retrieve release distributions
         uses: actions/download-artifact@v4
         with:
           name: release-dists
           path: dist/
-
       - name: Publish release distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
+
+  pyinstaller:
+    needs: release-build
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, windows-2022]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: latest
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      - name: Install dependencies
+        run: poetry install --with dev --extras "rdkit gui" --no-interaction
+      - name: Extract version
+        id: version
+        shell: pwsh
+        run: |
+          $ver = poetry version -s
+          echo "version=$ver" >> $env:GITHUB_OUTPUT
+      - name: Build CLI executable
+        run: poetry run pyinstaller main.spec
+      - name: Build GUI executable
+        run: poetry run pyinstaller gui.spec
+      - name: Rename executables with version
+        shell: pwsh
+        run: |
+          $ver = "${{ steps.version.outputs.version }}"
+          if ("${{ matrix.os }}" -match "windows") {
+            Move-Item dist/pythonQEPest.exe pythonQEPest-$ver-win64.exe
+            Move-Item dist/pythonQEPest-GUI.exe pythonQEPest-GUI-$ver-win64.exe
+          } else {
+            Move-Item dist/pythonQEPest pythonQEPest-$ver-linux
+            Move-Item dist/pythonQEPest-GUI pythonQEPest-GUI-$ver-linux
+          }
+      - name: Upload executables
+        uses: actions/upload-artifact@v4
+        with:
+          name: binaries-${{ matrix.os }}
+          path: pythonQEPest*
+          if-no-files-found: error
+
+  release:
+    needs: [pypi-publish, pyinstaller]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+      - name: List uploaded files
+        run: Get-ChildItem -Recurse artifacts
