@@ -1,13 +1,11 @@
-from typing import Optional, List
-
 from pydantic import BaseModel
 
 from pythonQEPest.dto.coefficients import QEPestCoefficient
 
 
 class QEPestCoefficientList(BaseModel):
-    name: Optional[str]
-    named_coefficients: List[QEPestCoefficient]
+    name: str | None
+    named_coefficients: list[QEPestCoefficient]
 
     # TODO: Done all the cases and make some sort of docs here, pls
     def __init__(self, *args, **kwargs):

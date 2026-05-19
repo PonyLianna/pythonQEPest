@@ -1,6 +1,5 @@
 import logging
 import math
-from typing import Optional
 
 from pythonQEPest.config import ConfigProvider
 from pythonQEPest.core.qepest_meta import QEPestMeta
@@ -20,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class QEPest(QEPestMeta):
-    def __init__(self, provider: Optional[ConfigProvider] = None, *args, **kwargs):
+    def __init__(self, provider: ConfigProvider | None = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.config: QEPestConfig
@@ -33,7 +32,7 @@ class QEPest(QEPestMeta):
 
         logger.debug("QEPest initialization successful")
 
-    def initialise_config(self, provider: Optional[ConfigProvider] = None):
+    def initialise_config(self, provider: ConfigProvider | None = None):
         logger.debug("Config initialisation")
         if provider is None:
             logger.debug("Config is empty. Loading default one.")
@@ -65,7 +64,7 @@ class QEPest(QEPestMeta):
 
         if len(names) == 0:
             raise ValueError(
-                "No pest types configured. " "Please provide a valid configuration."
+                "No pest types configured. Please provide a valid configuration."
             )
 
         qe_values = dict.fromkeys(names, 0.0)

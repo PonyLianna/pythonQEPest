@@ -1,11 +1,11 @@
 [project]
 name = "pythonQEPest"
-version = "2.0.0a3"
+version = "2.0.0a5"
 description = "Java QEPest but written in Python"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
 authors = [{ name = "Lina", email = "knocker767@gmail.com" }]
-dependencies = ["pydantic==2.12.5", "python-dotenv>=1.2.1,<2.0.0"]
+dependencies = ["pydantic==2.12.5", "python-dotenv>=1.2.1,<2.0.0", "ruff (>=0.15.13,<0.16.0)"]
 
 [project.optional-dependencies]
 gui = ["pyperclip>=1.11.0,<2.0.0"]
@@ -22,10 +22,10 @@ packages = [{ include = "pythonQEPest" }]
 
 [dependency-groups]
 dev = [
-    "pytest (>=9.0.0)",
-    "pre-commit (>=4.3.0,<5.0.0)",
+    "pytest (>=9.0.3)",
+    "pre-commit (>=4.6.0,<5.0.0)",
     "pyinstaller (>=6.18.0,<7.0.0)",
-    "poethepoet[poetry_plugin] (>=0.39.0)",
+    "poethepoet[poetry_plugin] (>=0.46.0)",
     "pytest-cov (>=7.0.0,<8.0.0)",
     "twine (>=6.2.0,<7.0.0)",
 ]
@@ -34,10 +34,16 @@ dev = [
 requires = ["poetry-core>=1.0.0", "setuptools>=40.8.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.flake8]
-max-line-length = 88
-extend-ignore = ["E203", "W503"]
+[tool.ruff]
+line-length = 88
 exclude = [".venv", ".git", "__pycache__", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "C4", "UP"]
+ignore = ["E203"]
+
+[tool.ruff.format]
+quote-style = "double"
 
 [tool.poe.tasks]
 test = "pytest"

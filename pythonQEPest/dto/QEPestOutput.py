@@ -1,12 +1,10 @@
-from typing import Optional
-
 from pydantic import BaseModel
 from pythonQEPest.dto.QEPestData import QEPestData
 
 
 class QEPestOutput(BaseModel):
     data: QEPestData
-    name: Optional[str] = ""
+    name: str | None = ""
 
     def to_array(self) -> list:
         values = list(self.data.root.values())

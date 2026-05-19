@@ -1,14 +1,11 @@
-from typing import Union
-
-
 class Normaliser:
-    def __init__(self, arr: Union[tuple, list]):
+    def __init__(self, arr: tuple | list):
         # if len(arr) != 6:
         #     raise ValueError(f"Array must be exact length of 6. Given: {len(arr)}")
 
         self.arr = arr
 
-    def norm(self, d: Union[int, float], descr: int) -> float:
+    def norm(self, d: int | float, descr: int) -> float:
         if descr > len(self.arr):
             raise KeyError(f"Out of array. {descr} > {len(self.arr)}")
 

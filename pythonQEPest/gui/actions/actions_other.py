@@ -22,7 +22,7 @@ class GUIActionsOther:
             return
 
         try:
-            with open(file_path, "r", encoding="utf-8") as file:
+            with open(file_path, encoding="utf-8") as file:
                 self.data_manager.clear_file()
                 self.data_tree.delete(*self.data_tree.get_children())
 
