@@ -4,5 +4,17 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      testing:
+        patterns: ["pytest*"]
+      linters:
+        patterns: ["ruff", "pre-commit"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
     allow:
       - dependency-type: "direct"
+    open-pull-requests-limit: 5
+    schedule:
+      interval: "weekly"
