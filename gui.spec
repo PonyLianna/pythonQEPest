@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['pythonQEPest\\gui\\gui.py'],
+    ['pythonQEPest/gui/gui.py'],
     pathex=[],
     binaries=[],
     datas=[],

@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['pythonQEPest\\main.py'],
+    ['pythonQEPest/main.py'],
     pathex=[],
     binaries=[],
     datas=[],
