@@ -63,7 +63,7 @@ jobs:
     needs: release-build
     strategy:
       matrix:
-        os: [ubuntu-24.04, windows-2022]
+        os: [ windows-2022 ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
@@ -80,7 +80,7 @@ jobs:
       - name: Add Poetry to PATH (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
-        run: echo "$env:APPDATA\Python\Scripts" >> $env:GITHUB_PATH
+        run: echo "$env:USERPROFILE\.local\bin" >> $env:GITHUB_PATH
       - name: Cache Poetry virtual environment
         uses: actions/cache@v4
         with:
@@ -92,25 +92,23 @@ jobs:
         run: poetry install --with dev --extras "gui" --no-interaction
       - name: Extract version
         id: version
-        shell: pwsh
-        run: |
-          $ver = poetry version -s
-          echo "version=$ver" >> $env:GITHUB_OUTPUT
+        shell: bash
+        run: echo "version=$(poetry version -s)" >> $GITHUB_OUTPUT
       - name: Build CLI executable
         run: poetry run pyinstaller main.spec
       - name: Build GUI executable
         run: poetry run pyinstaller gui.spec
       - name: Rename executables with version
-        shell: pwsh
+        shell: bash
         run: |
-          $ver = "${{ steps.version.outputs.version }}"
-          if ("${{ matrix.os }}" -match "windows") {
-            Move-Item dist/pythonQEPest.exe pythonQEPest-$ver-win64.exe
-            Move-Item dist/pythonQEPest-GUI.exe pythonQEPest-GUI-$ver-win64.exe
-          } else {
-            Move-Item dist/pythonQEPest pythonQEPest-$ver-linux
-            Move-Item dist/pythonQEPest-GUI pythonQEPest-GUI-$ver-linux
-          }
+          ver="${{ steps.version.outputs.version }}"
+          if [[ "${{ matrix.os }}" == *"windows"* ]]; then
+            mv dist/pythonQEPest.exe pythonQEPest-${ver}-win64.exe
+            mv dist/pythonQEPest-GUI.exe pythonQEPest-GUI-${ver}-win64.exe
+          else
+            mv dist/pythonQEPest pythonQEPest-${ver}-linux
+            mv dist/pythonQEPest-GUI pythonQEPest-GUI-${ver}-linux
+          fi
       - name: Upload executables
         uses: actions/upload-artifact@v7
         with:
