@@ -129,6 +129,9 @@ jobs:
       - name: Upload release assets
         uses: softprops/action-gh-release@v3
         with:
-          files: artifacts/**/*
+          files: |
+            artifacts/**/*.exe
+            artifacts/**/*.whl
+            artifacts/**/*.tar.gz
       - name: List uploaded files
-        run: Get-ChildItem -Recurse artifacts
+        run: find artifacts -type f
