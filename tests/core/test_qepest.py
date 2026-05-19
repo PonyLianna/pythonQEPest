@@ -7,7 +7,6 @@ from pythonQEPest.dto import QEPestInput
 
 
 class TestQEPest:
-
     def make_input(self, name="test", mw=120.5, logp=3.1, hba=2, hbd=1, rb=4, ar=1):
         return QEPestInput(
             name=name,

@@ -4,7 +4,6 @@ from pythonQEPest.dto import Normaliser
 
 
 class TestNormalisation:
-
     def test_norm_basic(self):
         arr = [10, 20, 30]
         d = 20

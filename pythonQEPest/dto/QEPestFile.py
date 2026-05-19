@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel, model_validator
 
@@ -10,10 +9,10 @@ class QEPestFormat(Enum):
 
 
 class QEPestFile(BaseModel):
-    input_file: Optional[str] = None
-    output_file: Optional[str] = None
-    format: Optional[QEPestFormat] = QEPestFormat.TXT
-    smiles: Optional[bool] = False
+    input_file: str | None = None
+    output_file: str | None = None
+    format: QEPestFormat | None = QEPestFormat.TXT
+    smiles: bool | None = False
 
     model_config = {"arbitrary_types_allowed": True}
 

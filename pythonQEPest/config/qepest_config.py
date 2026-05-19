@@ -1,12 +1,10 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 from pythonQEPest.dto.pest_type.PestTypeConfig import PestTypeConfig
 
 
 class QEPestConfig(BaseModel):
-    name: Optional[str] = "HerbInsectFung"
+    name: str | None = "HerbInsectFung"
     pest_types: list[PestTypeConfig]
 
     def get_pest_names(self) -> list[str]:

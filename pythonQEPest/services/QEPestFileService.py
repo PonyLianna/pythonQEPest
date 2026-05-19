@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 
 class QEPestFileService:
-
     def __init__(self, qepest: QEPestMeta, qepest_file: QEPestFile):
         self.qepest = qepest
         self.qepest_file = qepest_file
@@ -59,7 +58,7 @@ class QEPestFileService:
 
     def _read_smiles_file(self) -> None:
         try:
-            with open(self.qepest_file.input_file, "r") as f:
+            with open(self.qepest_file.input_file) as f:
                 lines = f.readlines()
 
             with open(self.qepest_file.output_file, "w") as wr:
@@ -91,7 +90,7 @@ class QEPestFileService:
 
     def _read_descriptor_file(self) -> None:
         try:
-            with open(self.qepest_file.input_file, "r") as f:
+            with open(self.qepest_file.input_file) as f:
                 lines = f.readlines()
 
             with open(self.qepest_file.output_file, "w") as wr:

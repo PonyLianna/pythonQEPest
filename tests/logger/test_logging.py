@@ -20,7 +20,9 @@ class TestLogger:
             init_logger()
             assert True  # If no exception is raised, the test passes
         except Exception as e:
-            raise AssertionError(f"Logger initialization failed with exception: {e}")
+            raise AssertionError(
+                f"Logger initialization failed with exception: {e}"
+            ) from e
 
     def test_default_configuration(self, monkeypatch):
         self._reset_logger()

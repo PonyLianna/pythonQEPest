@@ -25,8 +25,7 @@ class TestCLIContract:
         output_file = tmp_path / "input.out.txt"
 
         data_file.write_text(
-            "Name\tMW\tLogP\tHBA\tHBD\tRB\tarR\n"
-            "mol1\t240.2127\t3.2392\t5\t1\t4\t1\n",
+            "Name\tMW\tLogP\tHBA\tHBD\tRB\tarR\nmol1\t240.2127\t3.2392\t5\t1\t4\t1\n",
             encoding="utf-8",
         )
 
@@ -48,8 +47,7 @@ class TestCLIContract:
         output_file = tmp_path / "input.out.txt"
 
         data_file.write_text(
-            "Name\tMW\tLogP\tHBA\tHBD\tRB\tarR\n"
-            "mol1\t240.2127\t3.2392\t5\t1\t4\t1\n",
+            "Name\tMW\tLogP\tHBA\tHBD\tRB\tarR\nmol1\t240.2127\t3.2392\t5\t1\t4\t1\n",
             encoding="utf-8",
         )
 
@@ -76,8 +74,7 @@ class TestCLIContract:
         output_file = tmp_path / "input.out.json"
 
         data_file.write_text(
-            "Name\tMW\tLogP\tHBA\tHBD\tRB\tarR\n"
-            "mol1\t240.2127\t3.2392\t5\t1\t4\t1\n",
+            "Name\tMW\tLogP\tHBA\tHBD\tRB\tarR\nmol1\t240.2127\t3.2392\t5\t1\t4\t1\n",
             encoding="utf-8",
         )
 
