@@ -5,7 +5,7 @@ description = "Java QEPest but written in Python"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
 authors = [{ name = "Lina", email = "knocker767@gmail.com" }]
-dependencies = ["pydantic==2.12.5", "python-dotenv>=1.2.1,<2.0.0", "ruff (>=0.15.13,<0.16.0)"]
+dependencies = ["pydantic==2.12.5", "python-dotenv>=1.2.1,<2.0.0", "ruff (>=0.15.14,<0.16.0)"]
 
 [project.optional-dependencies]
 gui = ["pyperclip>=1.11.0,<2.0.0"]
