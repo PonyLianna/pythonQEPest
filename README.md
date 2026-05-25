@@ -23,7 +23,7 @@ Download ready-to-use executables from [Releases](https://github.com/PonyLianna/
 | Platform | Download |
 |----------|----------|
 | Windows CLI | [main.exe](https://github.com/PonyLianna/pythonQEPest/releases/download/v2.0.0-alpha.5/pythonQEPest-2.0.0a5-win64.exe) |
-| Windows GUI | [gui.exe](https://github.com/PonyLianna/pythonQEPest/releases/download/v2.0.0-alpha/pythonQEPest-GUI-2.0.0a5-win64.exe) |
+| Windows GUI | [gui.exe](https://github.com/PonyLianna/pythonQEPest/releases/download/v2.0.0-alpha.5/pythonQEPest-GUI-2.0.0a5-win64.exe) |
 
 
 ## Installation
