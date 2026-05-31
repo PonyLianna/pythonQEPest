@@ -23,6 +23,12 @@ from pythonQEPest.gui.gui_meta import QEPestMeta
 # TODO: Outdated. Must be dynamic
 class GUI(QEPestMeta):
     def treeview_sort_column(self, treeview, col, reverse):
+        for c in treeview["columns"]:
+            text = c
+            if c == col:
+                text += " ▲" if not reverse else " ▼"
+            treeview.heading(c, text=text)
+
         treeview_lst = [(treeview.set(k, col), k) for k in treeview.get_children("")]
         try:
             treeview_lst.sort(key=lambda t: float(t[0]), reverse=reverse)
@@ -36,9 +42,17 @@ class GUI(QEPestMeta):
             col, command=lambda: self.treeview_sort_column(treeview, col, not reverse)
         )
 
+        other = self.result_tree if treeview is self.data_tree else self.data_tree
+        id_to_item = {
+            other.set(k, other["columns"][0]): k for k in other.get_children("")
+        }
+        for index, (_, k) in enumerate(treeview_lst):
+            match_id = treeview.set(k, treeview["columns"][0])
+            if match_id in id_to_item:
+                other.move(id_to_item[match_id], "", index)
+
     def build_gui(self):
         self.file_data = []
-        self.index = 0
 
         self.buttons_frame = ButtonsFrame(root=self.root)
         self.data_tree = DataTree(root=self.root)
@@ -51,7 +65,6 @@ class GUI(QEPestMeta):
             data_tree=self.data_tree,
             result_tree=self.result_tree,
             save_button=self.save_button,
-            index=self.index,
         )
 
         self.actions_other = GUIActionsOther(
@@ -67,6 +80,10 @@ class GUI(QEPestMeta):
         self.result_tree.set_actions(self.treeview_sort_column, self.actions_clicks)
         self.save_button.set_actions(self.actions_other)
         self.menu.set_actions(self.actions_crud)
+
+        self.root.bind("<Delete>", self.actions_crud.delete_selected)
+        self.root.bind("<Control-s>", self.actions_other.save_result)
+        self.root.bind("<Control-o>", self.actions_other.load_file)
 
         if pyperclip:
             self.root.bind("<Control-v>", self.actions_crud.paste_entries)
