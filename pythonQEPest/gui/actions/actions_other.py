@@ -14,7 +14,7 @@ class GUIActionsOther:
         self.save_button = save_button
         self.qepest = qepest
 
-    def load_file(self):
+    def load_file(self, *args):
         file_path = filedialog.askopenfilename(
             filetypes=[("Text files", "*.txt"), ("CSV files", "*.csv")]
         )
@@ -26,9 +26,14 @@ class GUIActionsOther:
                 self.data_manager.clear_file()
                 self.data_tree.delete(*self.data_tree.get_children())
 
-                for idx, line in enumerate(file):
+                for line in file:
                     parts = line.strip().split("\t")
                     if len(parts) == 7:
+                        try:
+                            float(parts[1])
+                        except ValueError:
+                            continue
+                        idx = self.data_manager.next_file_id
                         self.data_manager.add_file((idx, *parts))
                         self.data_tree.insert("", "end", values=(idx, *parts))
 
@@ -64,7 +69,7 @@ class GUIActionsOther:
                     return
                 values.append(val)
 
-            idx = len(self.data_manager.file_data)
+            idx = self.data_manager.next_file_id
             self.data_manager.add_file((idx, *values))
             self.data_tree.insert("", "end", values=(idx, *values))
             form.destroy()
@@ -103,7 +108,7 @@ class GUIActionsOther:
 
         self.save_button.config(state="normal")
 
-    def save_result(self):
+    def save_result(self, *args):
         if not self.data_manager.result_data:
             messagebox.showwarning("No result", "Process the data first.")
             return

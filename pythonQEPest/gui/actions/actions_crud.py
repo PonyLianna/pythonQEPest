@@ -10,8 +10,7 @@ from pythonQEPest.gui.utility.DataManager import DataManager
 
 
 class GUIActionsCRUD:
-    def __init__(self, data_tree, result_tree, save_button, index):
-        self.index = index
+    def __init__(self, data_tree, result_tree, save_button):
         self.data_manager = DataManager()
         self.data_tree: ttk.Treeview = data_tree
         self.result_tree: ttk.Treeview = result_tree
@@ -86,11 +85,14 @@ class GUIActionsCRUD:
         for line in lines:
             parts = line.strip().split("\t")
             if len(parts) == 7:
-                idx = self.index
+                try:
+                    float(parts[1])
+                except ValueError:
+                    continue
+                idx = self.data_manager.next_file_id
                 self.data_manager.add_file((idx, *parts))
                 self.data_tree.insert("", "end", values=(idx, *parts))
                 count_added += 1
-                self.index += 1
 
         if count_added:
             messagebox.showinfo(
@@ -99,29 +101,37 @@ class GUIActionsCRUD:
             )
 
     def delete_selected(self, *args, **kwargs):
-        selected = self.data_tree.selection()
-        if not selected:
+        selected_data = self.data_tree.selection()
+        selected_result = self.result_tree.selection()
+
+        if not selected_data and not selected_result:
             messagebox.showwarning("Select Entry", "Select the entry to delete.")
             return
 
         idxs_to_remove = []
-        for item in selected:
-            values = self.data_tree.item(item, "values")
-            idx_to_remove = int(values[0])
-            idxs_to_remove.append(idx_to_remove)
 
+        for item in selected_data:
+            values = self.data_tree.item(item, "values")
+            idxs_to_remove.append(int(values[0]))
             self.data_tree.delete(item)
 
-            if self.result_tree.exists(item):
-                self.result_tree.delete(item)
+        for item in selected_result:
+            values = self.result_tree.item(item, "values")
+            idxs_to_remove.append(int(values[0]))
+            self.result_tree.delete(item)
+
+        for child in self.result_tree.get_children(""):
+            if int(self.result_tree.set(child, "ID")) in idxs_to_remove:
+                self.result_tree.delete(child)
+
+        for child in self.data_tree.get_children(""):
+            if int(self.data_tree.set(child, "ID")) in idxs_to_remove:
+                self.data_tree.delete(child)
 
         self.data_manager.remove_result_by_ids(idxs_to_remove)
         self.data_manager.remove_file_by_ids(idxs_to_remove)
 
         messagebox.showinfo("Deleted", "The selected records have been deleted.")
-
-        if not self.data_manager:
-            self.save_button.config(state="disabled")
 
     def clear_everything(self, *args, **kwargs):
         self.data_manager.clear_file()
@@ -129,3 +139,4 @@ class GUIActionsCRUD:
 
         self.data_tree.delete(*self.data_tree.get_children())
         self.result_tree.delete(*self.result_tree.get_children())
+        self.save_button.config(state="disabled")

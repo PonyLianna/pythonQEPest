@@ -7,12 +7,6 @@ class DataManager(metaclass=DataManagerMeta):
         self._file_data = []
         self._result_data = []
 
-    # def __call__(self, *args, **kwargs) -> list:
-    #     return self.file_data
-
-    # def __bool__(self):
-    #     return bool(self.file_data)
-
     @property
     def file_data(self):
         return self._file_data
@@ -20,6 +14,10 @@ class DataManager(metaclass=DataManagerMeta):
     @property
     def result_data(self):
         return self._result_data
+
+    @property
+    def next_file_id(self):
+        return (max(row[0] for row in self._file_data) + 1) if self._file_data else 0
 
     def clear(self, lst):
         lst.clear()
