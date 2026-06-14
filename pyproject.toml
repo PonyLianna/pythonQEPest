@@ -22,7 +22,7 @@ packages = [{ include = "pythonQEPest" }]
 
 [dependency-groups]
 dev = [
-    "pytest (>=9.0.3)",
+    "pytest (>=9.1.0)",
     "pre-commit (>=4.6.0,<5.0.0)",
     "pyinstaller (>=6.21.0,<7.0.0)",
     "poethepoet[poetry_plugin] (>=0.46.0)",
