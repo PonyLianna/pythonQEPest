@@ -1,5 +1,6 @@
-import tkinter as tk
 from tkinter import filedialog, messagebox
+
+import ttkbootstrap as tb
 
 from pythonQEPest.dto.QEPestInput import QEPestInput
 from pythonQEPest.gui.utility.DataManager import DataManager
@@ -44,7 +45,7 @@ class GUIActionsOther:
             messagebox.showerror("Loading error", str(e))
 
     def add_entry(self):
-        form = tk.Toplevel(self.root)
+        form = tb.Toplevel(self.root)
         form.title("Add entry")
         form.transient(self.root)
         form.grab_set()
@@ -53,10 +54,10 @@ class GUIActionsOther:
         fields = ["Name", "MW", "LogP", "HBA", "HBD", "RB", "arR"]
 
         for idx, field in enumerate(fields):
-            tk.Label(form, text=field).grid(
+            tb.Label(form, text=field).grid(
                 row=idx, column=0, padx=5, pady=5, sticky="e"
             )
-            entry = tk.Entry(form)
+            entry = tb.Entry(form)
             entry.grid(row=idx, column=1, padx=5, pady=5)
             entries[field] = entry
 
@@ -78,7 +79,7 @@ class GUIActionsOther:
                 "The entry has been added. Process the data to update the result.",
             )
 
-        tk.Button(form, text="Add", command=submit).grid(
+        tb.Button(form, text="Add", command=submit, bootstyle="success").grid(
             row=len(fields), column=0, columnspan=2, pady=10
         )
 
@@ -88,9 +89,6 @@ class GUIActionsOther:
         if not self.data_manager.file_data:
             messagebox.showwarning("No data", "Please add or upload data first.")
             return
-
-        # self.result_data = []
-        # self.result_tree.delete(*self.result_tree.get_children())
 
         for row in self.data_manager.file_data:
             try:

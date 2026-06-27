@@ -1,4 +1,4 @@
-import tkinter as tk
+import ttkbootstrap as tb
 
 from dotenv import load_dotenv
 
@@ -94,7 +94,8 @@ def main() -> int:
     load_dotenv()
     init_logger()
 
-    root = tk.Tk()
+    root = tb.Window(themename="superhero")
+    root.title("PythonQEPest")
     GUI(root)
     root.mainloop()
     return 0

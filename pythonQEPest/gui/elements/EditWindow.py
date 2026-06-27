@@ -1,10 +1,10 @@
-import tkinter as tk
-from tkinter.ttk import Treeview
+import ttkbootstrap as tb
+from tkinter.ttk import Treeview, Label, Entry, Button
 
 from pythonQEPest.gui.utility.DataManager import DataManager
 
 
-class EditWindow(tk.Toplevel):
+class EditWindow(tb.Toplevel):
     def __init__(self, tree: Treeview, child_tree: Treeview, item_id, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -23,10 +23,8 @@ class EditWindow(tk.Toplevel):
         self.resizable(True, False)
 
         for idx, col in enumerate(columns):
-            tk.Label(self, text=col).grid(
-                row=idx, column=0, padx=5, pady=5, sticky="ew"
-            )
-            entry = tk.Entry(self)
+            Label(self, text=col).grid(row=idx, column=0, padx=5, pady=5, sticky="ew")
+            entry = Entry(self)
             entry.insert(0, values[idx])
             entry.grid(row=idx, column=1, padx=(5, 5), pady=5, sticky="ew")
             entries.append(entry)
@@ -49,7 +47,7 @@ class EditWindow(tk.Toplevel):
                 self.data_manager.update_file(index=idx, new_entry=new_values)
             self.destroy()
 
-        tk.Button(self, text="Save", command=save_changes).grid(
+        Button(self, text="Save", command=save_changes, bootstyle="success").grid(
             row=len(columns), column=0, columnspan=2, pady=10
         )
 
