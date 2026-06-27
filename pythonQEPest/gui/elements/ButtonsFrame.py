@@ -1,4 +1,4 @@
-from tkinter import Frame, Button
+from ttkbootstrap import Frame, Button
 
 try:
     import pyperclip
@@ -10,18 +10,21 @@ class ButtonsFrame(Frame):
     def __init__(self, root, *args, **kwargs):
         super().__init__(root, *args, **kwargs)
 
-        self.pack(anchor="w", fill="x", pady=5)
+        self.pack(anchor="w", fill="x", pady=(10, 0))
 
-        # TODO: select_file must have an option for CSV
-        self.select_file_button = Button(self, text="Select File")
-        self.add_entry_button = Button(self, text="Add entry")
-        self.edit_entry_button = Button(self, text="Edit entry")
-        self.delete_selected_button = Button(self, text="Delete entry")
-        self.copy_button = Button(self, text="Copy Data")
-        self.paste_button = Button(self, text="Paste Data")
+        self.select_file_button = Button(self, text="Select File", bootstyle="primary")
+        self.add_entry_button = Button(self, text="Add entry", bootstyle="success")
+        self.edit_entry_button = Button(self, text="Edit entry", bootstyle="info")
+        self.delete_selected_button = Button(
+            self, text="Delete entry", bootstyle="danger"
+        )
+        self.copy_button = Button(self, text="Copy Data", bootstyle="secondary")
+        self.paste_button = Button(self, text="Paste Data", bootstyle="secondary")
 
-        self.process_data_button = Button(self, text="Process Data")
-        self.clear_button = Button(self, text="Clear Data")
+        self.process_data_button = Button(
+            self, text="Process Data", bootstyle="success"
+        )
+        self.clear_button = Button(self, text="Clear Data", bootstyle="danger-outline")
 
     def set_actions(self, actions_crud, actions_other):
         self.select_file_button.pack(side="left", padx=(10, 4))
