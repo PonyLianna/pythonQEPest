@@ -2,13 +2,12 @@ from tkinter.ttk import Treeview
 
 
 class ResultTree(Treeview):
-    def __init__(self, root, *args, **kwargs):
+    def __init__(self, parent, *args, **kwargs):
         columns = ("ID", "Name", "QEH", "QEI", "QEF")
-        super().__init__(root, *args, columns=columns, show="headings", **kwargs)
+        super().__init__(parent, *args, columns=columns, show="headings", **kwargs)
 
         for col in columns:
             self.heading(col, text=col)
-        self.pack(padx=10, pady=10, fill="both", expand=True)
 
     def set_actions(self, sort_column, actions_clicks):
         for col in self["columns"]:

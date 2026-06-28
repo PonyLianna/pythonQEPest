@@ -1,55 +1,99 @@
 import ttkbootstrap as tb
-from tkinter.ttk import Treeview, Label, Entry, Button
-
-from pythonQEPest.gui.utility.DataManager import DataManager
+from tkinter import messagebox
 
 
 class EditWindow(tb.Toplevel):
-    def __init__(self, tree: Treeview, child_tree: Treeview, item_id, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    FIELDS = ["ID", "Name", "MW", "LogP", "HBA", "HBD", "RB", "arR"]
+    NUMERIC = {
+        "MW": float,
+        "LogP": float,
+        "HBA": int,
+        "HBD": int,
+        "RB": int,
+        "arR": int,
+    }
 
-        self.title("Edit Entry")
+    def __init__(self, parent, title="Edit Entry", initial_values=None):
+        super().__init__(parent)
+        self.title(title)
+        self.transient(parent)
+        self.result = None
 
-        self.data_manager = DataManager()
+        self.update_idletasks()
+        pw, ph = parent.winfo_width(), parent.winfo_height()
+        px, py = parent.winfo_x(), parent.winfo_y()
+        w, h = 400, 420
+        self.geometry(f"{w}x{h}+{px + (pw - w) // 2}+{py + (ph - h) // 2}")
+        self.resizable(False, False)
 
-        values = tree.item(item_id, "values")
-        old_id = int(values[0])
+        main = tb.Frame(self, padding=15)
+        main.pack(fill="both", expand=True)
 
-        entries = []
-        columns = tree["columns"]
-
-        self.grid_columnconfigure(0, weight=0)
-        self.grid_columnconfigure(1, weight=3)
-        self.resizable(True, False)
-
-        for idx, col in enumerate(columns):
-            Label(self, text=col).grid(row=idx, column=0, padx=5, pady=5, sticky="ew")
-            entry = Entry(self)
-            entry.insert(0, values[idx])
-            entry.grid(row=idx, column=1, padx=(5, 5), pady=5, sticky="ew")
-            entries.append(entry)
-
-        def save_changes() -> None:
-            new_values = [entry.get() for entry in entries]
-            new_values[0] = int(new_values[0])
-
-            tree.item(item_id, values=tuple(str(v) for v in new_values))
-
-            if child_tree.exists(item_id):
-                new_child_values = list(child_tree.item(item_id, "values"))
-                if new_child_values[0] != str(new_values[0]):
-                    new_child_values[0] = str(new_values[0])
-                    child_tree.item(item_id, values=new_child_values)
-
-            elements = [x for x in self.data_manager.file_data if x[0] == old_id]
-            if elements:
-                idx = self.data_manager.file_data.index(elements[0])
-                self.data_manager.update_file(index=idx, new_entry=new_values)
-            self.destroy()
-
-        Button(self, text="Save", command=save_changes, bootstyle="success").grid(
-            row=len(columns), column=0, columnspan=2, pady=10
+        tb.Label(main, text="Entry Information", font=("", 14, "bold")).pack(
+            anchor="w", pady=(0, 15)
         )
 
+        form = tb.Frame(main)
+        form.pack(fill="both", expand=True)
+        form.grid_columnconfigure(1, weight=1)
+
+        self.entries = {}
+
+        for i, field in enumerate(self.FIELDS):
+            tb.Label(form, text=field, font=("", 10)).grid(
+                row=i, column=0, padx=(0, 10), pady=4, sticky="e"
+            )
+            entry = tb.Entry(form, font=("", 10))
+            entry.grid(row=i, column=1, padx=0, pady=4, sticky="ew")
+
+            if initial_values and i < len(initial_values):
+                entry.insert(0, str(initial_values[i]))
+            if field == "ID":
+                entry.configure(state="readonly")
+
+            self.entries[field] = entry
+
+        btn_frame = tb.Frame(main)
+        btn_frame.pack(fill="x", pady=(15, 0))
+
+        tb.Button(
+            btn_frame,
+            text="Cancel",
+            bootstyle="secondary-outline",
+            command=self.destroy,
+        ).pack(side="right", padx=(5, 0))
+
+        tb.Button(
+            btn_frame, text="Save", bootstyle="success", command=self._submit
+        ).pack(side="right")
+
+        self.bind("<Return>", lambda e: self._submit())
+        self.bind("<Escape>", lambda e: self.destroy())
+
+        self.entries["Name"].focus()
         self.grab_set()
         self.wait_window()
+
+    def _submit(self):
+        values = []
+        for field in self.FIELDS:
+            raw = self.entries[field].get().strip()
+            if not raw:
+                messagebox.showwarning(
+                    "Validation Error", f"The field '{field}' cannot be empty."
+                )
+                self.entries[field].focus()
+                return
+            if field in self.NUMERIC:
+                try:
+                    raw = self.NUMERIC[field](raw)
+                except ValueError:
+                    messagebox.showwarning(
+                        "Validation Error", f"'{field}' must be a valid number."
+                    )
+                    self.entries[field].focus()
+                    return
+            values.append(raw)
+
+        self.result = values
+        self.destroy()

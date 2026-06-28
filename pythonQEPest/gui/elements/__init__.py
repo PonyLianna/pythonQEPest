@@ -4,7 +4,7 @@ from pythonQEPest.gui.elements import (
     ButtonsFrame,
     Menu,
     SaveButton,
-    EditWindow,
+    EntryPanel,
 )
 
 __all__ = [
@@ -13,5 +13,5 @@ __all__ = [
     "ButtonsFrame",
     "Menu",
     "SaveButton",
-    "EditWindow",
+    "EntryPanel",
 ]
