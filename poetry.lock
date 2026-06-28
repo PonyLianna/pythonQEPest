@@ -1335,10 +1335,9 @@ files = [
 name = "pillow"
 version = "12.2.0"
 description = "Python Imaging Library (fork)"
-optional = true
+optional = false
 python-versions = ">=3.10"
 groups = ["main"]
-markers = "extra == \"rdkit\""
 files = [
     {file = "pillow-12.2.0-cp310-cp310-macosx_10_10_x86_64.whl", hash = "sha256:a4e8f36e677d3336f35089648c8955c51c6d386a13cf6ee9c189c5f5bd713a9f"},
     {file = "pillow-12.2.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:2e589959f10d9824d39b350472b92f0ce3b443c0a3442ebf41c40cb8361c5b97"},
@@ -2327,6 +2326,21 @@ files = [
 ]
 
 [[package]]
+name = "ttkbootstrap"
+version = "1.20.4"
+description = "A supercharged theme extension for tkinter that enables on-demand modern flat style themes inspired by Bootstrap."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "ttkbootstrap-1.20.4-py3-none-any.whl", hash = "sha256:47629f1fcd498231f766516ba77f3e2b07ee2fbdedb3ccb6e5a79500ad573b97"},
+    {file = "ttkbootstrap-1.20.4.tar.gz", hash = "sha256:9dbea392231f9b977e94d753fc1acf12f3cf2324fcb996b2b4e0d0801b637161"},
+]
+
+[package.dependencies]
+pillow = ">=10,<13"
+
+[[package]]
 name = "twine"
 version = "6.2.0"
 description = "Collection of utilities for publishing packages on PyPI"
@@ -2490,4 +2504,4 @@ rdkit = ["rdkit"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.15"
-content-hash = "d70c3742a8e7490cf39f33a5481c65e3b29fc4091044aa9f45ef13c34130b788"
+content-hash = "daaaf39233a2013c88b1414031b8d480f457f40a8988d53571739663f5b23483"
