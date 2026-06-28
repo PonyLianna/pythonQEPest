@@ -6,12 +6,23 @@ class DataManager(metaclass=DataManagerMeta):
         super().__init__(*args, **kwargs)
         self._file_data = []
         self._result_data = []
+        self._undo_stack = []
 
-    # def __call__(self, *args, **kwargs) -> list:
-    #     return self.file_data
+    def push_undo(self):
+        self._undo_stack.append(
+            (
+                list(self._file_data),
+                list(self._result_data),
+            )
+        )
+        if len(self._undo_stack) > 50:
+            self._undo_stack.pop(0)
 
-    # def __bool__(self):
-    #     return bool(self.file_data)
+    def undo(self):
+        if not self._undo_stack:
+            return None
+        self._file_data, self._result_data = self._undo_stack.pop()
+        return True
 
     @property
     def file_data(self):
@@ -20,6 +31,10 @@ class DataManager(metaclass=DataManagerMeta):
     @property
     def result_data(self):
         return self._result_data
+
+    @property
+    def next_file_id(self):
+        return (max(row[0] for row in self._file_data) + 1) if self._file_data else 0
 
     def clear(self, lst):
         lst.clear()
