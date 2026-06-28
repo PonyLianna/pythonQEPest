@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['pythonQEPest/gui/gui.py'],
+    ['pythonQEPest\\gui\\gui.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -22,11 +22,11 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='pythonQEPest-GUI',
+    name='gui',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=False,
+    upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
     console=False,

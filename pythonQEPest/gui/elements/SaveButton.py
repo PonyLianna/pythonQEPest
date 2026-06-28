@@ -1,9 +1,16 @@
-from tkinter import Button
+from ttkbootstrap import Button
 
 
 class SaveButton(Button):
     def __init__(self, root, *args, **kwargs):
-        super().__init__(root, *args, text="Save Results", state="disabled", **kwargs)
+        super().__init__(
+            root,
+            *args,
+            text="Save Results",
+            state="disabled",
+            bootstyle="primary",
+            **kwargs,
+        )
         self.pack(padx=10, pady=10, side="right")
 
     def set_actions(self, actions_other):

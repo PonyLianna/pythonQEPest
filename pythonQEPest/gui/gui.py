@@ -1,4 +1,4 @@
-import tkinter as tk
+import ttkbootstrap as tb
 
 from dotenv import load_dotenv
 
@@ -14,15 +14,20 @@ from pythonQEPest.gui.actions import GUIActionsClicks
 from pythonQEPest.gui.actions import GUIActionsOther
 from pythonQEPest.gui.elements.ButtonsFrame import ButtonsFrame
 from pythonQEPest.gui.elements.DataTree import DataTree
+from pythonQEPest.gui.elements.EntryPanel import EntryPanel
 from pythonQEPest.gui.elements.Menu import Menu
 from pythonQEPest.gui.elements.ResultTree import ResultTree
-from pythonQEPest.gui.elements.SaveButton import SaveButton
 from pythonQEPest.gui.gui_meta import QEPestMeta
 
 
-# TODO: Outdated. Must be dynamic
 class GUI(QEPestMeta):
     def treeview_sort_column(self, treeview, col, reverse):
+        for c in treeview["columns"]:
+            text = c
+            if c == col:
+                text += " ▲" if not reverse else " ▼"
+            treeview.heading(c, text=text)
+
         treeview_lst = [(treeview.set(k, col), k) for k in treeview.get_children("")]
         try:
             treeview_lst.sort(key=lambda t: float(t[0]), reverse=reverse)
@@ -36,22 +41,44 @@ class GUI(QEPestMeta):
             col, command=lambda: self.treeview_sort_column(treeview, col, not reverse)
         )
 
+        other = self.result_tree if treeview is self.data_tree else self.data_tree
+        id_to_item = {
+            other.set(k, other["columns"][0]): k for k in other.get_children("")
+        }
+        for index, (_, k) in enumerate(treeview_lst):
+            match_id = treeview.set(k, treeview["columns"][0])
+            if match_id in id_to_item:
+                other.move(id_to_item[match_id], "", index)
+
     def build_gui(self):
         self.file_data = []
-        self.index = 0
 
         self.buttons_frame = ButtonsFrame(root=self.root)
-        self.data_tree = DataTree(root=self.root)
-        self.result_tree = ResultTree(root=self.root)
-        self.save_button = SaveButton(root=self.root)
+
+        tree_frame = tb.Frame(self.root)
+        tree_frame.pack(fill="both", expand=True, padx=10, pady=(10, 0))
+        tree_frame.grid_columnconfigure(0, weight=1)
+        tree_frame.grid_columnconfigure(1, weight=1)
+        tree_frame.grid_rowconfigure(0, weight=1)
+
+        self.data_tree = DataTree(parent=tree_frame)
+        self.data_tree.grid(row=0, column=0, sticky="nsew", padx=(0, 5))
+
+        self.result_tree = ResultTree(parent=tree_frame)
+        self.result_tree.grid(row=0, column=1, sticky="nsew", padx=(5, 0))
+
+        self.entry_panel = EntryPanel(parent=self.root)
+        self.entry_panel.pack(fill="x", padx=10, pady=(10, 10))
         self.menu = Menu(root=self.root)
+
+        self.save_button = self.buttons_frame.save_results_button
 
         self.actions_clicks = GUIActionsClicks(menu=self.menu)
         self.actions_crud = GUIActionsCRUD(
             data_tree=self.data_tree,
             result_tree=self.result_tree,
             save_button=self.save_button,
-            index=self.index,
+            entry_panel=self.entry_panel,
         )
 
         self.actions_other = GUIActionsOther(
@@ -60,13 +87,22 @@ class GUI(QEPestMeta):
             qepest=self.qepest,
             root=self.root,
             save_button=self.save_button,
+            entry_panel=self.entry_panel,
         )
 
+        self.entry_panel.set_on_save(self.actions_other.save_from_panel)
         self.buttons_frame.set_actions(self.actions_crud, self.actions_other)
         self.data_tree.set_actions(self.treeview_sort_column, self.actions_clicks)
         self.result_tree.set_actions(self.treeview_sort_column, self.actions_clicks)
-        self.save_button.set_actions(self.actions_other)
         self.menu.set_actions(self.actions_crud)
+
+        self.data_tree.bind(
+            "<<TreeviewSelect>>", self.actions_crud.sync_selection_to_panel
+        )
+        self.root.bind("<Delete>", self.actions_crud.delete_selected)
+        self.root.bind("<Control-s>", self.actions_other.save_result)
+        self.root.bind("<Control-o>", self.actions_other.load_file)
+        self.root.bind("<Control-z>", self.actions_crud.undo)
 
         if pyperclip:
             self.root.bind("<Control-v>", self.actions_crud.paste_entries)
@@ -77,7 +113,9 @@ def main() -> int:
     load_dotenv()
     init_logger()
 
-    root = tk.Tk()
+    root = tb.Window(themename="superhero")
+    root.title("PythonQEPest")
+    root.minsize(400, 300)
     GUI(root)
     root.mainloop()
     return 0
