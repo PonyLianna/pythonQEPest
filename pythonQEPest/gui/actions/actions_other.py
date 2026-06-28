@@ -1,4 +1,3 @@
-import tkinter as tk
 from tkinter import filedialog, messagebox
 
 from pythonQEPest.dto.QEPestInput import QEPestInput
@@ -6,15 +5,16 @@ from pythonQEPest.gui.utility.DataManager import DataManager
 
 
 class GUIActionsOther:
-    def __init__(self, root, data_tree, result_tree, save_button, qepest):
+    def __init__(self, root, data_tree, result_tree, save_button, qepest, entry_panel):
         self.data_manager = DataManager()
         self.root = root
         self.data_tree = data_tree
         self.result_tree = result_tree
         self.save_button = save_button
         self.qepest = qepest
+        self.entry_panel = entry_panel
 
-    def load_file(self):
+    def load_file(self, *args):
         file_path = filedialog.askopenfilename(
             filetypes=[("Text files", "*.txt"), ("CSV files", "*.csv")]
         )
@@ -23,12 +23,18 @@ class GUIActionsOther:
 
         try:
             with open(file_path, encoding="utf-8") as file:
+                self.data_manager.push_undo()
                 self.data_manager.clear_file()
                 self.data_tree.delete(*self.data_tree.get_children())
 
-                for idx, line in enumerate(file):
+                for line in file:
                     parts = line.strip().split("\t")
                     if len(parts) == 7:
+                        try:
+                            float(parts[1])
+                        except ValueError:
+                            continue
+                        idx = self.data_manager.next_file_id
                         self.data_manager.add_file((idx, *parts))
                         self.data_tree.insert("", "end", values=(idx, *parts))
 
@@ -39,53 +45,58 @@ class GUIActionsOther:
             messagebox.showerror("Loading error", str(e))
 
     def add_entry(self):
-        form = tk.Toplevel(self.root)
-        form.title("Add entry")
-        form.transient(self.root)
-        form.grab_set()
+        next_id = self.data_manager.next_file_id
+        self.entry_panel.clear_for_add(next_id)
 
-        entries = {}
-        fields = ["Name", "MW", "LogP", "HBA", "HBD", "RB", "arR"]
-
-        for idx, field in enumerate(fields):
-            tk.Label(form, text=field).grid(
-                row=idx, column=0, padx=5, pady=5, sticky="e"
-            )
-            entry = tk.Entry(form)
-            entry.grid(row=idx, column=1, padx=5, pady=5)
-            entries[field] = entry
-
-        def submit():
-            values = []
-            for field in fields:
-                val = entries[field].get().strip()
-                if not val:
-                    messagebox.showwarning("Error", f"The field {field} not filled.")
-                    return
-                values.append(val)
-
-            idx = len(self.data_manager.file_data)
-            self.data_manager.add_file((idx, *values))
-            self.data_tree.insert("", "end", values=(idx, *values))
-            form.destroy()
+    def save_from_panel(self, mode, item_id, values):
+        self.data_manager.push_undo()
+        if mode == "add":
+            self.data_manager.add_file(tuple(values))
+            self.data_tree.insert("", "end", values=tuple(str(v) for v in values))
+            next_id = self.data_manager.next_file_id
+            self.entry_panel.reset_after_save(next_id)
             messagebox.showinfo(
                 "Added",
                 "The entry has been added. Process the data to update the result.",
             )
+        elif mode == "edit" and item_id:
+            str_values = [str(v) for v in values]
+            self.data_tree.item(item_id, values=tuple(str_values))
 
-        tk.Button(form, text="Add", command=submit).grid(
-            row=len(fields), column=0, columnspan=2, pady=10
-        )
+            old_id = int(self.data_tree.set(item_id, self.data_tree["columns"][0]))
 
-        form.wait_window()
+            if self.result_tree.exists(item_id):
+                child_values = list(self.result_tree.item(item_id, "values"))
+                child_values[0] = str(values[0])
+                child_values[1] = str(values[1])
+                self.result_tree.item(item_id, values=tuple(child_values))
+
+                res_matches = [
+                    x for x in self.data_manager.result_data if x[0] == old_id
+                ]
+                if res_matches:
+                    ridx = self.data_manager.result_data.index(res_matches[0])
+                    updated = list(self.data_manager.result_data[ridx])
+                    updated[0] = int(values[0])
+                    updated[1] = str(values[1])
+                    self.data_manager.update_result(
+                        index=ridx, new_entry=tuple(updated)
+                    )
+
+            matches = [x for x in self.data_manager.file_data if x[0] == old_id]
+            if matches:
+                idx = self.data_manager.file_data.index(matches[0])
+                self.data_manager.update_file(index=idx, new_entry=values)
+            messagebox.showinfo("Saved", "The entry has been updated.")
 
     def process_data(self):
         if not self.data_manager.file_data:
             messagebox.showwarning("No data", "Please add or upload data first.")
             return
 
-        # self.result_data = []
-        # self.result_tree.delete(*self.result_tree.get_children())
+        self.data_manager.push_undo()
+        self.data_manager.clear_result()
+        self.result_tree.delete(*self.result_tree.get_children())
 
         for row in self.data_manager.file_data:
             try:
@@ -103,7 +114,7 @@ class GUIActionsOther:
 
         self.save_button.config(state="normal")
 
-    def save_result(self):
+    def save_result(self, *args):
         if not self.data_manager.result_data:
             messagebox.showwarning("No result", "Process the data first.")
             return

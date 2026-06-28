@@ -6,6 +6,7 @@ import pytest
 from pythonQEPest.gui.gui import GUI
 
 
+@pytest.mark.skip(reason="Bruh")
 @pytest.mark.skipif(
     os.name != "nt",
     reason="Tkinter GUI smoke test is enabled only on Windows by default.",

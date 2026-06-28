@@ -1,7 +1,7 @@
-from tkinter import Menu as tkMenu
+from ttkbootstrap import Menu as tbMenu
 
 
-class Menu(tkMenu):
+class Menu(tbMenu):
     def __init__(self, root, *args, **kwargs):
         super().__init__(root, *args, **kwargs, tearoff=0)
 
