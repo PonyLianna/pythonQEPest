@@ -21,6 +21,9 @@ class ButtonsFrame(Frame):
         self.copy_button = Button(self, text="Copy Data", bootstyle="secondary")
         self.paste_button = Button(self, text="Paste Data", bootstyle="secondary")
 
+        self.save_results_button = Button(
+            self, text="Save Results", state="disabled", bootstyle="primary"
+        )
         self.process_data_button = Button(
             self, text="Process Data", bootstyle="success"
         )
@@ -39,7 +42,8 @@ class ButtonsFrame(Frame):
         self.copy_button.pack(side="left", padx=4)
         self.paste_button.pack(side="left", padx=4)
 
-        self.process_data_button.pack(side="right", padx=(4, 10))
+        self.save_results_button.pack(side="right", padx=(4, 10))
+        self.process_data_button.pack(side="right", padx=4)
         self.clear_button.pack(side="right", padx=4)
 
         self.select_file_button.config(command=actions_other.load_file)
@@ -49,5 +53,6 @@ class ButtonsFrame(Frame):
         self.copy_button.config(command=actions_crud.copy_selected)
         self.paste_button.config(command=actions_crud.paste_entries)
 
+        self.save_results_button.config(command=actions_other.save_result)
         self.process_data_button.config(command=actions_other.process_data)
         self.clear_button.config(command=actions_crud.clear_everything)

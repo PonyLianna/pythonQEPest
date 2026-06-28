@@ -6,6 +6,23 @@ class DataManager(metaclass=DataManagerMeta):
         super().__init__(*args, **kwargs)
         self._file_data = []
         self._result_data = []
+        self._undo_stack = []
+
+    def push_undo(self):
+        self._undo_stack.append(
+            (
+                list(self._file_data),
+                list(self._result_data),
+            )
+        )
+        if len(self._undo_stack) > 50:
+            self._undo_stack.pop(0)
+
+    def undo(self):
+        if not self._undo_stack:
+            return None
+        self._file_data, self._result_data = self._undo_stack.pop()
+        return True
 
     @property
     def file_data(self):
